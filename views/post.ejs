@@ -1,5 +1,5 @@
 <%- include('partials/header') -%>
-<div class="container">
+<div class="container border border-3">
   <div class="row justify-content-center mt-5">
     <div class="col-6">
       <h2><%= post.title %></h2>
@@ -19,7 +19,7 @@
           method="POST"
           class="col-3"
         >
-          <button class="btn btn-primary fa fa-trash" type="submit"></button>
+        <button class="btn btn-primary fa fa-trash" type="submit"></button>
         </form>
         <%}%>
       </div>
@@ -27,9 +27,62 @@
     <div class="col-3 mt-5">
       <p><%= post.caption %></p>
     </div>
+    <div>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPlayer">
+        Add player
+      </button>
+      Players / party placeholder
+    </div>
     <div class="col-6 mt-5">
-      <a class="btn btn-primary" href="/profile">Return to Profile</a>
-      <a class="btn btn-primary" href="/feed">Return to Feed</a>
+      <a class="btn btn-primary" href="/profile">DM Profile</a>
+      <a class="btn btn-primary" href="/feed">All games</a>
+    </div>
+  </div>
+</div>
+<div class="container mt-5">
+  <div class="d-flex justify-content-center">
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEncounter">
+    Add encounter
+  </button>
+  </div>
+  <div>encounter placeholder</div>
+</div>
+
+<!-- Modal Encounter-->
+<div class="modal fade" id="addEncounter" tabindex="-1" aria-labelledby="addEncounterLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newEncounterLabel">New Encounter</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Options needed... title, location, text, players, shared
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Player-->
+<div class="modal fade" id="addPlayer" tabindex="-1" aria-labelledby="addPlayerLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newPlayerLabel">Player to add</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Drop down with available players. Dm to search and select.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
     </div>
   </div>
 </div>

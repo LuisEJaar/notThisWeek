@@ -1,35 +1,38 @@
 const mongoose = require("mongoose");
 
-const PostSchema = new mongoose.Schema({
+const EncounterSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
   },
   image: {
     type: String,
-    require: true,
+    require: false,
   },
   cloudinaryId: {
     type: String,
-    require: true,
+    require: false,
   },
   caption: {
     type: String,
-    required: true,
+    required: false,
   },
   likes: {
     type: Number,
     required: true,
   },
-  //This is the DM, need to update later. Leaving for now so nothing breaks
-  user: {
+  post: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "UserNTW",
+    ref: "Post",
+  },
+  dm: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
   players: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "UserNTW",
+      ref: "User",
     }
   ],
   createdAt: {
@@ -38,4 +41,4 @@ const PostSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Post", PostSchema);
+module.exports = mongoose.model("Encounter", EncounterSchema);

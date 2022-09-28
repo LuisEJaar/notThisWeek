@@ -1,6 +1,6 @@
 const passport = require("passport");
 const validator = require("validator");
-const User = require("../models/User");
+const UserNTW = require("../models/UserNTW");
 
 exports.getLogin = (req, res) => {
   if (req.user) {
@@ -56,6 +56,8 @@ exports.logout = (req, res) => {
   });
 };
 
+//New User
+
 exports.getSignup = (req, res) => {
   if (req.user) {
     return res.redirect("/profile");
@@ -84,13 +86,14 @@ exports.postSignup = (req, res, next) => {
     gmail_remove_dots: false,
   });
 
-  const user = new User({
+  const user = new UserNTW({
     userName: req.body.userName,
     email: req.body.email,
     password: req.body.password,
+    type: req.body.type,
   });
 
-  User.findOne(
+  UserNTW.findOne(
     { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
     (err, existingUser) => {
       if (err) {

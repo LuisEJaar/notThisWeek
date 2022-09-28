@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const PostSchema = new mongoose.Schema({
+const RoundSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -21,10 +21,9 @@ const PostSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  //This is the DM, need to update later. Leaving for now so nothing breaks
-  user: {
+  Encounter: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "UserNTW",
+    ref: "Encounter",
   },
   players: [
     {
@@ -32,10 +31,14 @@ const PostSchema = new mongoose.Schema({
       ref: "UserNTW",
     }
   ],
+  dm: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "UserNTW",
+  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = mongoose.model("Post", PostSchema);
+module.exports = mongoose.model("Round", RoundSchema);
