@@ -52,6 +52,10 @@ const EncounterSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  dmTurn: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 module.exports = mongoose.model("Encounter", EncounterSchema);

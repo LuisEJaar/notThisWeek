@@ -1,36 +1,25 @@
 const mongoose = require("mongoose");
 
 const RoundSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    require: true,
-  },
-  cloudinaryId: {
-    type: String,
-    require: true,
-  },
-  caption: {
+  description: {
     type: String,
     required: true,
   },
   likes: {
     type: Number,
     required: true,
+    default: 0,
   },
-  Encounter: {
+  encounter: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Encounter",
   },
-  players: [
+  player:
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "UserNTW",
     }
-  ],
+  ,
   dm: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "UserNTW",

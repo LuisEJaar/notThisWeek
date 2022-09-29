@@ -59,7 +59,7 @@
   <div class="container mt-3">
     <% if(encounters.length > 0){%>
         <% encounters.forEach(encounter => {%>
-            <a class="btn btn-success mb-3" href="/encounter/<%=encounter._id%>">
+            <a class="btn <%= encounter.active ? "btn-success" : "btn-secondary" %>  mb-3" href="/encounter/<%=encounter._id%>">
               <div>
                 <img class="img-fluid" src="<%= encounter.image%>" />
                 <div class="d-flex flex-column">

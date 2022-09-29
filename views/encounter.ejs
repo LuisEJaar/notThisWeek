@@ -3,6 +3,8 @@
   <div class="mt-1">
     <a class="btn btn-primary" href="/profile">DM Profile</a>
     <a class="btn btn-primary" href="/feed">All games</a>
+    <a class="btn btn-primary" href="/post/<%= encounter.post%>">Return to game</a>
+      
   </div>
   <div class="row justify-content-center mt-5">
     <div class="col-6">
@@ -49,8 +51,8 @@
   <div class="d-flex justify-content-center">
   <% if(playerTurn.id == user.id && encounter.active){%>
     <span>It is your turn</span> 
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEncounter">
-      Add input
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRound">
+      Add round
     </button>
   <%} else if(playerTurn.id != user.id && user.id != encounter.dm && encounter.active) {%>
     <span>Please be patient, <%= playerTurn.userName %> is thinking. </span>  
@@ -85,6 +87,31 @@
   </div>
   <div class="container">
 
+  </div>
+</div>
+
+<!-- Modal Encounter-->
+<div class="modal fade" id="addRound" tabindex="-1" aria-labelledby="addRoundLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newRoundLabel">New Round</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/round/createRound/<%= encounter.id %>/<%= user.id%>" method="POST">
+          <!-- Description -->
+          <div class="form-group mb-3">
+            <label for="encounterDescription">Encounter Description</label>
+            <textarea type="text" class="form-control" id="encounterDescription" placeholder="Encounter Description" name="description"></textarea>
+          </div>
+          <button type="submit" class="mx-auto btn btn-primary" value="Upload">Submit</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
 </div>
 

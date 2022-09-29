@@ -1,5 +1,4 @@
 const cloudinary = require("../middleware/cloudinary");
-const Post = require("../models/Post");
 const Players = require("../models/UserNTW");
 const Encounter = require("../models/Encounter");
 
