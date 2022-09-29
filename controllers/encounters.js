@@ -1,25 +1,10 @@
 const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/Post");
 const Players = require("../models/UserNTW");
+const Encounter = require("../models/Encounter");
 
 module.exports = {
-  getProfile: async (req, res) => {
-    try {
-      const posts = await Post.find({ user: req.user.id });
-      res.render("profile.ejs", { posts: posts, user: req.user });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  getFeed: async (req, res) => {
-    try {
-      const posts = await Post.find().sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { posts: posts });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  getPost: async (req, res) => {
+  getEncounter: async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
       const players = await Players.find({ type: "player" });
@@ -29,18 +14,19 @@ module.exports = {
       console.log(err);
     }
   },
-  createPost: async (req, res) => {
+  createEncounter: async (req, res) => {
     try {
       // Upload image to cloudinary
       const result = await cloudinary.uploader.upload(req.file.path);
 
-      await Post.create({
+      await Encounter.create({
         title: req.body.title,
         image: result.secure_url,
         cloudinaryId: result.public_id,
         caption: req.body.caption,
         likes: 0,
         user: req.user.id,
+        players: req.body.players,
       });
       console.log("Post has been added!");
       res.redirect("/profile");
@@ -48,7 +34,7 @@ module.exports = {
       console.log(err);
     }
   },
-  likePost: async (req, res) => {
+  likeEncounter: async (req, res) => {
     try {
       await Post.findOneAndUpdate(
         { _id: req.params.id },
@@ -62,7 +48,7 @@ module.exports = {
       console.log(err);
     }
   },
-  deletePost: async (req, res) => {
+  deleteEncounter: async (req, res) => {
     try {
       // Find post by id
       let post = await Post.findById({ _id: req.params.id });

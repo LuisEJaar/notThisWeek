@@ -26,12 +26,6 @@ const PostSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "UserNTW",
   },
-  players: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "UserNTW",
-    }
-  ],
   createdAt: {
     type: Date,
     default: Date.now,
