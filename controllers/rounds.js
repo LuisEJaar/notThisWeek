@@ -35,14 +35,24 @@ module.exports = {
         dm: dm,
       });
 
-      await Encounter.findOneAndUpdate(
-        { _id: req.params.encounterId },
-        {
-          $inc: { initiative: 1 },
-        }
-      );
+      if (encounter.dm != req.params.playerId) {
+
+        await Encounter.findOneAndUpdate(
+          { _id: req.params.encounterId },
+          {
+            $inc: { initiative: 1 },
+          }
+        );
+        console.log("Initiative +1");
+        console.log("A peasant prays")
+        encounter.dmTurn = true;
+        await encounter.save()
+      } else {
+        console.log("God has spoken")
+        encounter.dmTurn = false;
+        await encounter.save()
+      }
       
-      console.log("Initiative +1");
       console.log("Round has been added!");
       res.redirect(`/encounter/${req.params.encounterId}`);
     } catch (err) {

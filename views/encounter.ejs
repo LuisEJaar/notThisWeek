@@ -40,7 +40,11 @@
         <%})%>
         <h3>Player Turn:</h3>
         <% if(encounter.active) {%>
-          <a class="btn btn-primary"><%= playerTurn.userName %></a>
+          <% if(encounter.dmTurn) {%>
+            <a class="btn btn-primary"> DM </a>
+          <%} else {%>
+            <a class="btn btn-primary"><%= playerTurn.userName %></a>
+          <%}%>
         <%} else {%>
           <span>This encounter has concluded</span>
         <%}%>
@@ -50,29 +54,56 @@
 <div class="container mt-5">
   <div class="d-flex justify-content-center">
   <% if(playerTurn.id == user.id && encounter.active){%>
-    <span>It is your turn</span> 
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRound">
-      Add round
-    </button>
+    <% if(encounter.dmTurn) {%>
+      <span>You will be next, the DM is thinking.</span>
+    <%} else {%>
+      <span>It is your turn</span> 
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRound">
+        Add round
+      </button>
+      <form
+            class="col-1"
+            action="/encounter/progressEncounter/<%= encounter.id %>?_method=PUT"
+            method="POST"
+          >
+            <button class="btn btn-warning" type="submit">Pass</button>
+      </form>
+    <%}%>
   <%} else if(playerTurn.id != user.id && user.id != encounter.dm && encounter.active) {%>
-    <span>Please be patient, <%= playerTurn.userName %> is thinking. </span>  
-  <%} else if(playerTurn.id != user.id && user.id == encounter.dm && encounter.active) {%>
+    <% if(encounter.dmTurn){%>
+      <span>Please be patient, the DM is thinking.</span>
+    <%} else {%>
+      <span>Please be patient, <%= playerTurn.userName %> is thinking. </span> 
+    <%}%>
+  <%} else if(user.id == encounter.dm && encounter.active) {%>
     <span>Hello God, your will be done:</span>
-    <form
+    <% if(encounter.dmTurn){%>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRound">
+        Add round
+      </button>
+      <form
+            class="col-1"
+            action="/encounter/skipDM/<%= encounter.id %>?_method=PUT"
+            method="POST"
+          >
+            <button class="btn btn-warning" type="submit">Pass</button>
+      </form>
+    <%} else {%>
+      <form
           class="col-1"
           action="/encounter/progressEncounter/<%= encounter.id %>?_method=PUT"
           method="POST"
         >
           <button class="btn btn-warning" type="submit">Skip current player</button>
       </form>
-
-      <form
-          class="col-1"
-          action="/encounter/toggleEncounter/<%= encounter.id %>?_method=PUT"
-          method="POST"
-        >
-          <button class="btn btn-danger" type="submit">End Encounter</button>
-      </form>
+    <%} %> 
+    <form
+        class="col-1"
+        action="/encounter/toggleEncounter/<%= encounter.id %>?_method=PUT"
+        method="POST"
+      >
+        <button class="btn btn-danger" type="submit">End Encounter</button>
+    </form>
   <%} else {%>
     <span>This encounter has concluded</span>
     <form

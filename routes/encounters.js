@@ -15,6 +15,8 @@ router.put("/progressEncounter/:id", encountersController.progressEncounter);
 
 router.put("/toggleEncounter/:id", encountersController.toggleEncounter);
 
+router.put("/skipDM/:id", encountersController.skipDM);
+
 router.delete("/deleteEncounter/:id", encountersController.deleteEncounter);
 
 module.exports = router;

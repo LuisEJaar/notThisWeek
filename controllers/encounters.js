@@ -100,6 +100,18 @@ module.exports = {
       console.log(err);
     }
   },
+  skipDM: async (req, res) => {
+    try {
+      let encounter = await Encounter.findOne({ _id: req.params.id })
+      encounter.dmTurn = false;
+      await encounter.save()
+
+      console.log(`dmTurn set to: ${encounter.active}`);
+      res.redirect(`/encounter/${req.params.id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  },
   deleteEncounter: async (req, res) => {
     try {
       // Find encounter by id
