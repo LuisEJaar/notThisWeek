@@ -1,0 +1,72 @@
+<%- include('partials/header') -%>
+<div class="container border border-3">
+  <div class="mt-1">
+    <a class="btn btn-primary" href="/profile">DM Profile</a>
+    <a class="btn btn-primary" href="/feed">All games</a>
+  </div>
+  <div class="row justify-content-center mt-5">
+    <div class="col-6">
+      <h2><%= encounter.title %></h2>
+      <img class="img-fluid" src="<%= encounter.image%>" />
+      <div class="row justify-content-between">
+        <form
+          class="col-1"
+          action="/post/likePost/<%= encounter.id %>?_method=PUT"
+          method="POST"
+        >
+          <button class="btn btn-primary fa fa-heart" type="submit"></button>
+        </form>
+        <h3 class="col-3">Likes: <%= encounter.likes %></h3>
+        <%if(encounter.dm == user.id){ %>
+        <form
+          action="/post/deletePost/<%= encounter.id %>?_method=DELETE"
+          method="POST"
+          class="col-3"
+        >
+        <button class="btn btn-primary fa fa-trash" type="submit"></button>
+        </form>
+        <%}%>
+      </div>
+    </div>
+    <div class="col-3 mt-5">
+      <p><%= encounter.description %></p>
+    </div>
+    <div class="container">
+        <h3>Players:</h3>
+        <% party.forEach(member => {%>
+          <a class="btn btn-primary"><%= member.userName%></a>
+        <%})%>
+        <h3>Player Turn:</h3>
+        <% if(encounter.active) {%>
+          <a class="btn btn-primary"><%= playerTurn.userName %></a>
+        <%} else {%>
+          <span>This encounter has concluded</span>
+        <%}%>
+    </div>
+  </div>
+</div>
+<div class="container mt-5">
+  <div class="d-flex justify-content-center">
+  <% if(playerTurn.id == user.id && encounter.active){%>
+    <span>It is your turn</span> 
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEncounter">
+      Add input
+    </button>
+  <%} else if(playerTurn.id != user.id && user.id != encounter.dm && encounter.active) {%>
+    <span>Please be patient, <%= playerTurn.userName %> is thinking. </span>  
+  <%} else if(playerTurn.id != user.id && user.id == encounter.dm && encounter.active) {%>
+    <span>Hello God, your will be done:</span>
+    <button class="btn btn-warning">Skip current player</button>
+    <button class="btn btn-danger">End encounter</button>
+  <%} else {%>
+    <span>This encounter has concluded</span>  
+  <%}%>
+  
+  </div>
+  <div class="container">
+
+  </div>
+</div>
+
+<%- include('partials/footer') -%>

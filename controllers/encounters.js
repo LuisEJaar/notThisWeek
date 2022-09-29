@@ -6,10 +6,17 @@ const Encounter = require("../models/Encounter");
 module.exports = {
   getEncounter: async (req, res) => {
     try {
-      const post = await Post.findById(req.params.id);
+      const encounter = await Encounter.findById(req.params.id);
       const players = await Players.find({ type: "player" });
-      const party = await Players.find({games: req.params.id})
-      res.render("post.ejs", { post: post, user: req.user, players: players, party: party});
+      const potentialParty = await Players.find({ games: encounter.post });
+      const party = await potentialParty.filter((member) => { 
+        if (encounter.players.indexOf(member._id) != -1) {
+          return true
+        }
+      })
+      const playerTurn = party[encounter.initiative % party.length]
+      console.log(playerTurn)
+      res.render("encounter.ejs", { encounter: encounter, user: req.user, players: players, party: party, playerTurn: playerTurn});
     } catch (err) {
       console.log(err);
     }
@@ -20,6 +27,22 @@ module.exports = {
       // Upload image to cloudinary
       const result = await cloudinary.uploader.upload(req.file.path);
 
+      function shuffle(array) {
+        let currentIndex = array.length,  randomIndex;
+        // While there remain elements to shuffle.
+        while (currentIndex != 0) {
+          // Pick a remaining element.
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex--;
+          // And swap it with the current element.
+          [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+        }
+        return array;
+      }
+
+      const players = await shuffle(req.body.players);
+
       await Encounter.create({
         title: req.body.title,
         location: req.body.location,
@@ -29,7 +52,8 @@ module.exports = {
         likes: 0,
         post: req.params.id,
         dm: req.user.id,
-        players: req.body.players,
+        players: players,
+        initiative: 0,
       });
       console.log("Encounter has been added!");
       res.redirect('back');

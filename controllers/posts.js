@@ -1,6 +1,7 @@
 const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/Post");
 const Players = require("../models/UserNTW");
+const Encounter = require("../models/Encounter");
 
 module.exports = {
   getProfile: async (req, res) => {
@@ -23,8 +24,16 @@ module.exports = {
     try {
       const post = await Post.findById(req.params.id);
       const players = await Players.find({ type: "player" });
-      const party = await Players.find({games: req.params.id})
-      res.render("post.ejs", { post: post, user: req.user, players: players, party: party});
+      const party = await Players.find({ games: req.params.id });
+      const encounters = await Encounter.find({ post: req.params.id }).sort({ createdAt: "desc" }).lean();
+      res.render("post.ejs",
+        {
+          post: post,
+          user: req.user,
+          players: players,
+          party: party,
+          encounters: encounters,
+        });
     } catch (err) {
       console.log(err);
     }

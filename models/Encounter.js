@@ -45,6 +45,13 @@ const EncounterSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  initiative: {
+    type: Number,
+  },
+  active: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 module.exports = mongoose.model("Encounter", EncounterSchema);
