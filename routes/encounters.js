@@ -7,7 +7,7 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 //Encounter Routes
 router.get("/:id", ensureAuth, encountersController.getEncounter);
 
-router.post("/createEncounter", upload.single("file"), encountersController.createEncounter);
+router.post("/createEncounter/:id", upload.single("file"), encountersController.createEncounter);
 
 router.put("/likeEncounter/:id", encountersController.likeEncounter);
 

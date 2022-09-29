@@ -5,6 +5,14 @@ const EncounterSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  location: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
   image: {
     type: String,
     require: false,
@@ -13,10 +21,6 @@ const EncounterSchema = new mongoose.Schema({
     type: String,
     require: false,
   },
-  caption: {
-    type: String,
-    required: false,
-  },
   likes: {
     type: Number,
     required: true,
@@ -24,10 +28,12 @@ const EncounterSchema = new mongoose.Schema({
   post: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Post",
+    required: true,
   },
   dm: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
   players: [
     {

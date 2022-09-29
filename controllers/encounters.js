@@ -15,21 +15,24 @@ module.exports = {
     }
   },
   createEncounter: async (req, res) => {
+    console.log("here")
     try {
       // Upload image to cloudinary
       const result = await cloudinary.uploader.upload(req.file.path);
 
       await Encounter.create({
         title: req.body.title,
+        location: req.body.location,
+        description: req.body.description,
         image: result.secure_url,
         cloudinaryId: result.public_id,
-        caption: req.body.caption,
         likes: 0,
-        user: req.user.id,
+        post: req.params.id,
+        dm: req.user.id,
         players: req.body.players,
       });
-      console.log("Post has been added!");
-      res.redirect("/profile");
+      console.log("Encounter has been added!");
+      res.redirect('back');
     } catch (err) {
       console.log(err);
     }
