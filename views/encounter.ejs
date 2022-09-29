@@ -117,7 +117,20 @@
   
   </div>
   <div class="container">
-
+    <% rounds.forEach((round)=> {%>
+      <div class="card mb-3">
+        <div class="card-header">
+          <% if(round.player == round.dm){%>
+            DM  
+          <%} else {%>
+            <%= round.player %>
+          <%} %>
+        </div>
+        <div class="card-body">
+          <p class="card-text"><%= round.description%></p>
+        </div>
+      </div>
+    <%})%>
   </div>
 </div>
 

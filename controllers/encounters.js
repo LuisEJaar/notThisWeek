@@ -1,6 +1,7 @@
 const cloudinary = require("../middleware/cloudinary");
 const Players = require("../models/UserNTW");
 const Encounter = require("../models/Encounter");
+const Rounds = require("../models/Round");
 
 module.exports = {
   getEncounter: async (req, res) => {
@@ -10,18 +11,17 @@ module.exports = {
       const potentialParty = await Players.find({ games: encounter.post });
       const party = await potentialParty.filter((member) => { 
         if (encounter.players.indexOf(member._id) != -1) {
-          return true
+          return true;
         }
       })
-      const playerTurn = party[encounter.initiative % party.length]
-      console.log(playerTurn)
-      res.render("encounter.ejs", { encounter: encounter, user: req.user, players: players, party: party, playerTurn: playerTurn});
+      const playerTurn = party[encounter.initiative % party.length];
+      const rounds = await Rounds.find({ encounter: req.params.id }).sort({ createdAt: "desc" }).lean();
+      res.render("encounter.ejs", { encounter: encounter, user: req.user, players: players, party: party, playerTurn: playerTurn, rounds: rounds});
     } catch (err) {
       console.log(err);
     }
   },
   createEncounter: async (req, res) => {
-    console.log("here")
     try {
       // Upload image to cloudinary
       const result = await cloudinary.uploader.upload(req.file.path);

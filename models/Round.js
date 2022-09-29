@@ -16,8 +16,7 @@ const RoundSchema = new mongoose.Schema({
   },
   player:
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "UserNTW",
+      type: String,
     }
   ,
   dm: {

@@ -4,23 +4,6 @@ const Encounter = require("../models/Encounter");
 const Rounds = require("../models/Round");
 
 module.exports = {
-  getRound: async (req, res) => {
-    try {
-      const encounter = await Encounter.findById(req.params.id);
-      const players = await Players.find({ type: "player" });
-      const potentialParty = await Players.find({ games: encounter.post });
-      const party = await potentialParty.filter((member) => { 
-        if (encounter.players.indexOf(member._id) != -1) {
-          return true
-        }
-      })
-      const playerTurn = party[encounter.initiative % party.length]
-      console.log(playerTurn)
-      res.render("encounter.ejs", { encounter: encounter, user: req.user, players: players, party: party, playerTurn: playerTurn});
-    } catch (err) {
-      console.log(err);
-    }
-  },
   createRound: async (req, res) => {
     console.log('here')
     try {
@@ -28,10 +11,12 @@ module.exports = {
       const player = await Players.findById(req.params.playerId);
       const dm = await Players.findById(encounter.dm)
       
+      const playerName = player.id == dm.id ? "DM" : player.userName;
+
       await Rounds.create({
         description: req.body.description,
         encounter: encounter,
-        player: player,
+        player: playerName,
         dm: dm,
       });
 
