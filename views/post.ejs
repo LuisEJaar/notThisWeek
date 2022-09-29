@@ -51,27 +51,32 @@
   <div class="d-flex justify-content-center">
   <!-- Button trigger modal -->
   <% if(user.id == post.user){%>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEncounter">
+    <button type="button" class="btn mb-3 btn-primary" data-bs-toggle="modal" data-bs-target="#addEncounter">
       Add encounter
     </button>
   <%} %>
   </div>
-  <div class="container mt-3">
+  <div class="d-flex flex-column align-items-center">
     <% if(encounters.length > 0){%>
         <% encounters.forEach(encounter => {%>
-            <a class="btn <%= encounter.active ? "btn-success" : "btn-secondary" %>  mb-3" href="/encounter/<%=encounter._id%>">
-              <div>
-                <img class="img-fluid" src="<%= encounter.image%>" />
-                <div class="d-flex flex-column">
-                  <span>Title</span>
-                  <span><%= encounter.title%></span>
-                  <span>Location</span>
-                  <span><%= encounter.location%></span>
-                  <span>Description</span>
-                  <span><%= encounter.description%></span>
-                </div>
-              </div>
-            </a>
+          <div class="card mb-3 text-white <%= encounter.active ? "bg-success" : "bg-secondary" %>" style="width: 18rem;">
+            <img src="<%= encounter.image%>" class="card-img-top" alt="encounter image">
+            <div class="card-body">
+              <h5 class="card-title">Title</h5>
+              <p class="card-text"><%= encounter.title%></p>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Location</h5>
+              <p class="card-text"><%= encounter.location%></p>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Description</h5>
+              <p class="card-text"><%= encounter.description%></p>
+            </div>
+            <div class="card-body">
+              <a href="/encounter/<%=encounter._id%>" class="text-white">Encounter Link</a>
+            </div>
+          </div>
         <%})%> 
     <%} else {%>
       <span>Adventure awaits!</span>  
