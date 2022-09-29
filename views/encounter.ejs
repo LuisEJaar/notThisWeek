@@ -11,7 +11,7 @@
       <div class="row justify-content-between">
         <form
           class="col-1"
-          action="/post/likePost/<%= encounter.id %>?_method=PUT"
+          action="/encounter/likeEncounter/<%= encounter.id %>?_method=PUT"
           method="POST"
         >
           <button class="btn btn-primary fa fa-heart" type="submit"></button>
@@ -19,7 +19,7 @@
         <h3 class="col-3">Likes: <%= encounter.likes %></h3>
         <%if(encounter.dm == user.id){ %>
         <form
-          action="/post/deletePost/<%= encounter.id %>?_method=DELETE"
+          action="/encounter/deleteEncounter/<%= encounter.id %>?_method=DELETE"
           method="POST"
           class="col-3"
         >
@@ -49,7 +49,6 @@
   <div class="d-flex justify-content-center">
   <% if(playerTurn.id == user.id && encounter.active){%>
     <span>It is your turn</span> 
-    <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEncounter">
       Add input
     </button>
@@ -57,10 +56,30 @@
     <span>Please be patient, <%= playerTurn.userName %> is thinking. </span>  
   <%} else if(playerTurn.id != user.id && user.id == encounter.dm && encounter.active) {%>
     <span>Hello God, your will be done:</span>
-    <button class="btn btn-warning">Skip current player</button>
-    <button class="btn btn-danger">End encounter</button>
+    <form
+          class="col-1"
+          action="/encounter/progressEncounter/<%= encounter.id %>?_method=PUT"
+          method="POST"
+        >
+          <button class="btn btn-warning" type="submit">Skip current player</button>
+      </form>
+
+      <form
+          class="col-1"
+          action="/encounter/toggleEncounter/<%= encounter.id %>?_method=PUT"
+          method="POST"
+        >
+          <button class="btn btn-danger" type="submit">End Encounter</button>
+      </form>
   <%} else {%>
-    <span>This encounter has concluded</span>  
+    <span>This encounter has concluded</span>
+    <form
+          class="col-1"
+          action="/encounter/toggleEncounter/<%= encounter.id %>?_method=PUT"
+          method="POST"
+        >
+          <button class="btn btn-danger" type="submit">Re-Open Encounter</button>
+      </form>
   <%}%>
   
   </div>

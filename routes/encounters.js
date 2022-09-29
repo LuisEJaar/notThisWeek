@@ -11,6 +11,10 @@ router.post("/createEncounter/:id", upload.single("file"), encountersController.
 
 router.put("/likeEncounter/:id", encountersController.likeEncounter);
 
+router.put("/progressEncounter/:id", encountersController.progressEncounter);
+
+router.put("/toggleEncounter/:id", encountersController.toggleEncounter);
+
 router.delete("/deleteEncounter/:id", encountersController.deleteEncounter);
 
 module.exports = router;
