@@ -1,7 +1,7 @@
 <%- include('partials/header') -%>
 <div class="container">
   <div class="row mt-5">
-      <div class="col-6">
+      <div class="col-5">
           <div>
               <p><strong>User Name</strong>: <%= user.userName %></p>
               <p><strong>Email</strong>: <%= user.email %></p>
@@ -16,7 +16,7 @@
                     <input type="text" class="form-control" id="title" name="title">
                 </div>
                 <div class="mb-3">
-                  <label for="caption" class="form-label">Caption</label>
+                  <label for="caption" class="form-label">Description</label>
                   <textarea class="form-control" id="caption" name="caption"></textarea>
                 </div>
                 <div class="mb-3">
@@ -28,7 +28,8 @@
             </div>
           <%} %>
       </div>
-      <div class="col-6">
+      <div class="col-6"> 
+        <h2>Your Games:</h2>
         <ul class="row list-unstyled">
         <% for(var i=0; i<posts.length; i++) {%>
           <li class="col-6 justify-content-between mt-5">
@@ -41,9 +42,6 @@
           </li>
         <% } %>
         </ul>
-        <div class="row justify-content-center mt-5">
-          <a class="btn btn-primary me-3" href="/feed">See all games</a>
-        </div>  
       </div>  
     </div>
   </div>

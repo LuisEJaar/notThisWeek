@@ -23,3 +23,6 @@ Attributes:
 
 Favicon:
 <a href="https://www.flaticon.com/free-icons/dice" title="dice icons">Dice icons created by Freepik - Flaticon</a>
+
+Front Page Image:
+Image by <a href="https://www.freepik.com/free-photo/still-life-objects-with-role-playing-game-sheet_24749859.htm#query=dnd&position=2&from_view=search">Freepik</a>

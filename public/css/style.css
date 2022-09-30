@@ -1,0 +1,13 @@
+.gamePicture {
+  height: 300px;
+  width: 300px;
+  object-fit: cover;
+}
+
+.gameDisplay {
+  overflow: hidden;
+}
+
+.shadow {
+  box-shadow: 10px 5px 5px grey;
+}
