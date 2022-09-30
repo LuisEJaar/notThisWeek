@@ -1,41 +1,29 @@
 <%- include('partials/header') -%>
 <div class="container">
-  <div class="col-6 mt-2">
+  <div class="mt-2">
+    <span>This game brought to you by:</span>
     <a class="btn btn-primary" href="/profile">DM Profile</a>
   </div>
-  <div class="row justify-content-center mt-5">
-    <div class="col-6">
-      <h2><%= post.title %></h2>
+  <div class="justify-content-center mt-5">
+    <div class="">
+      <h2>Game Title:</h2>
+      <h3 class="text-center"><%= post.title %></h3>
       <img class="img-fluid" src="<%= post.image%>" />
-      <div class="row justify-content-between">
+      <div class="justify-content-between">
         <form
-          class="col-1"
           action="/post/likePost/<%= post.id %>?_method=PUT"
           method="POST"
         >
           <button class="btn btn-primary fa fa-heart" type="submit"></button>
         </form>
-        <h3 class="col-3">Likes: <%= post.likes %></h3>
-        <%if(post.user == user.id){ %>
-        <form
-          action="/post/deletePost/<%= post.id %>?_method=DELETE"
-          method="POST"
-          class="col-3"
-        >
-        <button class="btn btn-primary fa fa-trash" type="submit"></button>
-        </form>
-        <%}%>
+        <h3 class="">Likes: <%= post.likes %></h3>
       </div>
     </div>
-    <div class="col-3 mt-5">
+    <div >
       <p><%= post.caption %></p>
     </div>
     <div>
-      <% if(user.id == post.user){%>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPlayer">
-          Add player
-        </button>
-      <%} %>
+      <h3>Current Players:</h3>
       <% if(party.length > 0){%>
         <% party.forEach(member => {%>
           <a class="btn btn-primary"><%= member.userName%></a>
@@ -47,35 +35,49 @@
   </div>
 </div>
 <div class="container mt-5">
-  <div class="d-flex justify-content-center">
-  <!-- Button trigger modal -->
+  <div class="d-flex justify-content-center mb-3">
+  <!-- DM Tools -->
   <% if(user.id == post.user){%>
-    <button type="button" class="btn mb-3 btn-primary" data-bs-toggle="modal" data-bs-target="#addEncounter">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEncounter">
       Add encounter
+    </button>
+    <button type="button" class="ms-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPlayer">
+      Add player
+    </button>
+    <!-- Button Deletion Modal -->
+    <button type="button" class="ms-3 btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Delete Game
     </button>
   <%} %>
   </div>
-  <div class="d-flex flex-column align-items-center">
+  <h2>Game Encounters:</h2>
+  <span class="badge badge-primary">Active</span>
+  <div class="encounterContainer">
     <% if(encounters.length > 0){%>
         <% encounters.forEach(encounter => {%>
-          <div class="card mb-3 text-white <%= encounter.active ? "bg-success" : "bg-secondary" %>" style="width: 18rem;">
-            <img src="<%= encounter.image%>" class="card-img-top" alt="encounter image">
-            <div class="card-body">
-              <h5 class="card-title">Title</h5>
-              <p class="card-text"><%= encounter.title%></p>
+            <div class="encounterContained card mb-3 text-white <%= encounter.active ? "bg-success" : "bg-secondary" %>" style="width: 18rem;">
+              <% if(encounter.active){%>
+                <span class="badge bg-primary">Active</span>
+              <%} else {%>
+                <span class="badge bg-secondary">Archived</span>
+              <%} %>
+              <img src="<%= encounter.image%>" class="card-img-top" alt="encounter image">
+              <div class="card-body">
+                <h5 class="card-title">Title</h5>
+                <p class="card-text"><%= encounter.title%></p>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Location</h5>
+                <p class="card-text"><%= encounter.location%></p>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Description</h5>
+                <p class="card-text"><%= encounter.description%></p>
+              </div>
+              <div class="card-body">
+                <a href="/encounter/<%=encounter._id%>" class="text-white">Open Encounter</a>
+              </div>
             </div>
-            <div class="card-body">
-              <h5 class="card-title">Location</h5>
-              <p class="card-text"><%= encounter.location%></p>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">Description</h5>
-              <p class="card-text"><%= encounter.description%></p>
-            </div>
-            <div class="card-body">
-              <a href="/encounter/<%=encounter._id%>" class="text-white">Encounter Link</a>
-            </div>
-          </div>
         <%})%> 
     <%} else {%>
       <span>Adventure awaits!</span>  
@@ -164,4 +166,27 @@
   </div>
 </div>
 
+<!-- Delete Game -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Game deletion cannot be undone, you're condemning your world to fantasy death!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <form
+          action="/post/deletePost/<%= post.id %>?_method=DELETE"
+          method="POST"
+        >
+        <button class="btn btn-danger" type="submit">Do it</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 <%- include('partials/footer') -%>
