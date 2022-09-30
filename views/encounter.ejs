@@ -1,47 +1,38 @@
 <%- include('partials/header') -%>
 <div class="container">
   <div class="mt-1">
-    <a class="btn btn-primary" href="/profile">DM Profile</a>
-    <a class="btn btn-primary" href="/post/<%= encounter.post%>">Return to game</a>
+    <a class="btn btn-primary shadow" href="/profile">DM Profile</a>
+    <a class="btn btn-primary shadow" href="/post/<%= encounter.post%>">Return to game</a>
   </div>
   <div class="row justify-content-center mt-5">
-    <div class="col-6">
-      <h2><%= encounter.title %></h2>
-      <img class="img-fluid" src="<%= encounter.image%>" />
-      <div class="row justify-content-between mt-2">
-        <form
-          class="col-1"
-          action="/encounter/likeEncounter/<%= encounter.id %>?_method=PUT"
-          method="POST"
-        >
-          <button class="btn btn-primary fa fa-heart" type="submit"></button>
-        </form>
-        <h5 class="col-3">Likes: <%= encounter.likes %></h5>
-        <%if(encounter.dm == user.id){ %>
-        <form
-          action="/encounter/deleteEncounter/<%= encounter.id %>?_method=DELETE"
-          method="POST"
-          class="col-3"
-        >
-        <button class="btn btn-primary fa fa-trash" type="submit"></button>
-        </form>
-        <%}%>
-      </div>
+    <h2>Encounter Title:</h2>
+    <h2><%= encounter.title %></h2>
+    <img class="img-fluid rounded shadow currentEncounterGameImage" src="<%= encounter.image%>" />
+    <div class="d-flex m-2">
+      <form
+        class="m-2"
+        action="/encounter/likeEncounter/<%= encounter.id %>?_method=PUT"
+        method="POST"
+      >
+        <button class="btn btn-primary fa fa-heart" type="submit"></button>
+      </form>
+      <h3 class="m-2">Likes: <%= encounter.likes %></h3>
     </div>
-    <div class="col-3 mt-5">
+    <div class="mt-3">
+      <h3>Description:</h3>
       <p><%= encounter.description %></p>
     </div>
     <div class="container mt-4">
         <h3>Players:</h3>
         <% party.forEach(member => {%>
-          <a class="btn btn-primary"><%= member.userName%></a>
+          <a class="btn btn-primary shadow"><%= member.userName%></a>
         <%})%>
         <h3 class="mt-3">Player Turn:</h3>
         <% if(encounter.active) {%>
           <% if(encounter.dmTurn) {%>
-            <a class="btn btn-primary"> DM </a>
+            <a class="btn btn-primary shadow"> DM </a>
           <%} else {%>
-            <a class="btn btn-primary"><%= playerTurn.userName %></a>
+            <a class="btn btn-primary shadow"><%= playerTurn.userName %></a>
           <%}%>
         <%} else {%>
           <span>This encounter has concluded</span>
@@ -51,7 +42,6 @@
 </div>
 
 <!--  Action Section-->
-
 <div class="container mt-5">
   <div class="d-flex flex-column align-items-center">
   <% if(playerTurn.id == user.id && encounter.active){%>
@@ -82,7 +72,7 @@
     <span>Hello God, your will be done:</span>
     <div class="d-flex flex-row">
       <% if(encounter.dmTurn){%>
-        <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#addRound">
+        <button type="button" class="btn btn-primary m-3 shadow" data-bs-toggle="modal" data-bs-target="#addRound">
           Add round
         </button>
         <form
@@ -90,7 +80,7 @@
               action="/encounter/skipDM/<%= encounter.id %>?_method=PUT"
               method="POST"
             >
-              <button class="btn btn-warning" type="submit">Pass</button>
+              <button class="btn btn-warning shadow" type="submit">Pass</button>
         </form>
       <%} else {%>
         <form
@@ -98,7 +88,7 @@
             action="/encounter/progressEncounter/<%= encounter.id %>?_method=PUT"
             method="POST"
           >
-            <button class="btn btn-warning" type="submit">Skip player</button>
+            <button class="btn btn-warning shadow" type="submit">Skip player</button>
         </form>
       <%} %> 
       <form
@@ -106,7 +96,7 @@
           action="/encounter/toggleEncounter/<%= encounter.id %>?_method=PUT"
           method="POST"
         >
-          <button class="btn btn-danger" type="submit">End Encounter</button>
+          <button class="btn btn-danger shadow" type="submit">End Encounter</button>
       </form>
     </div>
   <%} else {%>
@@ -116,14 +106,20 @@
           action="/encounter/toggleEncounter/<%= encounter.id %>?_method=PUT"
           method="POST"
         >
-          <button class="btn btn-info" type="submit">Re-Open Encounter</button>
+          <button class="btn btn-info shadow" type="submit">Re-Open Encounter</button>
       </form>
   <%}%>
+  <%if(encounter.dm == user.id){ %>
+    <!-- Button Deletion Modal -->
+    <button type="button" class="shadow ms-3 btn btn-danger shadow" data-bs-toggle="modal" data-bs-target="#deleteEncounter">
+      Delete Encounter
+    </button>
+    <%}%>
   </div>
   <!-- Display rounds -->
   <div class="container mt-3">
     <% rounds.forEach((round)=> {%>
-      <div class="card mb-3">
+      <div class="card mb-3 shadow">
         <div class="card-header">
           <% if(round.player == round.dm){%>
             DM  
@@ -164,4 +160,28 @@
   </div>
 </div>
 
+<!-- Delete Encounter -->
+<div class="modal fade" id="deleteGame" tabindex="-1" aria-labelledby="deleteGameLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteGameLabel">Warning!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Encounter deletion cannot be undone, you're condemning this moment to fantasy death!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <form
+          action="/encounter/deleteEncounter/<%= encounter.id %>?_method=DELETE"
+          method="POST"
+          class=""
+        >
+        <button class="btn btn-danger" type="submit">Do it</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 <%- include('partials/footer') -%>

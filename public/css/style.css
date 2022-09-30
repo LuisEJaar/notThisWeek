@@ -4,6 +4,19 @@
   object-fit: cover;
 }
 
+.encounterPicture {
+  height: 180px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.currentEncounterGameImage{
+  max-height: 600px;
+  max-width: 600px;
+  object-fit: cover;
+}
+
+
 .gameDisplay {
   overflow: hidden;
 }
@@ -42,4 +55,10 @@
   top: 0.5%;
   left: 0.5%;
   z-index: 2;
+}
+
+.profileGame {
+  height: 300px;
+  width: 300px;
+  object-fit: cover;
 }

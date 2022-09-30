@@ -2,31 +2,31 @@
 <div class="container">
   <div class="mt-2">
     <span>This game brought to you by:</span>
-    <a class="btn btn-primary" href="/profile">DM Profile</a>
+    <a class="btn btn-primary shadow" href="/profile">DM Profile</a>
   </div>
-  <div class="justify-content-center mt-5">
-    <div class="">
+  <div class="mt-5">
       <h2>Game Title:</h2>
-      <h3 class="text-center"><%= post.title %></h3>
-      <img class="img-fluid" src="<%= post.image%>" />
-      <div class="justify-content-between">
+      <h3><%= post.title %></h3>
+      <img class="mx-auto img-fluid shadow rounded currentEncounterGameImage" src="<%= post.image%>" />
+      <div class="d-flex m-2">
         <form
           action="/post/likePost/<%= post.id %>?_method=PUT"
           method="POST"
+          class="m-2"
         >
-          <button class="btn btn-primary fa fa-heart" type="submit"></button>
+          <button class="btn btn-primary fa fa-heart shadow" type="submit"></button>
         </form>
-        <h3 class="">Likes: <%= post.likes %></h3>
+        <h3 class="m-2">Likes: <%= post.likes %></h3>
       </div>
-    </div>
-    <div >
+    <div>
+      <h3>Description:</h3>
       <p><%= post.caption %></p>
     </div>
     <div>
       <h3>Current Players:</h3>
       <% if(party.length > 0){%>
         <% party.forEach(member => {%>
-          <a class="btn btn-primary"><%= member.userName%></a>
+          <a class="btn btn-primary shadow"><%= member.userName%></a>
         <%})%> 
       <%} else {%>
         <span>Gather ye party!</span>  
@@ -38,14 +38,14 @@
   <div class="d-flex justify-content-center mb-3">
   <!-- DM Tools -->
   <% if(user.id == post.user){%>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEncounter">
+    <button type="button" class="shadow btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEncounter">
       Add encounter
     </button>
-    <button type="button" class="ms-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPlayer">
+    <button type="button" class="shadow ms-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPlayer">
       Add player
     </button>
     <!-- Button Deletion Modal -->
-    <button type="button" class="ms-3 btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" class="shadow ms-3 btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteGame">
       Delete Game
     </button>
   <%} %>
@@ -55,13 +55,13 @@
   <div class="encounterContainer">
     <% if(encounters.length > 0){%>
         <% encounters.forEach(encounter => {%>
-            <div class="encounterContained card mb-3 text-white <%= encounter.active ? "bg-success" : "bg-secondary" %>" style="width: 18rem;">
+            <div class="encounterContained shadow card mb-3 text-white <%= encounter.active ? "bg-success" : "bg-secondary" %>" style="width: 18rem;">
               <% if(encounter.active){%>
                 <span class="badge bg-primary">Active</span>
               <%} else {%>
                 <span class="badge bg-secondary">Archived</span>
               <%} %>
-              <img src="<%= encounter.image%>" class="card-img-top" alt="encounter image">
+              <img src="<%= encounter.image%>" class="encounterPicture card-img-top" alt="encounter image">
               <div class="card-body">
                 <h5 class="card-title">Title</h5>
                 <p class="card-text"><%= encounter.title%></p>
@@ -167,11 +167,11 @@
 </div>
 
 <!-- Delete Game -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteGame" tabindex="-1" aria-labelledby="deleteGameLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+        <h5 class="modal-title" id="deleteGameLabel">Warning!</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
