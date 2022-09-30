@@ -7,7 +7,20 @@ module.exports = {
   getProfile: async (req, res) => {
     try {
       const posts = await Post.find({ user: req.user.id });
-      res.render("profile.ejs", { posts: posts, user: req.user });
+      res.render("profile.ejs", { visitor: req.user, posts: posts, user: req.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  getUserProfile: async (req, res) => {
+    try {
+      const targetUser = await Players.findById({ _id: req.params.id });
+      const images = [];
+      await targetUser.games.forEach((game) => { 
+        images.push(Post.findById(game).image)
+      })
+      console.log(images)
+      res.render("profile.ejs", { visitor: req.user, user: targetUser, posts: targetUser.games});
     } catch (err) {
       console.log(err);
     }

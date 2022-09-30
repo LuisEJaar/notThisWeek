@@ -7,7 +7,6 @@ module.exports = {
   getEncounter: async (req, res) => {
     try {
       const encounter = await Encounter.findById(req.params.id);
-      const players = await Players.find({ type: "player" });
       const potentialParty = await Players.find({ games: encounter.post });
       const party = await potentialParty.filter((member) => { 
         if (encounter.players.indexOf(member._id) != -1) {
@@ -16,7 +15,7 @@ module.exports = {
       })
       const playerTurn = party[encounter.initiative % party.length];
       const rounds = await Rounds.find({ encounter: req.params.id }).sort({ createdAt: "desc" }).lean();
-      res.render("encounter.ejs", { encounter: encounter, user: req.user, players: players, party: party, playerTurn: playerTurn, rounds: rounds});
+      res.render("encounter.ejs", { encounter: encounter, user: req.user, party: party, playerTurn: playerTurn, rounds: rounds});
     } catch (err) {
       console.log(err);
     }
