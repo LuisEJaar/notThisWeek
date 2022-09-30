@@ -15,12 +15,12 @@ module.exports = {
   getUserProfile: async (req, res) => {
     try {
       const targetUser = await Players.findById({ _id: req.params.id });
-      const images = [];
-      await targetUser.games.forEach((game) => { 
-        images.push(Post.findById(game).image)
-      })
-      console.log(images)
-      res.render("profile.ejs", { visitor: req.user, user: targetUser, posts: targetUser.games});
+      let posts = []
+      for (i = 0; i < targetUser.games.length; i++){
+        let post = await Post.findById({ _id: targetUser.games[0] })
+        posts.push(post)
+      }
+      res.render("profile.ejs", { visitor: req.user, user: targetUser, posts: posts});
     } catch (err) {
       console.log(err);
     }
