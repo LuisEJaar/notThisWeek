@@ -25,14 +25,14 @@
     <div class="container mt-4">
         <h3>Players:</h3>
         <% party.forEach(member => {%>
-          <a class="btn btn-primary shadow"><%= member.userName%></a>
+          <a href="/userProfile/<%= member.id%>" target="_blank" class="btn btn-primary shadow"><%= member.userName%></a>
         <%})%>
         <h3 class="mt-3">Player Turn:</h3>
         <% if(encounter.active) {%>
           <% if(encounter.dmTurn) {%>
             <a class="btn btn-primary shadow"> DM </a>
           <%} else {%>
-            <a class="btn btn-primary shadow"><%= playerTurn.userName %></a>
+            <a href="/userProfile/<%= playerTurn.id%>" target="_blank" class="btn btn-primary shadow"><%= playerTurn.userName %></a>
           <%}%>
         <%} else {%>
           <span>This encounter has concluded</span>
