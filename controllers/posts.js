@@ -4,17 +4,15 @@ const Players = require("../models/UserNTW");
 const Encounter = require("../models/Encounter");
 
 module.exports = {
-  getProfile: async (req, res) => {
-    try {
-      const posts = await Post.find({ user: req.user.id });
-      res.render("profile.ejs", { visitor: req.user, posts: posts, user: req.user });
-    } catch (err) {
-      console.log(err);
-    }
-  },
   getUserProfile: async (req, res) => {
     try {
-      const targetUser = await Players.findById({ _id: req.params.id });
+      let targetUser
+      if (req.params.id != "own") {
+        targetUser = await Players.findById({ _id: req.params.id });
+      } else {
+        targetUser = await Players.findById({ _id: req.user.id });
+      }
+      
       if (targetUser.type == "dm") {
         const posts = await Post.find({ user: targetUser.id });
         res.render("profile.ejs", { visitor: req.user, user: targetUser, posts: posts});
