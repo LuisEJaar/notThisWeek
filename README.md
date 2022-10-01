@@ -1,3 +1,56 @@
+# Not This Week
+This project was born from my experience of our DND group failing to meet up due to scheduling conflicts. I decided to make a text-based adventure app so that we could keep the story going.
+
+A DM account can create games and add players / descriptions to those games. Games can then be given non-combat encounters which will be given randomized initiative orders based on the players included in the current encounter. The encounter will display whose turn it is as well as give players and the DM unique prompts based on if their turn has come. On each players turn they can pass or take an action which they describe in text. The DM can end the encounter, skip players, add comments etc.
+
+Player account profiles show the games that their account has been added to.
+
+All accounts can view all games as well as the contact information of the DMs and players in those games.
+
+**Link to project:** https://notthisweek.herokuapp.com/
+
+<p align="center">
+  <a target="_blank" href="https://notthisweek.herokuapp.com/">
+    <img src="https://github.com/LuisEJaar/luisEJaar/blob/main/notThisWeek.gif" height="500px" alt="Not This Week Site"/>
+  </a>
+</p>
+
+## How It's Made:
+
+**Tech used:** HTML, CSS, JavaScript, Node.js, Express, Passport, MVC, Flash, Cloudinary, Heroku, MongoDB
+
+## Roadmap
+
+- [ ] Build in character Models
+  - [ ] Tie Characters to users marked players
+  - [ ] Display character on users page
+  - [ ] Make feed for all user characters
+  - [ ] Incorporate characters into games vs players
+    
+- [ ] Add rolling to the encounters
+ - [ ] Rolls to be based upon random d20 & character attributes from sheets
+ - [ ] DM needs option to pass initiative back to character in cases where they need to roll but didn't
+ - [ ] Rolls to be recorded in encounter flow
+   
+- [ ] Add combat to the game
+
+One Off / Improvements:
+- [ ] DM to be able to remove characters / players from a game
+- [ ] DM to be able to edit their games
+- [ ] DM to be able to edit their encounter
+- [ ] DM to be able to edit their individual encounter rounds
+
+General / vague improvements:
+- [ ] General styling update 
+
+## Optimizations
+
+- It feels like I'm making too many calls to my database on the backend and feel there has to be a way to improve this.
+
+## Lessons Learned:
+
+- Got some good practice with MVC workflow
+
 # Install
 
 `npm install`
