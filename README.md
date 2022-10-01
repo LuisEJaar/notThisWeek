@@ -28,9 +28,9 @@ All accounts can view all games as well as the contact information of the DMs an
   - [ ] Incorporate characters into games vs players
     
 - [ ] Add rolling to the encounters
- - [ ] Rolls to be based upon random d20 & character attributes from sheets
- - [ ] DM needs option to pass initiative back to character in cases where they need to roll but didn't
- - [ ] Rolls to be recorded in encounter flow
+  - [ ] Rolls to be based upon random d20 & character attributes from sheets
+  - [ ] DM needs option to pass initiative back to character in cases where they need to roll but didn't
+  - [ ] Rolls to be recorded in encounter flow
    
 - [ ] Add combat to the game
 
