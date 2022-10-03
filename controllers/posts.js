@@ -1,6 +1,7 @@
 const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/Post");
 const Players = require("../models/UserNTW");
+const Character = require("../models/Character");
 const Encounter = require("../models/Encounter");
 
 module.exports = {
@@ -22,7 +23,8 @@ module.exports = {
           const post = await Post.findById({ _id: targetUser.games[0] })
           posts.push(post)
         }
-        res.render("profile.ejs", { visitor: req.user, targetUser: targetUser, posts: posts});
+        const characters = await Character.find({user: targetUser.id})
+        res.render("profile.ejs", { visitor: req.user, targetUser: targetUser, posts: posts, characters: characters});
       }
     } catch (err) {
       console.log(err);
