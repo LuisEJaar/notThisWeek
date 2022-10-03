@@ -15,6 +15,7 @@ const postRoutes = require("./routes/posts");
 const playerRoutes = require("./routes/player");
 const encounterRoutes = require("./routes/encounters");
 const roundRoutes = require("./routes/rounds");
+const characterRoutes = require("./routes/characters");
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -64,6 +65,7 @@ app.use("/post", postRoutes);
 app.use("/player", playerRoutes);
 app.use("/encounter", encounterRoutes);
 app.use("/round", roundRoutes);
+app.use("/character", characterRoutes);
 
 //Server Running
 const port = process.env.PORT || 3000;

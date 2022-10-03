@@ -1,12 +1,21 @@
 <%- include('partials/header') -%>
 <div class="container">
-  <div class="row mt-5">
-    <div class="col-5">
+  <div class="mt-5">
+    <div class="">
       <div>
-          <p><strong>User Name</strong>: <%= user.userName %></p>
-          <p><strong>Email</strong>: <%= user.email %></p>
+          <p><strong>User Name</strong>: <%= targetUser.userName %></p>
+          <p><strong>Email</strong>: <%= targetUser.email %></p>
       </div>
-      <% if(user.type == "dm"){%>
+      <% if(targetUser.type == 'player' && visitor.id == targetUser.id) {%>
+        <div class="mt-3">
+          <h2>Add a character:</h2>
+          <!-- Button Deletion Modal -->
+          <button type="button" class="shadow ms-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCharacter">
+            Create New Character
+          </button> 
+        </div>
+      <%}%>
+      <% if(targetUser.type == "dm" && visitor.id == targetUser.id) {%>
         <div class="mt-3">
           <h2>Add a game:</h2>
           <form action="/post/createPost" enctype="multipart/form-data" method="POST">
@@ -28,14 +37,14 @@
       <%} %>
     </div>
     <div class="mt-3">
-      <% if(visitor.id != user.id){%>
-        <h2>Player <%= user.userName %>'s Games:</h2> 
+      <% if(visitor.id != targetUser.id){%>
+        <h2>Player <%= targetUser.userName %>'s Games:</h2> 
       <%} else {%>
         <h2>Your Games:</h2>  
       <%}%>
       <ul class="row list-unstyled">
       <% for(var i=0; i<posts.length; i++) {%>
-        <li class="col-6 justify-content-between mt-3">
+        <li class="justify-content-between mt-3">
           <a href="/post/<%= posts[i]._id%>">
             <figure class="d-flex flex-column align-items-center">
               <img class="img-fluid rounded profileGame" src="<%= posts[i].image%>">
@@ -46,6 +55,237 @@
       <% } %>
       </ul>
     </div>  
+  </div>
+</div>
+
+<!-- Create Character -->
+<div class="modal fade" id="createCharacter" tabindex="-1" aria-labelledby="createCharacterLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createCharacterLabel">Tell me about yourself traveler</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/character/create" enctype="multipart/form-data" method="POST">
+          <fieldset>
+            <div class="mb-3">
+              <label for="imgUpload" class="form-label">Image</label>
+              <input type="file" class="form-control" id="imageUpload" name="file" required>
+            </div>
+            <legend>Description:</legend>
+            <div class="form-group">
+              <label class="mt-2" for="charName">Name:</label>
+              <input name="name" type="text" class="form-control" id="charName" placeholder="Name" required>
+            </div>
+
+            <div class="form-group">
+              <label class="mt-2" for="charClass">Class:</label>
+              <input name="class" type="text" class="form-control" id="charClass" placeholder="Class" required>
+            </div>
+
+            <div class="form-group">
+              <label class="mt-2" for="charAge">Age:</label>
+              <input name="age" type="number" class="form-control" id="charAge" placeholder="Age" required>
+            </div>
+
+            <div class="form-group">
+              <label class="mt-2" for="charRace">Race:</label>
+              <input name="race" type="text" class="form-control" id="charRace" placeholder="Race" required>
+            </div>
+    
+            <div class="form-group">
+              <label class="mt-2" for="charGnd">Gender:</label>
+              <input name="gender" type="text" class="form-control" id="charGnd" placeholder="Gender" required>
+            </div>
+
+            <div class="form-group">
+              <label class="mt-2" for="charLvl">Level:</label>
+              <input name="lvl" type="number" class="form-control" id="charLvl" placeholder="Level" required>
+            </div>
+
+            <div class="form-group">
+              <label class="mt-2" for="charLvl">Armor Class(ac):</label>
+              <input name="ac" type="number" class="form-control" id="ac" placeholder="Armor Class" required>
+            </div>
+          </fieldset>
+          
+          <fieldset class="mt-3">
+            <legend>Ability Scores</legend>
+            <div class="form-group">
+              <label for="str">Strength:</label>
+              <input name="str" type="number" class="form-control" id="str" placeholder="str" required>
+            </div>
+            <div class="form-group">
+              <label class="mt-2" for="dex">Dexterity:</label>
+              <input name="dex" type="number" class="form-control" id="dex" placeholder="dex" required>
+            </div>
+            <div class="form-group">
+              <label class="mt-2" for="int">Intelligence:</label>
+              <input name="int" type="number" class="form-control" id="int" placeholder="int" required>
+            </div>
+            <div class="form-group">
+              <label class="mt-2" for="wis">Wisdom:</label>
+              <input name="wis" type="number" class="form-control" id="wis" placeholder="wis" required>
+            </div>
+            <div class="form-group">
+              <label class="mt-2" for="char">Charisma:</label>
+              <input name="char" type="number" class="form-control" id="char" placeholder="char" required>
+            </div>
+
+          </fieldset class="mt-3">
+          <legend>Save Proficiences:</legend>
+            <div class="form-check">
+              <input name="saveProficiencies" class="form-check-input" type="checkbox" value="strSave" id="strSave">
+              <label class="form-check-label" for="strSave">
+                str
+              </label>
+            </div>
+            <div class="form-check">
+              <input name="saveProficiencies" class="form-check-input" type="checkbox" value="dexSave" id="dexSave">
+              <label class="form-check-label" for="Acrobatics">
+                dex
+              </label>
+            </div>
+            <div class="form-check">
+              <input name="saveProficiencies" class="form-check-input" type="checkbox" value="intSave" id="intSave">
+              <label class="form-check-label" for="Acrobatics">
+                int
+              </label>
+            </div>
+            <div class="form-check">
+              <input name="saveProficiencies" class="form-check-input" type="checkbox" value="wisSave" id="wisSave">
+              <label class="form-check-label" for="Acrobatics">
+                wis
+              </label>
+            </div>
+            <div class="form-check">
+              <input name="saveProficiencies" class="form-check-input" type="checkbox" value="charSave" id="charSave">
+              <label class="form-check-label" for="Acrobatics">
+                char
+              </label>
+            </div>
+          <fieldset>
+
+          </fieldset>
+
+          <fieldset class="mt-3">
+            <legend>Proficiences:</legend>
+            <div class="form-check">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Acrobatics" id="Acrobatics">
+              <label class="form-check-label" for="Acrobatics">
+                Acrobatics
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Animal Handling" id="AnimalHandling">
+              <label class="form-check-label" for="AnimalHandling">
+                Animal Handling
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Arcana" id="Arcana">
+              <label class="form-check-label" for="Arcana">
+                Arcana
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Athletics" id="Athletics">
+              <label class="form-check-label" for="Athletics">
+                Athletics
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Deception" id="Deception">
+              <label class="form-check-label" for="Deception">
+                Deception
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="History" id="History">
+              <label class="form-check-label" for="History">
+                History
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Insight" id="Insight">
+              <label class="form-check-label" for="Insight">
+                Insight
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Intimidation" id="Intimidation">
+              <label class="form-check-label" for="Intimidation">
+                Intimidation
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Investigation" id="Investigation">
+              <label class="form-check-label" for="Investigation">
+                Investigation
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Medicine" id="Medicine">
+              <label class="form-check-label" for="Medicine">
+                Medicine
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Nature" id="Nature">
+              <label class="form-check-label" for="Nature">
+                Nature
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Perception" id="Perception">
+              <label class="form-check-label" for="Perception">
+                Perception
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Performance" id="Performance">
+              <label class="form-check-label" for="Performance">
+                Performance
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Persuasion" id="Persuasion">
+              <label class="form-check-label" for="Persuasion">
+                Persuasion
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Religion" id="Religion">
+              <label class="form-check-label" for="Religion">
+                Religion
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Sleight of Hand" id="sleightOfhand">
+              <label class="form-check-label" for="sleightOfHand">
+                Sleight of Hand
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Stealth" id="Stealth">
+              <label class="form-check-label" for="Stealth">
+                Stealth
+              </label>
+            </div>
+            <div class="form-check mt-2">
+              <input name="proficiencies" class="form-check-input" type="checkbox" value="Survival" id="Survival">
+              <label class="form-check-label" for="Survival">
+                Survival
+              </label>
+            </div>
+          </fieldset>
+          <div class="d-flex flex-column">
+            <button class="btn btn-success mt-5" type="submit">Adventure awaits</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 

@@ -5,37 +5,57 @@ const CharacterSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  str: {
+  class: {
+    type: String,
+    required: true,
+  },
+  age: {
     type: Number,
     required: true,
   },
-  dex: {
+  race: {
+    type: String,
+    required: true,
+  },
+  lvl: {
     type: Number,
     required: true,
   },
-  int: {
-    type: Number,
+  gender: {
+    type: String,
     required: true,
   },
-  wis: {
-    type: Number,
-    required: true,
-  },
-  char: {
-    type: Number,
-    required: true,
+  abilities: {
+    type: Object,
+    required: {
+      str: 0,
+      dex: 0,
+      int: 0,
+      wis: 0,
+      char: 0,
+    }
   },
   proficiencies: {
     type: Array,
     default: [],
   },
-  proficiencyBonus: {
-    type: Number,
-    required: true,
+  saveProficiencies: {
+    type: Array,
+    default: [],
   },
   ac: {
     type: Number,
     required: true,
+  },
+  currency: {
+    type: Object,
+    default: {
+      copper: 0,
+      silver: 0,
+      electrum: 0,
+      gold: 0,
+      platinum: 0,
+    },
   },
   game: {
     type: mongoose.Schema.Types.ObjectId,
@@ -46,6 +66,14 @@ const CharacterSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
+  },
+  image: {
+    type: String,
+    require: true,
+  },
+  cloudinaryId: {
+    type: String,
+    require: true,
   },
 });
 

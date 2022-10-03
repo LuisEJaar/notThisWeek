@@ -15,14 +15,14 @@ module.exports = {
       
       if (targetUser.type == "dm") {
         const posts = await Post.find({ user: targetUser.id });
-        res.render("profile.ejs", { visitor: req.user, user: targetUser, posts: posts});
+        res.render("profile.ejs", { visitor: req.user, targetUser: targetUser, posts: posts});
       } else {
         let posts = []
         for (i = 0; i < targetUser.games.length; i++){
           const post = await Post.findById({ _id: targetUser.games[0] })
           posts.push(post)
         }
-        res.render("profile.ejs", { visitor: req.user, user: targetUser, posts: posts});
+        res.render("profile.ejs", { visitor: req.user, targetUser: targetUser, posts: posts});
       }
     } catch (err) {
       console.log(err);
@@ -68,7 +68,7 @@ module.exports = {
         user: req.user.id,
       });
       console.log("Post has been added!");
-      res.redirect("/profile");
+      res.redirect("/userProfile/own");
     } catch (err) {
       console.log(err);
     }
@@ -96,9 +96,9 @@ module.exports = {
       // Delete post from db
       await Post.remove({ _id: req.params.id });
       console.log("Deleted Post");
-      res.redirect("/profile");
+      res.redirect("/userProfile/own");
     } catch (err) {
-      res.redirect("/profile");
+      res.redirect("/userProfile/own");
     }
   },
 };
