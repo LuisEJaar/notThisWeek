@@ -38,6 +38,14 @@ module.exports = {
       console.log(err);
     }
   },
+  getCharacterFeed: async (req, res) => {
+    try {
+      const characters = await Character.find().sort({ createdAt: "desc" }).lean();
+      res.render("characterFeed.ejs", { characters: characters });
+    } catch (err) {
+      console.log(err);
+    }
+  },
   getPost: async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
