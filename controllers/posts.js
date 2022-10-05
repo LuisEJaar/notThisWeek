@@ -1,6 +1,7 @@
 const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/Post");
 const Players = require("../models/UserNTW");
+const Character = require("../models/Character");
 const Encounter = require("../models/Encounter");
 
 module.exports = {
@@ -15,14 +16,15 @@ module.exports = {
       
       if (targetUser.type == "dm") {
         const posts = await Post.find({ user: targetUser.id });
-        res.render("profile.ejs", { visitor: req.user, user: targetUser, posts: posts});
+        res.render("profile.ejs", { visitor: req.user, targetUser: targetUser, posts: posts});
       } else {
         let posts = []
         for (i = 0; i < targetUser.games.length; i++){
           const post = await Post.findById({ _id: targetUser.games[0] })
           posts.push(post)
         }
-        res.render("profile.ejs", { visitor: req.user, user: targetUser, posts: posts});
+        const characters = await Character.find({user: targetUser.id})
+        res.render("profile.ejs", { visitor: req.user, targetUser: targetUser, posts: posts, characters: characters});
       }
     } catch (err) {
       console.log(err);
@@ -42,6 +44,9 @@ module.exports = {
       const players = await Players.find({ type: "player" });
       const party = await Players.find({ games: req.params.id });
       const encounters = await Encounter.find({ post: req.params.id }).sort({ createdAt: "desc" }).lean();
+      const characters = await Character.find({ game: req.params.id })
+      const visitorCharacters = await Character.find({user: req.user.id})
+
       res.render("post.ejs",
         {
           post: post,
@@ -49,6 +54,8 @@ module.exports = {
           players: players,
           party: party,
           encounters: encounters,
+          characters: characters,
+          visitorCharacters: visitorCharacters,
         });
     } catch (err) {
       console.log(err);
@@ -68,7 +75,7 @@ module.exports = {
         user: req.user.id,
       });
       console.log("Post has been added!");
-      res.redirect("/profile");
+      res.redirect("/userProfile/own");
     } catch (err) {
       console.log(err);
     }
@@ -96,9 +103,9 @@ module.exports = {
       // Delete post from db
       await Post.remove({ _id: req.params.id });
       console.log("Deleted Post");
-      res.redirect("/profile");
+      res.redirect("/userProfile/own");
     } catch (err) {
-      res.redirect("/profile");
+      res.redirect("/userProfile/own");
     }
   },
 };

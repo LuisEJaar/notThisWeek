@@ -23,16 +23,16 @@
       <p><%= encounter.description %></p>
     </div>
     <div class="container mt-4">
-        <h3>Players:</h3>
+        <h3>Characters:</h3>
         <% party.forEach(member => {%>
-          <a href="/userProfile/<%= member.id%>" target="_blank" class="btn btn-primary shadow"><%= member.userName%></a>
+          <a href="/character/<%= member.id%>" target="_blank" class="btn btn-primary shadow"><%= member.name%></a>
         <%})%>
-        <h3 class="mt-3">Player Turn:</h3>
+        <h3 class="mt-3">Characters Turn:</h3>
         <% if(encounter.active) {%>
           <% if(encounter.dmTurn) {%>
             <a class="btn btn-primary shadow"> DM </a>
           <%} else {%>
-            <a href="/userProfile/<%= playerTurn.id%>" target="_blank" class="btn btn-primary shadow"><%= playerTurn.userName %></a>
+            <a href="/character/<%= characterTurn.id%>" target="_blank" class="btn btn-primary shadow"><%= characterTurn.name %></a>
           <%}%>
         <%} else {%>
           <span>This encounter has concluded</span>
@@ -44,7 +44,7 @@
 <!--  Action Section-->
 <div class="container mt-5">
   <div class="d-flex flex-column align-items-center">
-  <% if(playerTurn.id == user.id && encounter.active){%>
+  <% if(characterTurn.user == user.id && encounter.active){%>
     <% if(encounter.dmTurn) {%>
       <span>You will be next, the DM is thinking.</span>
     <%} else {%>
@@ -62,11 +62,11 @@
         </form>
       </div>
     <%}%>
-  <%} else if(playerTurn.id != user.id && user.id != encounter.dm && encounter.active) {%>
+  <%} else if(characterTurn.user != user.id && user.id != encounter.dm && encounter.active) {%>
     <% if(encounter.dmTurn){%>
       <span>Please be patient, the DM is thinking.</span>
     <%} else {%>
-      <span>Please be patient, <%= playerTurn.userName %> is thinking. </span> 
+      <span>Please be patient, <%= characterTurn.name %> is thinking. </span> 
     <%}%>
   <%} else if(user.id == encounter.dm && encounter.active) {%>
     <span>Hello God, your will be done:</span>
@@ -101,13 +101,15 @@
     </div>
   <%} else {%>
     <span>This encounter has concluded</span>
-    <form
+    <% if (user.id == encounter.dm) {%>
+      <form
           class="m-3"
           action="/encounter/toggleEncounter/<%= encounter.id %>?_method=PUT"
           method="POST"
         >
           <button class="btn btn-info shadow" type="submit">Re-Open Encounter</button>
       </form>
+    <%}%>
   <%}%>
   <%if(encounter.dm == user.id){ %>
     <!-- Button Deletion Modal -->
@@ -135,7 +137,7 @@
   </div>
 </div>
 
-<!-- Modal Encounter-->
+<!-- Modal Round -->
 <div class="modal fade" id="addRound" tabindex="-1" aria-labelledby="addRoundLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -147,14 +149,11 @@
         <form action="/round/createRound/<%= encounter.id %>/<%= user.id%>" method="POST">
           <!-- Description -->
           <div class="form-group mb-3">
-            <label for="encounterDescription">Encounter Description</label>
+            <label for="encounterDescription">What do you do?</label>
             <textarea type="text" class="form-control" id="encounterDescription" placeholder="Encounter Description" name="description"></textarea>
           </div>
           <button type="submit" class="mx-auto btn btn-primary" value="Upload">Submit</button>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

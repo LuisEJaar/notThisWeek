@@ -1,21 +1,21 @@
 const cloudinary = require("../middleware/cloudinary");
-const Players = require("../models/UserNTW");
 const Encounter = require("../models/Encounter");
 const Rounds = require("../models/Round");
+const Character = require("../models/Character");
 
 module.exports = {
   getEncounter: async (req, res) => {
     try {
       const encounter = await Encounter.findById(req.params.id);
-      const potentialParty = await Players.find({ games: encounter.post });
-      const party = await potentialParty.filter((member) => { 
-        if (encounter.players.indexOf(member._id) != -1) {
+      const potentialParty = await Character.find({ game: encounter.post });
+      const party = await potentialParty.filter((member) => {
+        if (encounter.characters.indexOf(member._id) != -1) {
           return true;
         }
-      })
-      const playerTurn = party[encounter.initiative % party.length];
+      });
+      const characterTurn = party[encounter.initiative % party.length];
       const rounds = await Rounds.find({ encounter: req.params.id }).sort({ createdAt: "desc" }).lean();
-      res.render("encounter.ejs", { encounter: encounter, user: req.user, party: party, playerTurn: playerTurn, rounds: rounds});
+      res.render("encounter.ejs", { encounter: encounter, user: req.user, party: party, characterTurn: characterTurn, rounds: rounds});
     } catch (err) {
       console.log(err);
     }
@@ -39,7 +39,7 @@ module.exports = {
         return array;
       }
 
-      const players = await shuffle(req.body.players);
+      const characters = await shuffle(req.body.characters);
 
       await Encounter.create({
         title: req.body.title,
@@ -50,7 +50,7 @@ module.exports = {
         likes: 0,
         post: req.params.id,
         dm: req.user.id,
-        players: players,
+        characters: characters,
         initiative: 0,
       });
       console.log("Encounter has been added!");
