@@ -35,13 +35,25 @@ const CharacterSchema = new mongoose.Schema({
       char: 0,
     }
   },
-  proficiencies: {
-    type: Array,
-    default: [],
+  skillProficiencies: {
+    type: Object,
+    required: true,
+  },
+  skillModifiers: {
+    type: Object,
+    required: true,
   },
   saveProficiencies: {
-    type: Array,
-    default: [],
+    type: Object,
+    required: true,
+  },
+  saveModifiers: {
+    type: Object,
+    required: true,
+  },
+  checkModifiers: {
+    type: Object,
+    required: true,
   },
   ac: {
     type: Number,

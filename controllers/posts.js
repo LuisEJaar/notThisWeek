@@ -44,6 +44,9 @@ module.exports = {
       const players = await Players.find({ type: "player" });
       const party = await Players.find({ games: req.params.id });
       const encounters = await Encounter.find({ post: req.params.id }).sort({ createdAt: "desc" }).lean();
+      const characters = await Character.find({ game: req.params.id })
+      const visitorCharacters = await Character.find({user: req.user.id})
+
       res.render("post.ejs",
         {
           post: post,
@@ -51,6 +54,8 @@ module.exports = {
           players: players,
           party: party,
           encounters: encounters,
+          characters: characters,
+          visitorCharacters: visitorCharacters,
         });
     } catch (err) {
       console.log(err);

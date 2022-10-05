@@ -35,10 +35,10 @@ const EncounterSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  players: [
+  characters: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Character",
     }
   ],
   createdAt: {

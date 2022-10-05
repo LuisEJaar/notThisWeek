@@ -62,3 +62,11 @@
   width: 300px;
   object-fit: cover;
 }
+
+table {
+  border-spacing: 30px;
+}
+
+td {
+  padding-right: 30px;
+}
