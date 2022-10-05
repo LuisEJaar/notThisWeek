@@ -21,20 +21,25 @@ All accounts can view all games as well as the contact information of the DMs an
 
 ## Roadmap
 
-- [ ] Build in character Models
-  - [ ] Tie Characters to users marked players
-  - [ ] Display character on users page
+- [X] Build in character Models
+  - [X] Tie Characters to users marked players
+  - [X] Display character on users page
   - [ ] Make feed for all user characters
-  - [ ] Incorporate characters into games vs players
+  - [X] Incorporate characters into games vs players
     
 - [ ] Add rolling to the encounters
   - [ ] Rolls to be based upon random d20 & character attributes from sheets
-  - [ ] DM needs option to pass initiative back to character in cases where they need to roll but didn't
+  - [ ] DM needs option to pass initiative back to character
+    - [ ] Flow to be: 
+      - [ ] Character describes desired action
+      - [ ] DM assesses the roll required
+      - [ ] DM passes initiative back to player
+      - [ ] Player rolls 
   - [ ] Rolls to be recorded in encounter flow
    
 - [ ] Add combat to the game
 
-One Off / Improvements:
+One Off necessaries / Improvements:
 - [ ] DM to be able to remove characters / players from a game
 - [ ] DM to be able to edit their games
 - [ ] DM to be able to edit their encounter
