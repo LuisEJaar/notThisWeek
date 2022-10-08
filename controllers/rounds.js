@@ -10,13 +10,15 @@ module.exports = {
       const encounter = await Encounter.findById(req.params.encounterId)
       const dm = await Players.findById(encounter.dm)
       const player = await Players.findById(req.params.playerId);
-      const playerName = player.id == dm.id ? "DM" : player.userName;    
-      
+      const playerCharacter = await Character.findById(req.params.characterId);
+      const playerName = player.id == dm.id ? "DM" : player.userName;
+
       if (req.body.type == "textRound") {
         await Rounds.create({
           description: req.body.description,
           encounter: encounter,
           player: playerName,
+          playerCharacter: playerCharacter.name,
           dm: dm,
           type: "textRound",
         });
@@ -24,13 +26,14 @@ module.exports = {
         await Rounds.create({
           description: "Player roll",
           encounter: encounter,
-          player: playerName,
+          player: "DM",
           dm: dm,
           type: "rollRound",
           rollFor: req.body.rollFor,
           target: req.body.target,
           playerToRoll: player,
           rollCategory: req.body.rollCategory,
+          playerCharacter: playerCharacter.name,
         });
       }
 
@@ -96,7 +99,6 @@ module.exports = {
       console.log(err)
     }
   },
-
   deleteRound: async (req, res) => {
     try {
       await Rounds.remove({ _id: req.params.id });

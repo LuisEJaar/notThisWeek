@@ -133,10 +133,11 @@
     <% rounds.forEach((round)=> {%>
       <div class="card mb-3 shadow">
         <div class="card-header d-flex">
-          <% if(round.player == round.dm){%>
+          <% if(round.player == "DM"){%>
             DM  
           <%} else {%>
-            <%= round.player %>
+            <%= round.playerCharacter %> 
+            (<%= round.player %>)
           <%} %>
           <% if(user.id == encounter.dm && round.type == "textRound") {%>
             <button type="button" class="shadow ms-auto btn btn-warning shadow" data-bs-toggle="modal" data-bs-target="#editRound">
@@ -155,23 +156,25 @@
           <% if(round.type == "textRound") {%>
             <p class="card-text"> <%= round.description %> </p>  
           <%} else if(!round.rolled) {%>
-            <p class="card-text"> <%= round.player %> to roll for <%= round.rollFor %></p>
-            <% if(characterTurn.user == user.id) {%>
+            <p class="card-text"> <%= round.playerCharacter %> to roll for <%= round.rollFor %></p>
+            <%= round.playerToRoll%>
+            <%= user.id %>
+            <% if(round.playerToRoll == user.id) {%>
               <form action="/round/makeRoll/<%= round._id %>/<%= characterTurn.id %>?_method=PUT" method="POST">
                 <button type="submit" class="mx-auto btn btn-primary" value="Upload">Submit</button>
               </form>
             <%}%>
           <%} else {%>
-              <p><%= round.player %> rolled for <%= round.rollFor%>. They had to beat <%= round.target %>, and they rolled <%= round.nat20 ? "NAT 20 SUCKA!!" : round.playerRoll %>!</p>
+              
+              <p><%= round.playerCharacter %> rolled for <%= round.rollFor%>. They had to beat <%= round.target %>, and they rolled <%= round.nat20 ? "NAT 20 SUCKA!!" : round.playerRoll %>!</p>
           <%}%>
-          
         </div>
       </div>
     <%})%>
   </div>
 </div>
 
-<!-- Modal Round -->
+<!-- Modal create Round -->
 <div class="modal fade" id="addRound" tabindex="-1" aria-labelledby="addRoundLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -180,7 +183,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="/round/createRound/<%= encounter.id %>/<%= user.id%>" method="POST">
+        <form action="/round/createRound/<%= encounter.id %>/<%= user.id%>/<%= characterTurn.id %>" method="POST">
           <!-- Description -->
           <div class="form-group mb-3">
             <label for="encounterDescription">What do you do?</label>
@@ -203,7 +206,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="/round/createRound/<%= encounter.id %>/<%= characterTurn.user %>" method="POST">
+        <form action="/round/createRound/<%= encounter.id %>/<%= characterTurn.user %>/<%= characterTurn.id %>" method="POST">
           <!-- Description -->
           <div class="form-group mb-3">
             <label for="encounterDescription"><%= characterTurn.name%> rolls for:</label>
@@ -280,7 +283,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="/round/createRound/<%= encounter.id %>/<%= characterTurn.user %>" method="POST">
+        <form action="/round/createRound/<%= encounter.id %>/<%= characterTurn.user %>/<%= characterTurn.id %>" method="POST">
           <!-- Description -->
           <div class="form-group mb-3">
             <div class="form-check">

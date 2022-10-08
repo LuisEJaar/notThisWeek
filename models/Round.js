@@ -14,8 +14,13 @@ const RoundSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Encounter",
   },
+  //Name of the player
   player:{
       type: String,
+  },
+  //The players character
+  playerCharacter: {
+    type: String,
   },
   playerToRoll:{
     type: mongoose.Schema.Types.ObjectId,
