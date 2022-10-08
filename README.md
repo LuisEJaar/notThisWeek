@@ -24,20 +24,21 @@ All accounts can view all games as well as the contact information of the DMs an
 - [X] Build in character Models
   - [X] Tie Characters to users marked players
   - [X] Display character on users page
-  - [ ] Make feed for all user characters
+  - [X] Make feed for all user characters
   - [X] Incorporate characters into games vs players
     
-- [ ] Add rolling to the encounters
-  - [ ] Rolls to be based upon random d20 & character attributes from sheets
-  - [ ] DM needs option to pass initiative back to character
-    - [ ] Flow to be: 
-      - [ ] Character describes desired action
-      - [ ] DM assesses the roll required
-      - [ ] DM passes initiative back to player
-      - [ ] Player rolls 
-  - [ ] Rolls to be recorded in encounter flow
+- [X] Add rolling to the encounters
+  - [X] Rolls to be based upon random d20 & character attributes from sheets
+  - [X] DM needs option to pass initiative back to character
+    - [X] Flow to be: 
+      - [X] Character describes desired action
+      - [X] DM assesses the roll required
+      - [X] DM passes initiative back to player
+      - [X] Player rolls 
+  - [X] Rolls to be recorded in encounter flow
    
 - [ ] Add combat to the game
+- [ ] Add basic inventory to each player character
 
 One Off necessaries / Improvements:
 - [ ] DM to be able to remove characters / players from a game
@@ -51,6 +52,8 @@ General / vague improvements:
 ## Optimizations
 
 - It feels like I'm making too many calls to my database on the backend and feel there has to be a way to improve this.
+- Convert to React
+- Use something like socket.io to update each players page and eliminate the need for constant refreshing
 
 ## Lessons Learned:
 
