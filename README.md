@@ -27,7 +27,7 @@ All accounts can view all games as well as the contact information of the DMs an
   - [X] Make feed for all user characters
   - [X] Incorporate characters into games vs players
     
-- [X] Add rolling to the encounters
+- [X] Add skill rolling to the encounters
   - [X] Rolls to be based upon random d20 & character attributes from sheets
   - [X] DM needs option to pass initiative back to character
     - [X] Flow to be: 
@@ -36,6 +36,9 @@ All accounts can view all games as well as the contact information of the DMs an
       - [X] DM passes initiative back to player
       - [X] Player rolls 
   - [X] Rolls to be recorded in encounter flow
+  
+- [ ] Add saving throw rolling to the encounters
+- [ ] Add in advantage / disadvantage to rollss
    
 - [ ] Add combat to the game
 - [ ] Add basic inventory to each player character
@@ -45,6 +48,13 @@ One Off necessaries / Improvements:
 - [ ] DM to be able to edit their games
 - [ ] DM to be able to edit their encounter
 - [ ] DM to be able to edit their individual encounter rounds
+
+Cool concepts
+- [ ] The ability to hide / unhide encounters / games
+  - This will allow for DM's to create games / sessions in advance
+- [ ] Ability to copy encounters / games
+  - Long term it would be ideal to be able to make templates that other DM's can copy. 
+    This would allow for new players / dms to try out the game in a structured manner.
 
 General / vague improvements:
 - [ ] General styling update 
