@@ -52,6 +52,10 @@ const RoundSchema = new mongoose.Schema({
   nat20: {
     type: Boolean, 
     default: false,
+  }, 
+  rollCategory: {
+    type: String,
+    required: false,
   }
 });
 

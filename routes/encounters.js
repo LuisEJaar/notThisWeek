@@ -15,7 +15,7 @@ router.put("/progressEncounter/:id", encountersController.progressEncounter);
 
 router.put("/toggleEncounter/:id", encountersController.toggleEncounter);
 
-router.put("/skipDM/:id", encountersController.skipDM);
+router.put("/toggleDm/:id", encountersController.toggleDm);
 
 router.delete("/deleteEncounter/:id", encountersController.deleteEncounter);
 
