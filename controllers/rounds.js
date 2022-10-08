@@ -30,6 +30,7 @@ module.exports = {
           rollFor: req.body.rollFor,
           target: req.body.target,
           playerToRoll: player,
+          rollCategory: req.body.rollCategory,
         });
       }
 
@@ -80,17 +81,16 @@ module.exports = {
       const character = await Character.findById(req.params.characterId);
       const d20 = Math.ceil(Math.random() * 20)
       const round = await Rounds.findById(req.params.roundId);
-      let roll = character.skillModifiers[round.rollFor]
+      let characterModifier = character[round.rollCategory][round.rollFor]
 
       await Rounds.findOneAndUpdate(
         { _id: req.params.roundId },
         {
-          playerRoll: roll + d20,
+          playerRoll: characterModifier + d20,
           rolled: true,
-          nat20: roll == 20,
+          nat20: d20 == 20,
         },
       )
-      
       res.redirect('back');
     } catch (err) {
       console.log(err)

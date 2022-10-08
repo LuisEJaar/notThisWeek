@@ -24,26 +24,38 @@ All accounts can view all games as well as the contact information of the DMs an
 - [X] Build in character Models
   - [X] Tie Characters to users marked players
   - [X] Display character on users page
-  - [ ] Make feed for all user characters
+  - [X] Make feed for all user characters
   - [X] Incorporate characters into games vs players
     
-- [ ] Add rolling to the encounters
-  - [ ] Rolls to be based upon random d20 & character attributes from sheets
-  - [ ] DM needs option to pass initiative back to character
-    - [ ] Flow to be: 
-      - [ ] Character describes desired action
-      - [ ] DM assesses the roll required
-      - [ ] DM passes initiative back to player
-      - [ ] Player rolls 
-  - [ ] Rolls to be recorded in encounter flow
+- [X] Add skill rolling to the encounters
+  - [X] Rolls to be based upon random d20 & character attributes from sheets
+  - [X] DM needs option to pass initiative back to character
+    - [X] Flow to be: 
+      - [X] Character describes desired action
+      - [X] DM assesses the roll required
+      - [X] DM passes initiative back to player
+      - [X] Player rolls 
+  - [X] Rolls to be recorded in encounter flow
+  
+- [X] Add saving throw rolling to the encounters
+- [ ] Add in advantage / disadvantage to rollss
    
 - [ ] Add combat to the game
+- [ ] Add basic inventory to each player character
 
 One Off necessaries / Improvements:
 - [ ] DM to be able to remove characters / players from a game
 - [ ] DM to be able to edit their games
 - [ ] DM to be able to edit their encounter
 - [ ] DM to be able to edit their individual encounter rounds
+- [X] DM to be able to toggle their turn status
+
+Cool concepts
+- [ ] The ability to hide / unhide encounters / games
+  - This will allow for DM's to create games / sessions in advance
+- [ ] Ability to copy encounters / games
+  - Long term it would be ideal to be able to make templates that other DM's can copy. 
+    This would allow for new players / dms to try out the game in a structured manner.
 
 General / vague improvements:
 - [ ] General styling update 
@@ -51,6 +63,8 @@ General / vague improvements:
 ## Optimizations
 
 - It feels like I'm making too many calls to my database on the backend and feel there has to be a way to improve this.
+- Convert to React
+- Use something like socket.io to update each players page and eliminate the need for constant refreshing
 
 ## Lessons Learned:
 

@@ -55,10 +55,17 @@
         </button>
         <form
               class="ms-3"
+              action="/encounter/toggleDm/<%= encounter.id %>?_method=PUT"
+              method="POST"
+            >
+              <button class="btn btn-warning" type="submit">Toggle DM Turn</button>
+        </form>
+        <form
+              class="ms-3"
               action="/encounter/progressEncounter/<%= encounter.id %>?_method=PUT"
               method="POST"
             >
-              <button class="btn btn-warning" type="submit">Pass</button>
+              <button class="btn btn-warning" type="submit">Next Character</button>
         </form>
       </div>
     <%}%>
@@ -71,20 +78,23 @@
   <%} else if(user.id == encounter.dm && encounter.active) {%>
     <span>Hello God, your will be done:</span>
     <div class="d-flex flex-row">
+      <form
+        class="m-3"
+        action="/encounter/toggleDm/<%= encounter.id %>?_method=PUT"
+        method="POST"
+      >
+        <button class="btn btn-warning shadow" type="submit">Toggle DM</button>
+      </form>
       <% if(encounter.dmTurn){%>
         <button type="button" class="btn btn-primary m-3 shadow" data-bs-toggle="modal" data-bs-target="#addRound">
           Add text round
         </button>
-        <button type="button" class="btn btn-primary m-3 shadow" data-bs-toggle="modal" data-bs-target="#addRollRound">
-          Tell character to roll
+        <button type="button" class="btn btn-primary m-3 shadow" data-bs-toggle="modal" data-bs-target="#addSkillRollRound">
+          Skill Check
         </button>
-        <form
-              class="ms-3"
-              action="/encounter/toggleDm/<%= encounter.id %>?_method=PUT"
-              method="POST"
-            >
-              <button class="btn btn-warning" type="submit">Toggle DM Turn</button>
-        </form>
+        <button type="button" class="btn btn-primary m-3 shadow" data-bs-toggle="modal" data-bs-target="#addSaveRollRound">
+          Saving Throw
+        </button>
       <%} else {%>
         <form
             class="m-3"
@@ -192,19 +202,19 @@
   </div>
 </div>
 
-<!-- Modal Roll -->
-<div class="modal fade" id="addRollRound" tabindex="-1" aria-labelledby="addRollRoundLabel" aria-hidden="true">
+<!-- Modal Skill Roll -->
+<div class="modal fade" id="addSkillRollRound" tabindex="-1" aria-labelledby="addSkillRollRoundLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="newRoundLabel">New Roll</h5>
+        <h5 class="modal-title" id="newRoundLabel">Skill roll for <%= characterTurn.name%></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form action="/round/createRound/<%= encounter.id %>/<%= characterTurn.user %>" method="POST">
           <!-- Description -->
           <div class="form-group mb-3">
-            <label for="encounterDescription">Player rolls for:</label>
+            <label for="encounterDescription"><%= characterTurn.name%> rolls for:</label>
             <select class="form-select" aria-label="Default select example" name="rollFor" required>
               <option value="acrobatics">Acrobatics</option>
               <option value="animalHandling">AnimalHandling</option>
@@ -225,7 +235,84 @@
               <option value="stealth">Stealth</option>
               <option value="survival">Survival</option>
             </select>
-            <label for="playerTarget">Player to beat:</label>
+            <label for="playerTarget"><%= characterTurn.name%> to beat:</label>
+            <input required type="number" class="form-control" id="playerTarget" name="target" min="1" max="30"></textarea>
+            <input type="hidden" id="type" name="type" value="rollRound" />
+            <input type="hidden" id="type" name="rollCategory" value="skillModifiers" />
+            <div class="container mt-2">
+              <table>
+                <tr>
+                  <th>Task Difficulty</th>
+                  <th>DC</th>
+                </tr>
+                <tr>
+                  <td>Very Easy</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>Easy</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td>Medium</td>
+                  <td>15</td>
+                </tr>
+                <tr>
+                  <td>Hard</td>
+                  <td>20</td>
+                </tr>
+                <tr>
+                  <td>Very Hard</td>
+                  <td>25</td>
+                </tr>
+                <tr>
+                  <td>Nearly impossible</td>
+                  <td>30</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <button type="submit" class="mx-auto btn btn-primary" value="Upload">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Saving Throw Roll -->
+<div class="modal fade" id="addSaveRollRound" tabindex="-1" aria-labelledby="addSaveRollRoundLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newRoundLabel">Saving Throw / Ability check for <%= characterTurn.name%></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/round/createRound/<%= encounter.id %>/<%= characterTurn.user %>" method="POST">
+          <!-- Description -->
+          <div class="form-group mb-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="rollCategory" value="saveModifiers" id="savingThrow">
+              <label class="form-check-label" for="savingThrow">
+                Saving Throw
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="rollCategory" value="checkModifiers" id="abilityCheck" checked>
+              <label class="form-check-label" for="abilityCheck">
+                Check
+              </label>
+            </div>
+            <label for="encounterDescription"><%= characterTurn.name%> rolls for:</label>
+            <select class="form-select" aria-label="Default select example" name="rollFor" required>
+              <option value="str">Strength</option>
+              <option value="dex">Dexterity</option>
+              <option value="con">Constitution</option>
+              <option value="int">Intelligence</option>
+              <option value="wis">Wisdom</option>
+              <option value="char">Charisma</option>
+            </select>
+            <label for="playerTarget"><%= characterTurn.name%> to beat:</label>
             <input required type="number" class="form-control" id="playerTarget" name="target" min="1" max="30"></textarea>
             <input type="hidden" id="type" name="type" value="rollRound" />
             <div class="container mt-2">
