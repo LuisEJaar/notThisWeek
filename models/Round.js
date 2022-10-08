@@ -14,11 +14,13 @@ const RoundSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Encounter",
   },
-  player:
-    {
+  player:{
       type: String,
-    }
-  ,
+  },
+  playerToRoll:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "UserNTW",
+  },
   dm: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "UserNTW",
@@ -27,6 +29,30 @@ const RoundSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  rolled: {
+    type: Boolean,
+    default: false,
+  },
+  target: {
+    type: Number,
+    required: false,
+  },
+  playerRoll: {
+    type: Number,
+    required: false,
+  },
+  type: {
+    type: String,
+    required: false,
+  },
+  rollFor: {
+    type: String,
+    required: false,
+  },
+  nat20: {
+    type: Boolean, 
+    default: false,
+  }
 });
 
 module.exports = mongoose.model("Round", RoundSchema);

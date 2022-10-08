@@ -2,39 +2,43 @@ const cloudinary = require("../middleware/cloudinary");
 const Players = require("../models/UserNTW");
 const Encounter = require("../models/Encounter");
 const Rounds = require("../models/Round");
+const Character = require("../models/Character");
 
 module.exports = {
   createRound: async (req, res) => {
-    console.log('here')
     try {
       const encounter = await Encounter.findById(req.params.encounterId)
-      const player = await Players.findById(req.params.playerId);
       const dm = await Players.findById(encounter.dm)
+      const player = await Players.findById(req.params.playerId);
+      const playerName = player.id == dm.id ? "DM" : player.userName;    
       
-      const playerName = player.id == dm.id ? "DM" : player.userName;
-
-      await Rounds.create({
-        description: req.body.description,
-        encounter: encounter,
-        player: playerName,
-        dm: dm,
-      });
-
-      if (encounter.dm != req.params.playerId) {
-
-        await Encounter.findOneAndUpdate(
-          { _id: req.params.encounterId },
-          {
-            $inc: { initiative: 1 },
-          }
-        );
-        console.log("Initiative +1");
-        console.log("A peasant prays")
-        encounter.dmTurn = true;
-        await encounter.save()
+      if (req.body.type == "textRound") {
+        await Rounds.create({
+          description: req.body.description,
+          encounter: encounter,
+          player: playerName,
+          dm: dm,
+          type: "textRound",
+        });
       } else {
+        await Rounds.create({
+          description: "Player roll",
+          encounter: encounter,
+          player: playerName,
+          dm: dm,
+          type: "rollRound",
+          rollFor: req.body.rollFor,
+          target: req.body.target,
+          playerToRoll: player,
+        });
+      }
+
+      if (encounter.dm == req.params.playerId) {
         console.log("God has spoken")
         encounter.dmTurn = false;
+        await encounter.save()
+      } else {
+        encounter.dmTurn = true;
         await encounter.save()
       }
       
@@ -58,6 +62,28 @@ module.exports = {
       console.log(err);
     }
   },
+  makeRoll: async (req, res) => {
+    try {
+      const character = await Character.findById(req.params.characterId);
+      const d20 = Math.ceil(Math.random() * 20)
+      const round = await Rounds.findById(req.params.roundId);
+      let roll = character.skillModifiers[round.rollFor]
+
+      await Rounds.findOneAndUpdate(
+        { _id: req.params.roundId },
+        {
+          playerRoll: roll + d20,
+          rolled: true,
+          nat20: roll == 20,
+        },
+      )
+      
+      res.redirect('back');
+    } catch (err) {
+      console.log(err)
+    }
+  },
+
   deleteRound: async (req, res) => {
     try {
       // Find encounter by id
