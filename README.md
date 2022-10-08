@@ -37,7 +37,7 @@ All accounts can view all games as well as the contact information of the DMs an
       - [X] Player rolls 
   - [X] Rolls to be recorded in encounter flow
   
-- [ ] Add saving throw rolling to the encounters
+- [X] Add saving throw rolling to the encounters
 - [ ] Add in advantage / disadvantage to rollss
    
 - [ ] Add combat to the game
@@ -48,6 +48,7 @@ One Off necessaries / Improvements:
 - [ ] DM to be able to edit their games
 - [ ] DM to be able to edit their encounter
 - [ ] DM to be able to edit their individual encounter rounds
+- [X] DM to be able to toggle their turn status
 
 Cool concepts
 - [ ] The ability to hide / unhide encounters / games
