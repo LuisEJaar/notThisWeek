@@ -50,7 +50,7 @@ module.exports = {
   },
   likeRound: async (req, res) => {
     try {
-      await Encounter.findOneAndUpdate(
+      await Rounds.findOneAndUpdate(
         { _id: req.params.id },
         {
           $inc: { likes: 1 },
@@ -60,6 +60,19 @@ module.exports = {
       res.redirect(`/encounter/${req.params.id}`);
     } catch (err) {
       console.log(err);
+    }
+  },
+  editRound: async (req, res) => {
+    try {
+      await Rounds.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          description: req.body.description,
+        },
+      )
+      res.redirect('back');
+    } catch (err) {
+      console.log(err)
     }
   },
   makeRoll: async (req, res) => {
@@ -86,16 +99,11 @@ module.exports = {
 
   deleteRound: async (req, res) => {
     try {
-      // Find encounter by id
-      let encounter = await Encounter.findById({ _id: req.params.id });
-      // Delete image from cloudinary
-      await cloudinary.uploader.destroy(encounter.cloudinaryId);
-      // Delete post from db
-      await Encounter.remove({ _id: req.params.id });
-      console.log("Deleted Encounter");
-      res.redirect("/profile");
+      await Rounds.remove({ _id: req.params.id });
+      console.log("Deleted Round");
+      res.redirect("back");
     } catch (err) {
-      res.redirect("/profile");
+      res.redirect("back");
     }
   },
 };

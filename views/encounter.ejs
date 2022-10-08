@@ -79,11 +79,11 @@
           Tell character to roll
         </button>
         <form
-              class="m-3"
-              action="/encounter/skipDM/<%= encounter.id %>?_method=PUT"
+              class="ms-3"
+              action="/encounter/toggleDm/<%= encounter.id %>?_method=PUT"
               method="POST"
             >
-              <button class="btn btn-warning shadow" type="submit">Pass / End Turn</button>
+              <button class="btn btn-warning" type="submit">Toggle DM Turn</button>
         </form>
       <%} else {%>
         <form
@@ -130,12 +130,24 @@
   <div class="container mt-3">
     <% rounds.forEach((round)=> {%>
       <div class="card mb-3 shadow">
-        <div class="card-header">
+        <div class="card-header d-flex">
           <% if(round.player == round.dm){%>
             DM  
           <%} else {%>
             <%= round.player %>
           <%} %>
+          <% if(user.id == encounter.dm && round.type == "textRound") {%>
+            <button type="button" class="shadow ms-auto btn btn-warning shadow" data-bs-toggle="modal" data-bs-target="#editRound">
+              Edit Round
+            </button>
+            <%- include('partials/editRound', {round: round}) -%>
+          <%}%>
+          <% if(user.id == encounter.dm) {%>
+            <button type="button" class="shadow ms-auto btn btn-danger shadow" data-bs-toggle="modal" data-bs-target="#deleteRound">
+              Delete Round
+            </button>
+            <%- include('partials/deleteRound', {round: round}) -%>
+          <%}%>
         </div> 
         <div class="card-body">
           <% if(round.type == "textRound") {%>
@@ -148,7 +160,6 @@
               </form>
             <%}%>
           <%} else {%>
-
               <p><%= round.player %> rolled for <%= round.rollFor%>. They had to beat <%= round.target %>, and they rolled <%= round.nat20 ? "NAT 20 SUCKA!!" : round.playerRoll %>!</p>
           <%}%>
           
@@ -275,7 +286,6 @@
           method="POST"
           class=""
         >
-        <input type="hidden" id="type" name="type" value="textRound" />
         <button class="btn btn-danger" type="submit">Do it</button>
         </form>
       </div>
