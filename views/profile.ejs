@@ -56,12 +56,12 @@
       </ul>
     </div>
     <div class="mt-3">
-      <% if(visitor.id != targetUser.id){%>
+      <% if(visitor.id != targetUser.id && targetUser.type != 'dm'){%>
         <h2>Player <%= targetUser.userName %>'s Characters:</h2> 
-      <%} else if (visitor.type != "dm") {%>
+      <%} else if (targetUser.type != 'dm') {%>
         <h2>Your Characters:</h2>  
       <%}%>
-      <% if(visitor.type != "dm") {%>
+      <% if(targetUser.type != 'dm') {%>
         <ul class="row list-unstyled">
           <% for(var i=0; i < characters.length; i++) {%>
             <li class="justify-content-between mt-3">

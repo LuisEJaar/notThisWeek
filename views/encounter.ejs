@@ -60,13 +60,6 @@
             >
               <button class="btn btn-warning" type="submit">Toggle DM Turn</button>
         </form>
-        <form
-              class="ms-3"
-              action="/encounter/progressEncounter/<%= encounter.id %>?_method=PUT"
-              method="POST"
-            >
-              <button class="btn btn-warning" type="submit">Next Character</button>
-        </form>
       </div>
     <%}%>
   <%} else if(characterTurn.user != user.id && user.id != encounter.dm && encounter.active) {%>
@@ -95,13 +88,12 @@
         <button type="button" class="btn btn-primary m-3 shadow" data-bs-toggle="modal" data-bs-target="#addSaveRollRound">
           Saving Throw
         </button>
-      <%} else {%>
         <form
-            class="m-3"
-            action="/encounter/progressEncounter/<%= encounter.id %>?_method=PUT"
-            method="POST"
-          >
-            <button class="btn btn-warning shadow" type="submit">Skip player</button>
+          class="m-3"
+          action="/encounter/progressEncounter/<%= encounter.id %>?_method=PUT"
+          method="POST"
+        >
+          <button class="btn btn-warning" type="submit">Next Character</button>
         </form>
       <%} %> 
     </div>
