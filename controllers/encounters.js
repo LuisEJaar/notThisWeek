@@ -99,10 +99,10 @@ module.exports = {
       console.log(err);
     }
   },
-  skipDM: async (req, res) => {
+  toggleDm: async (req, res) => {
     try {
       let encounter = await Encounter.findOne({ _id: req.params.id })
-      encounter.dmTurn = false;
+      encounter.dmTurn = !encounter.dmTurn;
       await encounter.save()
 
       console.log(`dmTurn set to: ${encounter.active}`);
