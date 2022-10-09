@@ -157,15 +157,12 @@
             <p class="card-text"> <%= round.description %> </p>  
           <%} else if(!round.rolled) {%>
             <p class="card-text"> <%= round.playerCharacter %> to roll for <%= round.rollFor %></p>
-            <%= round.playerToRoll%>
-            <%= user.id %>
             <% if(round.playerToRoll == user.id) {%>
               <form action="/round/makeRoll/<%= round._id %>/<%= characterTurn.id %>?_method=PUT" method="POST">
                 <button type="submit" class="mx-auto btn btn-primary" value="Upload">Submit</button>
               </form>
             <%}%>
           <%} else {%>
-              
               <p><%= round.playerCharacter %> rolled for <%= round.rollFor%>. They had to beat <%= round.target %>, and they rolled <%= round.nat20 ? "NAT 20 SUCKA!!" : round.playerRoll %>!</p>
           <%}%>
         </div>
