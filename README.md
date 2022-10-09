@@ -56,6 +56,10 @@ Cool concepts
 - [ ] Ability to copy encounters / games
   - Long term it would be ideal to be able to make templates that other DM's can copy. 
     This would allow for new players / dms to try out the game in a structured manner.
+- [ ] Make encounters able to intentionally only open / visible for players who were members
+  - Allows for "hidden" information
+- [ ] Make rounds able to intentionally only visible for players who were members
+  - Allows for "hidden" information
 
 General / vague improvements:
 - [ ] General styling update 
