@@ -1,104 +1,70 @@
-# Not This Week
-This project was born from my experience of our DND group failing to meet up due to scheduling conflicts. I decided to make a text-based adventure app so that we could keep the story going.
+# Getting Started with Create React App
 
-A DM account can create games and add players / descriptions to those games. Games can then be given non-combat encounters which will be given randomized initiative orders based on the players included in the current encounter. The encounter will display whose turn it is as well as give players and the DM unique prompts based on if their turn has come. On each players turn they can pass or take an action which they describe in text. The DM can end the encounter, skip players, add comments etc.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Player account profiles show the games that their account has been added to.
+## Available Scripts
 
-All accounts can view all games as well as the contact information of the DMs and players in those games.
+In the project directory, you can run:
 
-**Link to project:** https://notthisweek.herokuapp.com/
+### `npm start`
 
-<p align="center">
-  <a target="_blank" href="https://notthisweek.herokuapp.com/">
-    <img src="https://github.com/LuisEJaar/luisEJaar/blob/main/notThisWeek.gif" height="500px" alt="Not This Week Site"/>
-  </a>
-</p>
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## How It's Made:
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-**Tech used:** HTML, CSS, JavaScript, Node.js, Express, Passport, MVC, Flash, Cloudinary, Heroku, MongoDB
+### `npm test`
 
-## Roadmap
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-- [X] Build in character Models
-  - [X] Tie Characters to users marked players
-  - [X] Display character on users page
-  - [X] Make feed for all user characters
-  - [X] Incorporate characters into games vs players
-    
-- [X] Add skill rolling to the encounters
-  - [X] Rolls to be based upon random d20 & character attributes from sheets
-  - [X] DM needs option to pass initiative back to character
-    - [X] Flow to be: 
-      - [X] Character describes desired action
-      - [X] DM assesses the roll required
-      - [X] DM passes initiative back to player
-      - [X] Player rolls 
-  - [X] Rolls to be recorded in encounter flow
-  
-- [X] Add saving throw rolling to the encounters
-- [ ] Add in advantage / disadvantage to rollss
-   
-- [ ] Add combat to the game
-- [ ] Add basic inventory to each player character
+### `npm run build`
 
-One Off necessaries / Improvements:
-- [ ] DM to be able to remove characters / players from a game
-- [ ] DM to be able to edit their games
-- [ ] DM to be able to edit their encounter
-- [ ] DM to be able to edit their individual encounter rounds
-- [X] DM to be able to toggle their turn status
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-Cool concepts
-- [ ] The ability to hide / unhide encounters / games
-  - This will allow for DM's to create games / sessions in advance
-- [ ] Ability to copy encounters / games
-  - Long term it would be ideal to be able to make templates that other DM's can copy. 
-    This would allow for new players / dms to try out the game in a structured manner.
-- [ ] Make encounters able to intentionally only open / visible for players who were members
-  - Allows for "hidden" information
-- [ ] Make rounds able to intentionally only visible for players who were members
-  - Allows for "hidden" information
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-General / vague improvements:
-- [ ] General styling update 
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## Optimizations
+### `npm run eject`
 
-- It feels like I'm making too many calls to my database on the backend and feel there has to be a way to improve this.
-- Convert to React
-- Use something like socket.io to update each players page and eliminate the need for constant refreshing
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-## Lessons Learned:
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-- Got some good practice with MVC workflow
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-# Install
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-`npm install`
+## Learn More
 
----
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-# Things to add
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-- Create a `.env` file in config folder and add the following as `key = value`
-  - PORT = 2121 (can be any port example: 3000)
-  - DB_STRING = `your database URI`
-  - CLOUD_NAME = `your cloudinary cloud name`
-  - API_KEY = `your cloudinary api key`
-  - API_SECRET = `your cloudinary api secret`
+### Code Splitting
 
----
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-# Run
+### Analyzing the Bundle Size
 
-`npm start`
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-Attributes: 
+### Making a Progressive Web App
 
-Favicon:
-<a href="https://www.flaticon.com/free-icons/dice" title="dice icons">Dice icons created by Freepik - Flaticon</a>
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-Front Page Image:
-Image by <a href="https://www.freepik.com/free-photo/still-life-objects-with-role-playing-game-sheet_24749859.htm#query=dnd&position=2&from_view=search">Freepik</a>
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

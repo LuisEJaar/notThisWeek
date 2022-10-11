@@ -1,0 +1,231 @@
+<%- include('partials/header') -%>
+<div class="container">
+  <div class="mt-2">
+    <span>This game brought to you by:</span>
+    <a class="btn btn-primary shadow" href="/userProfile/<%= post.user%>">DM Profile</a>
+  </div>
+  <div class="mt-5">
+      <h2>Game Title:</h2>
+      <h3><%= post.title %></h3>
+      <img class="mx-auto img-fluid shadow rounded currentEncounterGameImage" src="<%= post.image%>" />
+      <div class="d-flex m-2">
+        <form
+          action="/post/likePost/<%= post.id %>?_method=PUT"
+          method="POST"
+          class="m-2"
+        >
+          <button class="btn btn-primary fa fa-heart shadow" type="submit"></button>
+        </form>
+        <h3 class="m-2">Likes: <%= post.likes %></h3>
+      </div>
+    <div>
+      <h3>Description:</h3>
+      <p><%= post.caption %></p>
+    </div>
+    <div>
+      <h3>Current Players:</h3>
+      <% if(party.length > 0){%>
+        <% party.forEach(member => {%>
+          <a class="btn btn-primary shadow" target="_blank" href="/userProfile/<%= member.id%>"><%= member.userName%></a>
+        <%})%> 
+      <%} else {%>
+        <span>Gather ye party!</span>  
+      <%}%>
+    </div>
+    <div class="mt-2">
+      <h3>Player Characters:</h3>
+      <% if(characters.length > 0){%>
+        <% characters.forEach(character => {%>
+          <a class="btn btn-primary shadow" target="_blank" href="/character/<%= character.id%>"><%= character.name%></a>
+        <%})%> 
+      <%} else {%>
+        <span>Gather ye party!</span>  
+      <%}%>
+    </div>
+  </div>
+</div>
+<div class="container mt-5">
+  <!-- Player Tools -->
+  <% if(party.find((member) => member.id == user.id )) {%>
+    <% if(characters.find((character) => character.user == user.id )) {%>
+      <span>Your character is in the game</span>
+    <%} else {%>
+      <button type="button" class="shadow ms-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCharacter">
+        Add Character
+      </button>
+    <%}%>
+  <%}%>
+</div>
+<div class="container mt-5">
+  <div class="d-flex justify-content-center mb-3">
+  <!-- DM Tools -->
+  <% if(user.id == post.user){%>
+    <button type="button" class="shadow btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEncounter">
+      Add encounter
+    </button>
+    <button type="button" class="shadow ms-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPlayer">
+      Add player
+    </button>
+    <!-- Button Deletion Modal -->
+    <button type="button" class="shadow ms-3 btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteGame">
+      Delete Game
+    </button>
+  <%} %>
+  </div>
+  <h2>Game Encounters:</h2>
+  <span class="badge badge-primary">Active</span>
+  <div class="encounterContainer">
+    <% if(encounters.length > 0){%>
+        <% encounters.forEach(encounter => {%>
+            <div class="encounterContained shadow card mb-3 text-white <%= encounter.active ? "bg-success" : "bg-secondary" %>" style="width: 18rem;">
+              <% if(encounter.active){%>
+                <span class="badge bg-primary">Active</span>
+              <%} else {%>
+                <span class="badge bg-secondary">Archived</span>
+              <%} %>
+              <img src="<%= encounter.image%>" class="encounterPicture card-img-top" alt="encounter image">
+              <div class="card-body">
+                <h5 class="card-title">Title</h5>
+                <p class="card-text"><%= encounter.title%></p>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Location</h5>
+                <p class="card-text"><%= encounter.location%></p>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Description</h5>
+                <p class="card-text"><%= encounter.description%></p>
+              </div>
+              <div class="card-body">
+                <a href="/encounter/<%=encounter._id%>" class="text-white">Open Encounter</a>
+              </div>
+            </div>
+        <%})%> 
+    <%} else {%>
+      <span>Adventure awaits!</span>  
+    <%}%>
+  </div>
+</div>
+
+<!-- Modal Encounter-->
+<div class="modal fade" id="addEncounter" tabindex="-1" aria-labelledby="addEncounterLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newEncounterLabel">New Encounter</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/encounter/createEncounter/<%= post.id %>" enctype="multipart/form-data" method="POST">
+          <!-- Title -->
+          <div class="form-group mb-3">
+            <label for="encounterTitle">Title</label>
+            <input type="text" class="form-control" id="encounterTitle" placeholder="Enounter Title" name="title">
+          </div>
+          <!-- Location -->
+          <div class="form-group mb-3">
+            <label for="encounterLocation">Encounter Location</label>
+            <input type="text" class="form-control" id="encounterLocation" placeholder="Encounter Location" name="location">
+          </div>
+          <!-- Description -->
+          <div class="form-group mb-3">
+            <label for="encounterDescription">Encounter Description</label>
+            <textarea type="text" class="form-control" id="encounterDescription" placeholder="Encounter Description" name="description"></textarea>
+          </div>
+          <!-- Image -->
+          <div class="form-group mb-3">
+            <label for="imgUpload" class="form-label">Image</label>
+            <input type="file" class="form-control" id="imageUpload" name="file">
+          </div>
+          <!-- Players -->
+          <label class="mb-3">Party Members:</label>
+          <% if(characters.length > 0){%>
+            <% characters.forEach(character => {%>
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="<%= character.id%>" id="<%= character.id%>" name="characters">
+                <label class="form-check-label" for="<%= character.id%>">
+                  <%= character.name%>
+                </label>
+              </div>
+            <%})%> 
+          <%} else {%>
+            <span>Gather ye party!</span>  
+          <%}%>
+          <button type="submit" class="mx-auto btn btn-primary" value="Upload">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Player-->
+<div class="modal fade" id="addPlayer" tabindex="-1" aria-labelledby="addPlayerLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newPlayerLabel">Player to add</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/player/addGame/<%= post.id %>?_method=PUT" method="POST">
+          <label for="playerList" class="form-label">Player List</label>
+          <select class="form-control" name="playerId" id="playerList">
+            <option value="">Warriors! Come out to playeeyay</option>
+            <% players.forEach(player => {%>
+              <option value="<%= player.id%>"><%= player.userName%></option>
+            <%})%>
+          </select>
+          <button type="submit" class="mt-2 btn btn-primary">Add to party</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Character-->
+<div class="modal fade" id="addCharacter" tabindex="-1" aria-labelledby="addCharacterLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newCharacterLabel">Character to add</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/character/addGame/<%= post.id %>?_method=PUT" method="POST">
+          <label for="playerList" class="form-label">Character List</label>
+          <select class="form-control" name="characterId" id="characterList">
+            <option value="">Warriors! Come out to playeeyay</option>
+            <% visitorCharacters.forEach(visitorCharacter => {%>
+              <option value="<%= visitorCharacter.id%>"><%= visitorCharacter.name%></option>
+            <%})%>
+          </select>
+          <button type="submit" class="mt-2 btn btn-primary">Add to party</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Game -->
+<div class="modal fade" id="deleteGame" tabindex="-1" aria-labelledby="deleteGameLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteGameLabel">Warning!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Game deletion cannot be undone, you're condemning your world to fantasy death!
+      </div>
+      <div class="modal-footer">
+        <form
+          action="/post/deletePost/<%= post.id %>?_method=DELETE"
+          method="POST"
+        >
+        <button class="btn btn-danger" type="submit">Do it</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('partials/footer') -%>
