@@ -8,15 +8,22 @@ module.exports = {
   getUserProfile: async (req, res) => {
     try {
       let targetUser
+      console.log(req.params.id)
+      console.log(req.user.id)
       if (req.params.id != "own") {
         targetUser = await Players.findById({ _id: req.params.id });
       } else {
         targetUser = await Players.findById({ _id: req.user.id });
       }
-      
       if (targetUser.type == "dm") {
+        
         const posts = await Post.find({ user: targetUser.id });
-        res.render("profile.ejs", { visitor: req.user, targetUser: targetUser, posts: posts});
+        
+        // res.render("profile", { visitor: req.user, targetUser: targetUser, posts: posts });
+        
+        res.json({ visitor: req.user, targetUser: targetUser, posts: posts });
+        // console.log('her2')
+        // res.json({message: "hello"});
       } else {
         let posts = []
         for (i = 0; i < targetUser.games.length; i++){
@@ -24,7 +31,7 @@ module.exports = {
           posts.push(post)
         }
         const characters = await Character.find({user: targetUser.id})
-        res.render("profile.ejs", { visitor: req.user, targetUser: targetUser, posts: posts, characters: characters});
+        res.render("profile.js", { visitor: req.user, targetUser: targetUser, posts: posts, characters: characters});
       }
     } catch (err) {
       console.log(err);

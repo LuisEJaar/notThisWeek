@@ -67,10 +67,6 @@ app.use("/encounter", encounterRoutes);
 app.use("/round", roundRoutes);
 app.use("/character", characterRoutes);
 
-app.get("/api", (req, res) => {
-  res.json({ message: "Are you sure?" });
-});
-
 //Server Running
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
