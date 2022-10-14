@@ -39,7 +39,7 @@ export default function Header({page}) {
           {page === "else" &&
             <>
               <NavLink to="/characterFeed" className="btn btn-outline-primary ms-auto " >See all characters</NavLink>
-              <NavLink to="/feed" className="btn btn-outline-primary ms-1 " >See all games</NavLink>
+              <NavLink to="/gameFeed" className="btn btn-outline-primary ms-1 " >See all games</NavLink>
               <NavLink to="/logout" className="btn btn-outline-light ms-3">Logout</NavLink>
             </>
           }

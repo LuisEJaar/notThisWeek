@@ -18,12 +18,8 @@ module.exports = {
       if (targetUser.type == "dm") {
         
         const posts = await Post.find({ user: targetUser.id });
-        
-        // res.render("profile", { visitor: req.user, targetUser: targetUser, posts: posts });
-        
         res.json({ visitor: req.user, targetUser: targetUser, posts: posts });
-        // console.log('her2')
-        // res.json({message: "hello"});
+
       } else {
         let posts = []
         for (i = 0; i < targetUser.games.length; i++){
@@ -31,7 +27,7 @@ module.exports = {
           posts.push(post)
         }
         const characters = await Character.find({user: targetUser.id})
-        res.render("profile.js", { visitor: req.user, targetUser: targetUser, posts: posts, characters: characters});
+        res.json({ visitor: req.user, targetUser: targetUser, posts: posts, characters: characters});
       }
     } catch (err) {
       console.log(err);
@@ -40,7 +36,7 @@ module.exports = {
   getFeed: async (req, res) => {
     try {
       const posts = await Post.find().sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { posts: posts });
+      res.json({ posts: posts });
     } catch (err) {
       console.log(err);
     }
@@ -48,7 +44,7 @@ module.exports = {
   getCharacterFeed: async (req, res) => {
     try {
       const characters = await Character.find().sort({ createdAt: "desc" }).lean();
-      res.render("characterFeed.ejs", { characters: characters });
+      res.json({ characters: characters });
     } catch (err) {
       console.log(err);
     }
@@ -62,7 +58,7 @@ module.exports = {
       const characters = await Character.find({ game: req.params.id })
       const visitorCharacters = await Character.find({user: req.user.id})
 
-      res.render("post.ejs",
+      res.json(
         {
           post: post,
           user: req.user,
