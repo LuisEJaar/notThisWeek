@@ -15,7 +15,7 @@ module.exports = {
       });
       const characterTurn = party[encounter.initiative % party.length];
       const rounds = await Rounds.find({ encounter: req.params.id }).sort({ createdAt: "desc" }).lean();
-      res.render("encounter.ejs", { encounter: encounter, user: req.user, party: party, characterTurn: characterTurn, rounds: rounds});
+      res.json({ encounter: encounter, user: req.user, party: party, characterTurn: characterTurn, rounds: rounds});
     } catch (err) {
       console.log(err);
     }

@@ -105,7 +105,7 @@ export default function Game() {
           {data.party.find((member) => member.id === data.user.id) && data.characters.find((character) => character.user === data.user.id ) &&
             <span>Your character is in the game</span>
           }
-          {(data.party.find((member) => member.id === data.user.id) && !data.characters.find((character) => character.user === data.user.id) && data.user.type != "dm")  &&
+          {(data.party.find((member) => member.id === data.user.id) && !data.characters.find((character) => character.user === data.user.id) && data.user.type !== "dm")  &&
             <button type="button" className="shadow ms-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCharacter">
             Add Character
           </button>

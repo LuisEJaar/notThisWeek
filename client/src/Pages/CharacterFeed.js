@@ -30,7 +30,7 @@ export default function CharacterFeed() {
               return (
               <div key={character._id} className="col-md-6 col-lg-3 d-flex justify-content-center">
                   <div className="card gameDisplay" style={{ width: 18 + 'rem' }}>
-                  <Link to={`/post/${character._id}`}>
+                  <Link to={`/character/${character._id}`}>
                       <img alt="character" className="gamePicture card-img-top" src={character.image}/>
                     </Link>
                     <div className="card-body">

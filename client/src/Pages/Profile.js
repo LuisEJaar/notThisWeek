@@ -86,8 +86,10 @@ export default function Profile() {
               <h2>Player { data.targetUser.userName }'s Characters:</h2>
             }
             {(data.visitor._id===data.targetUser._id && data.targetUser.type !=='dm') && 
-              <>
                 <h2>Your Characters:</h2>
+              }
+              { data.targetUser.type !=='dm' &&
+                <>
                 <ul className="row list-unstyled">
                 {data.characters.map((character) => {
                   return (  
@@ -102,8 +104,8 @@ export default function Profile() {
                     )
                   })}
                 </ul>
-              </>
-            }
+                </>
+              }
           </div>   
         </div>
       </div>
