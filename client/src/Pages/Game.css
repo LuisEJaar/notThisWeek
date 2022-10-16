@@ -1,0 +1,37 @@
+.encounterContainer {
+  border: 2px solid grey;
+  border-radius: 5px;
+  padding: 5px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  position: relative;
+  height: 550px;
+  white-space: nowrap;
+  box-shadow: 10px 5px 5px grey;
+  margin-bottom: 1rem;
+}
+
+.encounterContained {
+  display: inline-block;
+  margin: 5px;
+}
+
+.encounterContained p {
+  overflow: hidden;
+  white-space: nowrap; 
+  text-overflow: ellipsis;
+  width: 90%;
+}
+
+.encounterContained .badge {
+  position: absolute;
+  top: 0.5%;
+  left: 0.5%;
+  z-index: 2;
+}
+
+.encounterPicture {
+  height: 180px;
+  width: 100%;
+  object-fit: cover;
+}

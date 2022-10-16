@@ -109,7 +109,7 @@ module.exports = {
   getCharacter: async (req, res) => {
     try {
       const character = await Character.findById(req.params.id);
-      res.render("character.ejs",
+      res.json(
         {
           user: req.user,
           character: character,

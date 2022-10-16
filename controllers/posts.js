@@ -8,15 +8,18 @@ module.exports = {
   getUserProfile: async (req, res) => {
     try {
       let targetUser
+      console.log(req.params.id)
+      console.log(req.user.id)
       if (req.params.id != "own") {
         targetUser = await Players.findById({ _id: req.params.id });
       } else {
         targetUser = await Players.findById({ _id: req.user.id });
       }
-      
       if (targetUser.type == "dm") {
+        
         const posts = await Post.find({ user: targetUser.id });
-        res.render("profile.ejs", { visitor: req.user, targetUser: targetUser, posts: posts});
+        res.json({ visitor: req.user, targetUser: targetUser, posts: posts });
+
       } else {
         let posts = []
         for (i = 0; i < targetUser.games.length; i++){
@@ -24,7 +27,7 @@ module.exports = {
           posts.push(post)
         }
         const characters = await Character.find({user: targetUser.id})
-        res.render("profile.ejs", { visitor: req.user, targetUser: targetUser, posts: posts, characters: characters});
+        res.json({ visitor: req.user, targetUser: targetUser, posts: posts, characters: characters});
       }
     } catch (err) {
       console.log(err);
@@ -33,7 +36,7 @@ module.exports = {
   getFeed: async (req, res) => {
     try {
       const posts = await Post.find().sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { posts: posts });
+      res.json({ posts: posts });
     } catch (err) {
       console.log(err);
     }
@@ -41,7 +44,7 @@ module.exports = {
   getCharacterFeed: async (req, res) => {
     try {
       const characters = await Character.find().sort({ createdAt: "desc" }).lean();
-      res.render("characterFeed.ejs", { characters: characters });
+      res.json({ characters: characters });
     } catch (err) {
       console.log(err);
     }
@@ -55,7 +58,7 @@ module.exports = {
       const characters = await Character.find({ game: req.params.id })
       const visitorCharacters = await Character.find({user: req.user.id})
 
-      res.render("post.ejs",
+      res.json(
         {
           post: post,
           user: req.user,
@@ -89,6 +92,7 @@ module.exports = {
     }
   },
   likePost: async (req, res) => {
+    console.log("likeRoute")
     try {
       await Post.findOneAndUpdate(
         { _id: req.params.id },
@@ -96,8 +100,8 @@ module.exports = {
           $inc: { likes: 1 },
         }
       );
-      console.log("Likes +1");
-      res.redirect(`/post/${req.params.id}`);
+      // console.log("Likes +1");
+      // res.redirect(`/post/${req.params.id}`);
     } catch (err) {
       console.log(err);
     }
