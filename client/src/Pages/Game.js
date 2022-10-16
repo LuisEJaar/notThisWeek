@@ -17,12 +17,13 @@ export default function Game() {
       'Accept': 'application/json'
      }})
       .then((res) => res.json())
-      .then((data)=> setData(data))
+      .then((data) => setData(data))
+      .catch((err)=> console.log(err))
   }, [url, id]);
-  
+
   console.log(data)
 
-  function likeHandler(e) {
+  function LikeHandler(e) {
     e.preventDefault()
     const newLikes = {
       ...data.post,
@@ -33,6 +34,19 @@ export default function Game() {
        post: newLikes
     })
   }
+
+  const likeUrl = `/post/likePost/${id}`
+  
+  const { likes } = data.post.likes || ""
+  
+  React.useEffect(() => {
+    fetch(likeUrl, {method: "PUT"})
+      .then((res) => res.json())
+      .then((data)=> setData(data))
+  }, [likes]);
+
+
+
   
   return (
     <>
@@ -50,7 +64,7 @@ export default function Game() {
               <img className="mx-auto img-fluid shadow rounded currentEncounterGameImage" src={ data.post.image } alt="post"/>
               <div className="d-flex m-2">
               <form
-                  onSubmit={likeHandler}
+                  onSubmit={LikeHandler}
                   action={`/post/likePost/${data.post._id}?_method=PUT`}
                   method="POST"
                   className="m-2"

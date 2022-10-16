@@ -25,7 +25,7 @@ export default function Encounter() {
         <>
           <div className="container">
             <div className="mt-1">
-              <Link className="btn btn-primary shadow" to="/profile">DM Profile</Link>
+              <Link className="btn btn-primary shadow me-3" to={`/userProfile/${data.encounter.dm}`}>DM Profile</Link>
               <Link className="btn btn-primary shadow" to={`/post/${data.encounter.post}`}>Return to game</Link>
             </div>
             <div className="row justify-content-center mt-5">
@@ -47,7 +47,7 @@ export default function Encounter() {
                 <p>{data.encounter.description}</p>
               </div>
               <div className="container mt-4">
-              <h3>Characters:</h3>
+              <h3>Characters:</h3> 
               {data.party.map((member) => {
                 return (  
                   <Link key={ member._id } to={`/character/${member._id}`} target="_blank" className="btn btn-primary shadow me-2">{member.name}</Link>
@@ -78,7 +78,7 @@ export default function Encounter() {
             <div className="d-flex flex-column align-items-center">
               {data.encounter.active &&
                 <>
-                  {(data.characterTurn.user === data.user.id) &&
+                  {(data.characterTurn.user === data.user._id) &&
                     <>
                       {data.encounter.dmTurn &&
                         <span>You will be next, the DM is thinking.</span>
@@ -102,7 +102,7 @@ export default function Encounter() {
                       }
                     </>
                   }
-                  {(data.characterTurn.user != data.user.id && data.user.id != data.encounter.dm) &&
+                  {(data.characterTurn.user !== data.user._id && data.user._id !== data.encounter.dm) &&
                     <>
                       {data.encounter.dmTurn &&
                         <span>Please be patient, the DM is thinking.</span>
@@ -113,7 +113,7 @@ export default function Encounter() {
                     </>
                   }
 
-                  {(data.user.id == data.encounter.dm) &&
+                  {(data.user._id === data.encounter.dm) &&
                     <>
                       <span>Hello God, your will be done:</span>
                       <div className="d-flex flex-row">
@@ -153,7 +153,7 @@ export default function Encounter() {
               {!data.encounter.active &&
                 <>
                   <span>This encounter has concluded</span>
-                  {data.user.id == data.encounter.dm &&
+                  {data.user._id === data.encounter.dm &&
                     <form
                       className="m-3"
                       action={`/encounter/toggleEncounter/${data.encounter._id}?_method=PUT`}
@@ -179,13 +179,14 @@ export default function Encounter() {
               }
             </div>
             {/* <!-- Display rounds --> */}
-            <div className="container mt-3">
-              {data.rounds.map((round) => {
+          <div className="container mt-3">
+            {data.rounds.map((round) => {
+              return (
                 <div className="card mb-3 shadow">
                   <div className="card-header d-flex">
                     {round.player === "DM" && <>DM</>}
                     {round.player !== "DM" && <>{round.playerCharacter} ({round.player})</>}
-                    {(data.user.id == data.encounter.dm && round.type == "textRound") &&
+                    {(data.user._id === data.encounter.dm && round.type === "textRound") &&
                       <>
                         <button type="button" className="shadow ms-auto btn btn-warning shadow" data-bs-toggle="modal" data-bs-target="#editRound">
                           Edit Round
@@ -193,7 +194,7 @@ export default function Encounter() {
                         {/* <%- include('partials/editRound', {round: round}) -%> */}
                       </>
                     }
-                    {data.user.id == data.encounter.dm &&
+                    {data.user._id === data.encounter.dm &&
                       <>
                         <button type="button" className="shadow ms-auto btn btn-danger shadow" data-bs-toggle="modal" data-bs-target="#deleteRound">
                           Delete Round
@@ -203,17 +204,17 @@ export default function Encounter() {
                     }
                   </div>
                   <div className="card-body">
-                    {round.type == "textRound" &&
+                    {round.type === "textRound" &&
                       <>
                         <p className="card-text"> {round.description}</p>
                       </>
                     }
-                    {(round.type != "textRound" && !round.rolled) &&
+                    {(round.type !== "textRound" && !round.rolled) &&
                       <>
                         <p className="card-text"> {round.playerCharacter} to roll for {round.rollFor} </p>
-                        {round.playerToRoll == data.user.id &&
+                        {round.playerToRoll === data.user._id &&
                         <form
-                          action={`/round/makeRoll/${data.round._id}/${data.characterTurn.id}?_method=PUT`}
+                          action={`/round/makeRoll/${data.round._id}/${data.characterTurn._id}?_method=PUT`}
                           method="POST"
                         > 
                             <button type="submit" className="mx-auto btn btn-primary" value="Upload">Submit</button>
@@ -222,11 +223,12 @@ export default function Encounter() {
                       </>
                     }
 
-                    {(round.type != "textRound" && round.rolled) &&
+                    {(round.type !== "textRound" && round.rolled) &&
                       <p>{round.playerCharacter} rolled for {round.rollFor}. They had to beat {round.target}, and they rolled {round.nat20 ? "NAT 20 SUCKA!!" : round.playerRoll}!</p>
                     }
                   </div>
                 </div>
+                )
               })}
             </div>
           </div>
@@ -240,7 +242,7 @@ export default function Encounter() {
                   <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
-                <form action={`/round/createRound/${data.encounter._id}/${data.user.id}/${data.characterTurn.id}?_method=PUT`} method="POST">
+                <form action={`/round/createRound/${data.encounter._id}/${data.user._id}/${data.characterTurn._id}?_method=PUT`} method="POST">
                     {/* <!-- Description --> */}
                     <div className="form-group mb-3">
                       <label htmlFor="encounterDescription">What do you do?</label>
@@ -263,7 +265,7 @@ export default function Encounter() {
                   <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
-                <form action={`/round/createRound/${data.encounter._id}/${data.characterTurn.user}/${data.characterTurn.id}?_method=PUT`} method="POST">
+                <form action={`/round/createRound/${data.encounter._id}/${data.characterTurn.user}/${data.characterTurn._id}?_method=PUT`} method="POST">
                     {/* <!-- Description --> */}
                     <div className="form-group mb-3">
                       <label htmlFor="encounterDescription">{data.characterTurn.name} rolls for:</label>
@@ -344,7 +346,7 @@ export default function Encounter() {
                   <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
-                <form action={`/round/createRound/${data.encounter._id}/${data.characterTurn.user}/${data.characterTurn.id}?_method=PUT`} method="POST">
+                <form action={`/round/createRound/${data.encounter._id}/${data.characterTurn.user}/${data.characterTurn._id}?_method=PUT`} method="POST">
                     {/* <!-- Description --> */}
                     <div className="form-group mb-3">
                       <div className="form-check">
