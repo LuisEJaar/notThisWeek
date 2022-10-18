@@ -101,10 +101,9 @@ module.exports = {
     try {
       let encounter = await Encounter.findOne({ _id: req.params.id })
       encounter.dmTurn = !encounter.dmTurn;
-      await encounter.save()
 
-      console.log(`dmTurn set to: ${encounter.active}`);
-      res.redirect(`/encounter/${req.params.id}`);
+      await encounter.save()
+      res.json(encounter.dmTurn)
     } catch (err) {
       console.log(err);
     }

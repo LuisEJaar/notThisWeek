@@ -88,8 +88,11 @@ io.on("connection", (socket) => {
   })
   
   socket.on("send_roundRefresh", (data) => {
-    //.to sends to a room
     socket.to(data.room).emit("receive_roundRefresh", data)
+  })
+
+  socket.on("send_controlRefresh", (data) => {
+    socket.to(data.room).emit("receive_controlRefresh", data)
   })
 })
 
