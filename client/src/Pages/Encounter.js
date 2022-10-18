@@ -1,29 +1,91 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import Header from "../Components/Header"
 import Footer from "../Components/Footer"
+import SkillRoll from "../Components/Forms/SkillRoll"
+import SaveCheckRoll from "../Components/Forms/SaveCheckRoll"
 import { HeartFill } from 'react-bootstrap-icons';
+import {Form} from 'formik'
+//Socket.io
+import io from 'socket.io-client'
+const socket = io.connect("http://localhost:3001") //URL for backend
 
 export default function Encounter() {
-  const [data, setData] = React.useState(null)
+  const [data, setData] = useState(null)
+  const [likes, setLikes] = useState(null)
+  const [rounds, setRounds] = useState(null)
+  
+  //Socket states//
+  const [message, setMessage] = useState("")
+  const [messageReceived, setMessageReceived] = useState("")
+  //Socket states//
 
+  //Fetching Initial data
   const { id } = useParams()
   const url = `/encounter/${id}`
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetch(url)
       .then((res) => res.json())
-      .then((data) => setData(data))
+      .then((data) => { 
+        setData(data)
+        setLikes(data.encounter.likes)
+        setRounds(data.rounds)
+      })
   }, [url, id]);
   
   console.log(data)
+
+  //Managing likes on encounter
+  const likeUrl = `/encounter/likeEncounter/${id}`
+  
+  useEffect(() => {
+    if (data && data.encounter.likes !== likes) {
+      fetch(likeUrl, { method: "PUT" })
+    }
+  }, [likes, likeUrl, data]);
+
+  function LikeHandler(e) {
+    e.preventDefault()
+    setLikes((oldLikes) => (Number(oldLikes) + 1))
+  }
+
+  // Socket.io enabled via socket.io-client package
+  let room
+
+  const joinRoom = () => {
+    if (data !== null) {
+      room = data.encounter._id
+      socket.emit("join_room", room)
+    }
+  }
+
+  joinRoom()
+
+  const sendMessage = () => {
+    //Upon send message we emit something to backend or client
+    //We wil send to back end and then backend will emit to clients
+    socket.emit("send_message", { message, room} ) //good example for state
+  };
+
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      setMessageReceived(data.message)
+    })
+  })
+  
+  // Socket.io
 
   return (
     <>
       <Header page="else" />
       {data &&
         <>
-          <div className="container">
+        <input placeholder='Message' onChange={(event) => { setMessage(event.target.value) } }></input>
+        <button className="btn btn-info" onClick={sendMessage}>Socket Test</button>
+        <h1>Message:</h1>
+        { messageReceived }
+        <div className="container">
             <div className="mt-1">
               <Link className="btn btn-primary shadow me-3" to={`/userProfile/${data.encounter.dm}`}>DM Profile</Link>
               <Link className="btn btn-primary shadow" to={`/post/${data.encounter.post}`}>Return to game</Link>
@@ -33,14 +95,13 @@ export default function Encounter() {
               <h2>{data.encounter.title}</h2>
             <img className="img-fluid rounded shadow currentEncounterGameImage" alt='encounter' src={data.encounter.image} />
               <div className="d-flex m-2">
-                <form
+              <Form
+                  onSubmit={LikeHandler}
                   className="m-2"
-                  action={`/encounter/likeEncounter/${data.encounter._id}?_method=PUT`}
-                  method="POST"
                 >
                   <button className="btn btn-primary" type="submit"><HeartFill/></button>
-                </form>
-                <h3 className="m-2">Likes: {data.encounter.likes}</h3>
+                </Form>
+                <h3 className="m-2">Likes: {likes}</h3>
               </div>
               <div className="mt-3">
                 <h3>Description:</h3>
@@ -90,13 +151,13 @@ export default function Encounter() {
                             <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRound">
                               Add round
                             </button>
-                            <form
+                            <Form
                               className="ms-3"
                               action={`/encounter/toggleDm/${data.encounter._id}?_method=PUT`}
                               method="POST"
                             >
                               <button className="btn btn-warning" type="submit">Toggle DM Turn</button>
-                            </form>
+                            </Form>
                           </div>
                         </>
                       }
@@ -117,13 +178,13 @@ export default function Encounter() {
                     <>
                       <span>Hello God, your will be done:</span>
                       <div className="d-flex flex-row">
-                        <form
+                        <Form
                           className="m-3"
                           action={`/encounter/toggleDm/${data.encounter._id}?_method=PUT`}
                           method="POST"
                         >
                           <button className="btn btn-warning shadow" type="submit">Toggle DM</button>
-                        </form>
+                        </Form>
                         {data.encounter.dmTurn &&
                           <>
                             <button type="button" className="btn btn-primary m-3 shadow" data-bs-toggle="modal" data-bs-target="#addRound">
@@ -135,13 +196,13 @@ export default function Encounter() {
                             <button type="button" className="btn btn-primary m-3 shadow" data-bs-toggle="modal" data-bs-target="#addSaveRollRound">
                               Saving Throw
                             </button>
-                            <form
+                            <Form
                               className="m-3"
                               action={`/encounter/progressEncounter/${data.encounter._id}?_method=PUT`}
                               method="POST"
                             >
                               <button className="btn btn-warning" type="submit">Next Character</button>
-                            </form>
+                            </Form>
                           </>
                         }
                       </div>
@@ -154,23 +215,23 @@ export default function Encounter() {
                 <>
                   <span>This encounter has concluded</span>
                   {data.user._id === data.encounter.dm &&
-                    <form
+                    <Form
                       className="m-3"
                       action={`/encounter/toggleEncounter/${data.encounter._id}?_method=PUT`}
                       method="POST"
                     >
                       <button className="btn btn-info shadow" type="submit">Re-Open Encounter</button>
-                    </form>
+                    </Form>
                   }
                   <div className="d-flex">
                     {/* <!-- Button Deletion Modal --> */}
-                    <form
+                    <Form
                       className=""
                       action={`/encounter/toggleEncounter/${data.encounter._id}?_method=PUT`}
                       method="POST"
                     >
                       <button className="btn btn-danger shadow" type="submit">End Encounter</button>
-                    </form>
+                    </Form>
                     <button type="button" className="shadow ms-3 btn btn-danger shadow" data-bs-toggle="modal" data-bs-target="#deleteEncounter">
                       Delete Encounter
                     </button>
@@ -178,11 +239,12 @@ export default function Encounter() {
                 </>
               }
             </div>
-            {/* <!-- Display rounds --> */}
+            
+          {/* <!-- Display rounds --> */}
           <div className="container mt-3">
-            {data.rounds.map((round) => {
+            {rounds.map((round) => {
               return (
-                <div className="card mb-3 shadow">
+                <div key={round._id} className="card mb-3 shadow">
                   <div className="card-header d-flex">
                     {round.player === "DM" && <>DM</>}
                     {round.player !== "DM" && <>{round.playerCharacter} ({round.player})</>}
@@ -213,12 +275,12 @@ export default function Encounter() {
                       <>
                         <p className="card-text"> {round.playerCharacter} to roll for {round.rollFor} </p>
                         {round.playerToRoll === data.user._id &&
-                        <form
+                        <Form
                           action={`/round/makeRoll/${data.round._id}/${data.characterTurn._id}?_method=PUT`}
                           method="POST"
                         > 
                             <button type="submit" className="mx-auto btn btn-primary" value="Upload">Submit</button>
-                          </form>
+                          </Form>
                         }
                       </>
                     }
@@ -242,7 +304,7 @@ export default function Encounter() {
                   <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
-                <form action={`/round/createRound/${data.encounter._id}/${data.user._id}/${data.characterTurn._id}?_method=PUT`} method="POST">
+                <Form action={`/round/createRound/${data.encounter._id}/${data.user._id}/${data.characterTurn._id}?_method=PUT`} method="POST">
                     {/* <!-- Description --> */}
                     <div className="form-group mb-3">
                       <label htmlFor="encounterDescription">What do you do?</label>
@@ -250,172 +312,33 @@ export default function Encounter() {
                       <textarea type="text" className="form-control" id="encounterDescription" placeholder="Encounter Description" name="description"></textarea>
                     </div>
                     <button type="submit" className="mx-auto btn btn-primary" value="Upload">Submit</button>
-                  </form>
+                  </Form>
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* <!-- Modal Skill Roll --> */}
-          <div className="modal fade" id="addSkillRollRound" tabIndex="-1" aria-labelledby="addSkillRollRoundLabel" aria-hidden="true">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="newRoundLabel">Skill roll for {data.characterTurn.name}</h5>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                <form action={`/round/createRound/${data.encounter._id}/${data.characterTurn.user}/${data.characterTurn._id}?_method=PUT`} method="POST">
-                    {/* <!-- Description --> */}
-                    <div className="form-group mb-3">
-                      <label htmlFor="encounterDescription">{data.characterTurn.name} rolls for:</label>
-                      <select className="form-select" aria-label="Default select example" name="rollFor" required>
-                        <option value="acrobatics">Acrobatics</option>
-                        <option value="animalHandling">AnimalHandling</option>
-                        <option value="arcana">Arcana</option>
-                        <option value="athletics">Athletics</option>
-                        <option value="deception">Deception</option>
-                        <option value="history">History</option>
-                        <option value="insight">Insight</option>
-                        <option value="intimidation">Intimidation</option>
-                        <option value="investigation">Investigation</option>
-                        <option value="medicine">Medicine</option>
-                        <option value="nature">Nature</option>
-                        <option value="perception">Perception</option>
-                        <option value="performance">Performance</option>
-                        <option value="persuasion">Persuasion</option>
-                        <option value="religion">Religion</option>
-                        <option value="sleightOfHand">Sleight Of Hand</option>
-                        <option value="stealth">Stealth</option>
-                        <option value="survival">Survival</option>
-                      </select>
-                      <label htmlFor="playerTarget">{data.characterTurn.name} to beat:</label>
-                      <input required type="number" className="form-control" id="playerTarget" name="target" min="1" max="30" />
-                      <input type="hidden" id="type" name="type" value="rollRound" />
-                      <input type="hidden" id="type" name="rollCategory" value="skillModifiers" />
-                      <div className="container mt-2">
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Task Difficulty</th>
-                              <th>DC</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>Very Easy</td>
-                              <td>5</td>
-                            </tr>
-                            <tr>
-                              <td>Easy</td>
-                              <td>10</td>
-                            </tr>
-                            <tr>
-                              <td>Medium</td>
-                              <td>15</td>
-                            </tr>
-                            <tr>
-                              <td>Hard</td>
-                              <td>20</td>
-                            </tr>
-                            <tr>
-                              <td>Very Hard</td>
-                              <td>25</td>
-                            </tr>
-                            <tr>
-                              <td>Nearly impossible</td>
-                              <td>30</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                    <button type="submit" className="mx-auto btn btn-primary" value="Upload">Submit</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* <!-- Modal Saving Throw Roll --> */}
-          <div className="modal fade" id="addSaveRollRound" tabIndex="-1" aria-labelledby="addSaveRollRoundLabel" aria-hidden="true">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="newRoundLabel">Saving Throw / Ability check for {data.characterTurn.name}</h5>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                <form action={`/round/createRound/${data.encounter._id}/${data.characterTurn.user}/${data.characterTurn._id}?_method=PUT`} method="POST">
-                    {/* <!-- Description --> */}
-                    <div className="form-group mb-3">
-                      <div className="form-check">
-                        <input className="form-check-input" type="radio" name="rollCategory" value="saveModifiers" id="savingThrow" />
-                        <label className="form-check-label" htmlFor="savingThrow">
-                          Saving Throw
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input className="form-check-input" type="radio" name="rollCategory" value="checkModifiers" id="abilityCheck" defaultChecked />
-                        <label className="form-check-label" htmlFor="abilityCheck">
-                          Check
-                        </label>
-                      </div>
-                      <label htmlFor="encounterDescription">{data.characterTurn.name} rolls for:</label>
-                      <select className="form-select" aria-label="Default select example" name="rollFor" required>
-                        <option value="str">Strength</option>
-                        <option value="dex">Dexterity</option>
-                        <option value="con">Constitution</option>
-                        <option value="int">Intelligence</option>
-                        <option value="wis">Wisdom</option>
-                        <option value="char">Charisma</option>
-                      </select>
-                      <label htmlFor="playerTarget">{data.characterTurn.name} to beat:</label>
-                      <input required type="number" className="form-control" id="playerTarget" name="target" min="1" max="30" />
-                      <input type="hidden" id="type" name="type" value="rollRound" />
-                      <div className="container mt-2">
-                      <table>
-                        <thead>
-                          <tr>
-                            <th>Task Difficulty</th>
-                            <th>DC</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Very Easy</td>
-                            <td>5</td>
-                          </tr>
-                          <tr>
-                            <td>Easy</td>
-                            <td>10</td>
-                          </tr>
-                          <tr>
-                            <td>Medium</td>
-                            <td>15</td>
-                          </tr>
-                          <tr>
-                            <td>Hard</td>
-                            <td>20</td>
-                          </tr>
-                          <tr>
-                            <td>Very Hard</td>
-                            <td>25</td>
-                          </tr>
-                          <tr>
-                            <td>Nearly impossible</td>
-                            <td>30</td>
-                          </tr>
-                        </tbody>
-                        </table>
-                      </div>
-                    </div>
-                    <button type="submit" className="mx-auto btn btn-primary" value="Upload">Submit</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
+        </div>
+        
+        {/* <!-- Modal Skill Roll --> */}
+        <SkillRoll
+          setRounds={setRounds}
+          encounterId={id}
+          formId="addSkillRollRound"
+          character={data.characterTurn.name}
+          rollType="skill"
+          playerId={ data.characterTurn.user}
+          characterId={data.characterTurn._id}
+        />
+        
+        {/* <!-- Modal Saving/Skill check Throw Roll --> */}
+        <SaveCheckRoll
+          setRounds={setRounds}
+          encounterId={ id }
+          formId="addSaveRollRound"
+          character={data.characterTurn.name}
+          rollType="save/check"
+          playerId={ data.characterTurn.user}
+          characterId={data.characterTurn._id}
+        />
 
           {/* <!-- Delete Encounter --> */}
           <div className="modal fade" id="deleteEncounter" tabIndex="-1" aria-labelledby="deleteEncounterLabel" aria-hidden="true">
@@ -430,13 +353,13 @@ export default function Encounter() {
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <form
+                  <Form
                     action={`/encounter/deleteEncounter/${data.encounter._id}?_method=DELETE`}
                     method="POST"
                     className=""
                   >
                     <button className="btn btn-danger" type="submit">Do it</button>
-                  </form>
+                  </Form>
                 </div>
               </div>
             </div>

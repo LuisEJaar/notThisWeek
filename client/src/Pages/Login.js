@@ -1,22 +1,19 @@
 import React from "react";
 import Header from "../Components/Header"
+// import { Form } from 'formik'
 
 function Login() {
+  
+  
   return (
   <>
     <Header page="login"/>
     <main className="vh-100 container d-flex align-items-center justify-content-center">
       <section className="">
         <h1>Sign in</h1>
-        {/* { locals.messages.errors && messages.errors.forEach( el => {
-          <div className="alert alert-danger"> el.msg </div>
-        })}
-        { locals.messages.info && messages.info.forEach( el => {
-          <div className="alert alert-info"> el.msg </div>
-        })} */}
         <form action="/login" method="POST">
           <div className="mb-3">
-            <label for="exampleInputEmail1" className="form-label"
+            <label htmlFor="exampleInputEmail1" className="form-label"
               >Email address
             </label>
             <input
@@ -28,7 +25,7 @@ function Login() {
             />
           </div>
           <div className="mb-3">
-            <label for="exampleInputPassword1" className="form-label">Password</label>
+            <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
             <input
               type="password"
               className="form-control"

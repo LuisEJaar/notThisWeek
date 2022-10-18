@@ -2,6 +2,7 @@ import React from 'react'
 import TextInput from '../FormComponents/TextInput'
 import NumberInput from '../FormComponents/NumberInput'
 import CheckInput from '../FormComponents/CheckInput'
+import {Form} from 'formik'
 
 export default function CharacterCreation() {
   return (
@@ -13,7 +14,7 @@ export default function CharacterCreation() {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-              <form action="/character/create" encType="multipart/form-data" method="POST">
+              <Form action="/character/create" encType="multipart/form-data" method="POST">
               <fieldset>
                 
                 <div className="mt-2">
@@ -76,7 +77,7 @@ export default function CharacterCreation() {
               <div className="d-flex flex-column">
                 <button className="btn btn-success mt-5" type="submit">Adventure awaits</button>
               </div>
-              </form>
+              </Form>
             </div>
           </div>
         </div>

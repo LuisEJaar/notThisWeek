@@ -1,5 +1,6 @@
 import React from "react"
 import Header from "../Components/Header"
+import {Form} from 'formik'
 
 function Signup () {
   return (
@@ -14,7 +15,7 @@ function Signup () {
                 { locals.messages.info && messages.info.forEach( el => {
                 <div className="alert alert-info"> el.msg </div>
                 })} */}
-                <form action="/signup" method="POST">
+                <Form action="/signup" method="POST">
                     <div className="mb-3">
                         <label for="userName" className="form-label">User Name</label>
                         <input type="text" className="form-control" id="userName" name="userName"/>
@@ -46,7 +47,7 @@ function Signup () {
                         </label>
                       </div>
                     <button type="submit" className="btn btn-primary">Submit</button>
-                  </form>
+                  </Form>
             </section>
         </div>
     </main>

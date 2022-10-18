@@ -4,6 +4,7 @@ import Header from "../Components/Header"
 import Footer from "../Components/Footer"
 import { HeartFill } from 'react-bootstrap-icons';
 import './Game.css'
+import {Form} from "formik"
 
 export default function Game() {
   const [data, setData] = React.useState(null)
@@ -35,19 +36,6 @@ export default function Game() {
     })
   }
 
-  const likeUrl = `/post/likePost/${id}`
-  
-  const { likes } = data.post.likes || ""
-  
-  React.useEffect(() => {
-    fetch(likeUrl, {method: "PUT"})
-      .then((res) => res.json())
-      .then((data)=> setData(data))
-  }, [likes]);
-
-
-
-  
   return (
     <>
       <Header page="else" />
@@ -63,14 +51,12 @@ export default function Game() {
             <h3>{ data.post.title }</h3>
               <img className="mx-auto img-fluid shadow rounded currentEncounterGameImage" src={ data.post.image } alt="post"/>
               <div className="d-flex m-2">
-              <form
+              <Form
                   onSubmit={LikeHandler}
-                  action={`/post/likePost/${data.post._id}?_method=PUT`}
-                  method="POST"
                   className="m-2"
                 >
                   <button className="btn btn-primary shadow" type="submit"><HeartFill/></button>
-                </form>
+                </Form>
                 <h3 className="m-2">Likes: { data.post.likes }</h3>
               </div>
             <div>
@@ -190,7 +176,7 @@ export default function Game() {
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
-                <form action={`/encounter/createEncounter/${data.post._id}`} encType="multipart/form-data" method="POST">
+                <Form action={`/encounter/createEncounter/${data.post._id}`} encType="multipart/form-data" method="POST">
                   {/* <!-- Title --> */}
                   <div className="form-group mb-3">
                     <label htmlFor="encounterTitle">Title</label>
@@ -229,7 +215,7 @@ export default function Game() {
                     <span>Gather ye party!</span>
                   }
                   <button type="submit" className="mx-auto btn btn-primary" value="Upload">Submit</button>
-                </form>
+                </Form>
               </div>
             </div>
           </div>
@@ -244,7 +230,7 @@ export default function Game() {
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
-                <form action={`/player/addGame/${data.post._id}?_method=PUT`} method="POST">
+                <Form action={`/player/addGame/${data.post._id}?_method=PUT`} method="POST">
                   <label htmlFor="playerList" className="form-label">Player List</label>
                   <select className="form-control" name="playerId" id="playerList">
                     <option value="">Warriors! Come out to playeeyay</option>
@@ -254,7 +240,7 @@ export default function Game() {
                     }
                   </select>
                   <button type="submit" className="mt-2 btn btn-primary">Add to party</button>
-                </form>
+                </Form>
               </div>
             </div>
           </div>
@@ -269,7 +255,7 @@ export default function Game() {
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
-                <form action={`/character/addGame/${data.post._id}?_method=PUT`} method="POST">
+                <Form action={`/character/addGame/${data.post._id}?_method=PUT`} method="POST">
                   <label htmlFor="playerList" className="form-label">Character List</label>
                   <select className="form-control" name="characterId" id="characterList">
                     <option value="">Warriors! Come out to playeeyay</option>
@@ -278,7 +264,7 @@ export default function Game() {
                     }) }
                   </select>
                   <button type="submit" className="mt-2 btn btn-primary">Add to party</button>
-                </form>
+                </Form>
               </div>
             </div>
           </div>
@@ -296,12 +282,12 @@ export default function Game() {
                 Game deletion cannot be undone, you're condemning your world to fantasy death!
               </div>
               <div className="modal-footer">
-                <form
+                <Form
                   action={`/post/deletePost/${data.post._id}?_method=DELETE`}
                   method="POST"
                 >
                 <button className="btn btn-danger" type="submit">Do it</button>
-                </form>
+                </Form>
               </div>
             </div>
           </div>

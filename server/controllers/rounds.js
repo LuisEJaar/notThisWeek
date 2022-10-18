@@ -45,9 +45,9 @@ module.exports = {
         encounter.dmTurn = true;
         await encounter.save()
       }
-      
-      console.log("Round has been added!");
-      res.redirect(`/encounter/${req.params.encounterId}`);
+
+      const rounds = await Rounds.find({encounter: req.params.encounterId}).sort({ createdAt: "desc" }).lean();
+      res.json(rounds)
     } catch (err) {
       console.log(err);
     }

@@ -26,9 +26,6 @@ require("./config/passport")(passport);
 //Connect To Database
 connectDB();
 
-//Using EJS for views
-app.set("view engine", "ejs");
-
 //Static Folder
 app.use(express.static("public"));
 
@@ -67,9 +64,38 @@ app.use("/encounter", encounterRoutes);
 app.use("/round", roundRoutes);
 app.use("/character", characterRoutes);
 
+
+//Socket.io 
+const http = require('http')
+const { Server } = require('socket.io')
+const cors = require('cors')
+app.use(cors())
+
+const server = http.createServer(app)
+const io = new Server(server, {
+  cors: {
+    //URL for the front end
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"]
+  }
+})
+
+io.on("connection", (socket) => {
+  console.log(`Socket user Connected: ${socket.id}`)
+
+  socket.on("join_room", (data) => {
+    socket.join(data);
+  })
+  
+  socket.on("send_message", (data) => {
+    //.to sends to a room
+    socket.to(data.room).emit("receive_message", data)
+  })
+})
+
 //Server Running
 const port = process.env.PORT || 3001;
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server running on ${port}`);
   console.log(`http://localhost:${port}/`);
 });

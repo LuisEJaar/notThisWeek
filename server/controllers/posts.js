@@ -100,8 +100,6 @@ module.exports = {
           $inc: { likes: 1 },
         }
       );
-      // console.log("Likes +1");
-      // res.redirect(`/post/${req.params.id}`);
     } catch (err) {
       console.log(err);
     }
