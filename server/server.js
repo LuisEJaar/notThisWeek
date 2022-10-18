@@ -87,9 +87,9 @@ io.on("connection", (socket) => {
     socket.join(data);
   })
   
-  socket.on("send_message", (data) => {
+  socket.on("send_roundRefresh", (data) => {
     //.to sends to a room
-    socket.to(data.room).emit("receive_message", data)
+    socket.to(data.room).emit("receive_roundRefresh", data)
   })
 })
 

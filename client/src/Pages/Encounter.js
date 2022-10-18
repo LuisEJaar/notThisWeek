@@ -14,11 +14,6 @@ export default function Encounter() {
   const [data, setData] = useState(null)
   const [likes, setLikes] = useState(null)
   const [rounds, setRounds] = useState(null)
-  
-  //Socket states//
-  const [message, setMessage] = useState("")
-  const [messageReceived, setMessageReceived] = useState("")
-  //Socket states//
 
   //Fetching Initial data
   const { id } = useParams()
@@ -61,16 +56,18 @@ export default function Encounter() {
   }
 
   joinRoom()
-
-  const sendMessage = () => {
-    //Upon send message we emit something to backend or client
-    //We wil send to back end and then backend will emit to clients
-    socket.emit("send_message", { message, room} ) //good example for state
+  
+  const sendMessage = (message) => {
+    socket.emit("send_roundRefresh", { message, room} )
   };
 
   useEffect(() => {
-    socket.on("receive_message", (data) => {
-      setMessageReceived(data.message)
+    socket.on("receive_roundRefresh", (data) => {
+      fetch(url)
+      .then((res) => res.json())
+      .then((data) => { 
+        setRounds(data.rounds)
+      })
     })
   })
   
@@ -81,10 +78,6 @@ export default function Encounter() {
       <Header page="else" />
       {data &&
         <>
-        <input placeholder='Message' onChange={(event) => { setMessage(event.target.value) } }></input>
-        <button className="btn btn-info" onClick={sendMessage}>Socket Test</button>
-        <h1>Message:</h1>
-        { messageReceived }
         <div className="container">
             <div className="mt-1">
               <Link className="btn btn-primary shadow me-3" to={`/userProfile/${data.encounter.dm}`}>DM Profile</Link>
@@ -320,6 +313,7 @@ export default function Encounter() {
         
         {/* <!-- Modal Skill Roll --> */}
         <SkillRoll
+          sendMessage={sendMessage}
           setRounds={setRounds}
           encounterId={id}
           formId="addSkillRollRound"
@@ -331,6 +325,7 @@ export default function Encounter() {
         
         {/* <!-- Modal Saving/Skill check Throw Roll --> */}
         <SaveCheckRoll
+          sendMessage={sendMessage}
           setRounds={setRounds}
           encounterId={ id }
           formId="addSaveRollRound"
