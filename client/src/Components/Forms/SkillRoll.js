@@ -23,6 +23,9 @@ export default function SkillRoll ({sendMessage, playerId, characterId, setRound
       .then(res => res.json())
       .then(json => setRounds(json))
       .then(sendMessage("rounds"))
+      .catch((err) => {
+        console.log(err)
+      })
     }
   })
 

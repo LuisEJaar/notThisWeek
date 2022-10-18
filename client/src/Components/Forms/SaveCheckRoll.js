@@ -22,6 +22,9 @@ export default function SaveCheckRoll ({playerId, characterId, setRounds, charac
       })
       .then(res => res.json())
       .then(json => setRounds(json))
+      .catch((err) => {
+        console.log(err)
+      })
     }
   })
 

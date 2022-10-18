@@ -24,6 +24,7 @@ export default function Game() {
 
   console.log(data)
 
+  //Manage likes on game
   function LikeHandler(e) {
     e.preventDefault()
     const newLikes = {
@@ -35,7 +36,7 @@ export default function Game() {
        post: newLikes
     })
   }
-
+ 
   return (
     <>
       <Header page="else" />
@@ -102,10 +103,15 @@ export default function Game() {
         </div>
         <div className="container mt-5">
           {/* <!-- Player Tools --> */}
-          {data.party.find((member) => member.id === data.user.id) && data.characters.find((character) => character.user === data.user.id ) &&
+          {(data.party.find((member) => member._id === data.user._id) && data.characters.find((character) => character.user === data.user._id )) &&
             <span>Your character is in the game</span>
           }
-          {(data.party.find((member) => member.id === data.user.id) && !data.characters.find((character) => character.user === data.user.id) && data.user.type !== "dm")  &&
+          
+          {(data.party.find((member) => member._id === data.user._id) === undefined && data.user._id !== data.post.user) &&
+            <span>You are not a part of this game</span>
+          }
+
+          {(data.party.find((member) => member._id === data.user._id) && data.characters.find((character) => character.user === data.user._id) === undefined && data.user.type !== "dm")  &&
             <button type="button" className="shadow ms-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCharacter">
             Add Character
           </button>
@@ -114,7 +120,7 @@ export default function Game() {
         <div className="container mt-5">
           <div className="d-flex justify-content-center mb-3">
             {/* <!-- DM Tools --> */}
-            {data.user.id === data.post.user &&
+            {data.user._id === data.post.user &&
               <>
               <button type="button" className="shadow btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEncounter">
               Add encounter

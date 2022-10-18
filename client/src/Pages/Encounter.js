@@ -1,15 +1,22 @@
+// React:
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+
+// Components
 import Header from "../Components/Header"
 import Footer from "../Components/Footer"
 import SkillRoll from "../Components/Forms/SkillRoll"
 import SaveCheckRoll from "../Components/Forms/SaveCheckRoll"
+import DmToggleControll from '../Components/Forms/DmToggleControll'
+import TextRound from '../Components/Forms/TextRound'
+
+//Icons
 import { HeartFill } from 'react-bootstrap-icons';
+//Form Items
 import {Form} from 'formik'
 //Socket.io
 import io from 'socket.io-client'
-import DmEncounterControll from '../Components/Forms/DmEncounterControll'
-const socket = io.connect("http://localhost:3001") //URL for backend
+
 
 export default function Encounter() {
   const [data, setData] = useState(null)
@@ -32,6 +39,9 @@ export default function Encounter() {
         setCharacterTurn(data.characterTurn)
         setDmTurn(data.encounter.dmTurn)
       })
+      .catch((err) => {
+        console.log(err)
+      })
   }, [url, id]);
   
   console.log(data)
@@ -42,6 +52,9 @@ export default function Encounter() {
   useEffect(() => {
     if (data && data.encounter.likes !== likes) {
       fetch(likeUrl, { method: "PUT" })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   }, [likes, likeUrl, data]);
 
@@ -51,6 +64,8 @@ export default function Encounter() {
   }
 
   // Socket.io enabled via socket.io-client package
+  const socket = io.connect("http://localhost:3001") //URL for backend
+
   let room
 
   const joinRoom = () => {
@@ -62,6 +77,7 @@ export default function Encounter() {
 
   joinRoom()
   
+  //Socket senders
   const sendMessage = (message) => {
     if (message === "rounds") {
       socket.emit("send_roundRefresh", { message, room} )
@@ -70,12 +86,16 @@ export default function Encounter() {
     }
   };
 
+  //Socket listeners
   useEffect(() => {
     socket.on("receive_roundRefresh", () => {
       fetch(url)
       .then((res) => res.json())
       .then((data) => { 
         setRounds(data.rounds)
+      })
+      .catch((err) => {
+        console.log(err)
       })
     })
   })
@@ -89,10 +109,13 @@ export default function Encounter() {
         setDmTurn(data.encounter.dmTurn)
         console.log(data)
       })
+      .catch((err) => {
+        console.log(err)
+      })
     })
   })
   
-  // Socket.io
+  // End Socket.io
 
   return (
     <>
@@ -185,7 +208,7 @@ export default function Encounter() {
                     <>
                       <span>Hello God, your will be done:</span>
                 <div className="d-flex flex-row">
-                  <DmEncounterControll
+                  <DmToggleControll
                     setCharacterTurn={setCharacterTurn}
                     setDmTurn={setDmTurn}
                     encounter={data.encounter._id}
@@ -304,28 +327,14 @@ export default function Encounter() {
             </div>
           </div>
 
-          {/* <!-- Modal create Round --> */}
-          <div className="modal fade" id="addRound" tabIndex="-1" aria-labelledby="addRoundLabel" aria-hidden="true">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="newRoundLabel">New Round</h5>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                <Form action={`/round/createRound/${data.encounter._id}/${data.user._id}/${characterTurn._id}?_method=PUT`} method="POST">
-                    {/* <!-- Description --> */}
-                    <div className="form-group mb-3">
-                      <label htmlFor="encounterDescription">What do you do?</label>
-                      <input type="hidden" id="type" name="type" value="textRound" />
-                      <textarea type="text" className="form-control" id="encounterDescription" placeholder="Encounter Description" name="description"></textarea>
-                    </div>
-                    <button type="submit" className="mx-auto btn btn-primary" value="Upload">Submit</button>
-                  </Form>
-                </div>
-              </div>
-            </div>
-        </div>
+        {/* <!-- Modal create Round --> */}
+        <TextRound
+          encounterId={data.encounter._id}
+          characterTurnId={data.characterTurn._id}
+          userId={data.user._id}
+          sendMessage={sendMessage}
+          setRounds={setRounds}
+        />
         
         {/* <!-- Modal Skill Roll --> */}
         <SkillRoll

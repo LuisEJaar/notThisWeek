@@ -1,6 +1,6 @@
 import { useFormik, Form } from 'formik'
 
-export default function DmEncounterControll({ encounter, dmAction, text, sendMessage, setDmTurn, dmTurn }) {
+export default function DmToggleControll({ encounter, dmAction, text, sendMessage, setDmTurn, dmTurn }) {
   const url = `/encounter/${dmAction}/${encounter}`
   
   const formik = useFormik({
@@ -14,7 +14,10 @@ export default function DmEncounterControll({ encounter, dmAction, text, sendMes
       .then(  
         setDmTurn(!dmTurn)
       ) 
-      .then(sendMessage("controls")) 
+      .then(sendMessage("controls"))
+      .catch((err) => {
+        console.log(err)
+      })
     }
   })
 
