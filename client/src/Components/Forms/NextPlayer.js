@@ -1,15 +1,16 @@
+
 import { useFormik, Form } from 'formik'
 
-export default function DmToggleControll({ encounter, dmAction, text, sendMessage, setDmTurn, dmTurn }) {
-  const urlToggle = `/encounter/${dmAction}/${encounter}`
-  const urlEncounter = `/encounter/${encounter}`
-  
+export default function NextPlayer({ encounterId, setCharacterTurn, characterTurn, sendMessage}) {
+  const url = `/encounter/progressEncounter/${encounterId}`
+  const urlEncounter = `/encounter/${encounterId}`
+
   const formik = useFormik({
     initialValues: {
-      dmTurn: dmTurn
+      characterTurn: characterTurn
     },
     onSubmit: () => {
-      fetch(urlToggle, {
+      fetch(url, {
         method: 'PUT',
       })
       .catch((err) => {
@@ -19,7 +20,7 @@ export default function DmToggleControll({ encounter, dmAction, text, sendMessag
       fetch(urlEncounter)
       .then((res) => res.json())
       .then((data) => { 
-        setDmTurn(data.encounter.dmTurn)
+        setCharacterTurn(data.characterTurn)
       })
       .then(sendMessage("controls"))
       .catch((err) => {
@@ -28,13 +29,13 @@ export default function DmToggleControll({ encounter, dmAction, text, sendMessag
     }
   })
 
+
   return (
     <Form
+      className="m-3"
       onSubmit={formik.handleSubmit}
-      className="ms-3"
     >
-      <button className="btn btn-warning"  type="submit">{ text }</button>
-    </Form> 
+      <button className="btn btn-warning" type="submit">Next Character</button>
+    </Form>
   )
 }
-

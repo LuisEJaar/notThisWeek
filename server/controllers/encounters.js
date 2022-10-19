@@ -79,8 +79,15 @@ module.exports = {
           $inc: { initiative: 1 },
         }
       );
-      console.log("Initiative +1");
-      res.redirect(`/encounter/${req.params.id}`);
+      const encounter = await Encounter.findById(req.params.id);
+      const potentialParty = await Character.find({ game: encounter.post });
+      const party = await potentialParty.filter((member) => {
+        if (encounter.characters.indexOf(member._id) != -1) {
+          return true;
+        }
+      });
+      const characterTurn = await party[encounter.initiative % party.length];
+      res.json({characterTurn: characterTurn})
     } catch (err) {
       console.log(err);
     }

@@ -9,6 +9,7 @@ import SkillRoll from "../Components/Forms/SkillRoll"
 import SaveCheckRoll from "../Components/Forms/SaveCheckRoll"
 import DmToggleControll from '../Components/Forms/DmToggleControll'
 import TextRound from '../Components/Forms/TextRound'
+import NextPlayer from '../Components/Forms/NextPlayer'
 
 //Icons
 import { HeartFill } from 'react-bootstrap-icons';
@@ -16,6 +17,7 @@ import { HeartFill } from 'react-bootstrap-icons';
 import {Form} from 'formik'
 //Socket.io
 import io from 'socket.io-client'
+
 
 
 export default function Encounter() {
@@ -105,9 +107,8 @@ export default function Encounter() {
       fetch(url)
       .then((res) => res.json())
       .then((data) => { 
-        // setCharacterTurn(data.characterTurn)
         setDmTurn(data.encounter.dmTurn)
-        console.log(data)
+        setCharacterTurn(data.characterTurn)
       })
       .catch((err) => {
         console.log(err)
@@ -142,7 +143,7 @@ export default function Encounter() {
               </div>
               <div className="mt-3">
                 <h3>Description:</h3>
-                <p>{data.encounter.description}</p>
+                <p>{ data.encounter.description}</p>
               </div>
               <div className="container mt-4">
               <h3>Characters:</h3> 
@@ -207,16 +208,16 @@ export default function Encounter() {
                   {(data.user._id === data.encounter.dm) &&
                     <>
                       <span>Hello God, your will be done:</span>
-                <div className="d-flex flex-row">
-                  <DmToggleControll
-                    setCharacterTurn={setCharacterTurn}
-                    setDmTurn={setDmTurn}
-                    encounter={data.encounter._id}
-                    dmAction="toggleDm"
-                    text="Toggle DM"
-                    sendMessage={sendMessage}
-                    dmTurn={dmTurn}
-                  />
+                      <div className="d-flex flex-row">
+                        <DmToggleControll
+                          setCharacterTurn={setCharacterTurn}
+                          setDmTurn={setDmTurn}
+                          encounter={data.encounter._id}
+                          dmAction="toggleDm"
+                          text="Toggle DM"
+                          sendMessage={sendMessage}
+                          dmTurn={dmTurn}
+                        />
                         {dmTurn &&
                           <>
                             <button type="button" className="btn btn-primary m-3 shadow" data-bs-toggle="modal" data-bs-target="#addRound">
@@ -228,13 +229,12 @@ export default function Encounter() {
                             <button type="button" className="btn btn-primary m-3 shadow" data-bs-toggle="modal" data-bs-target="#addSaveRollRound">
                               Saving Throw
                             </button>
-                            <Form
-                              className="m-3"
-                              action={`/encounter/progressEncounter/${data.encounter._id}?_method=PUT`}
-                              method="POST"
-                            >
-                              <button className="btn btn-warning" type="submit">Next Character</button>
-                            </Form>
+                            <NextPlayer
+                              encounterId={data.encounter._id}
+                              characterTurn={characterTurn}
+                              setCharacterTurn={setCharacterTurn}
+                              sendMessage={sendMessage}
+                            />
                           </>
                         }
                       </div>
@@ -252,7 +252,7 @@ export default function Encounter() {
                       action={`/encounter/toggleEncounter/${data.encounter._id}?_method=PUT`}
                       method="POST"
                     >
-                      <button className="btn btn-info shadow" type="submit">Re-Open Encounter</button>
+                      <button className="btn btn-info shadow" type="submit">Open / Close Encounter</button>
                     </Form>
                   }
                   <div className="d-flex">
@@ -308,7 +308,7 @@ export default function Encounter() {
                         <p className="card-text"> {round.playerCharacter} to roll for {round.rollFor} </p>
                         {round.playerToRoll === data.user._id &&
                         <Form
-                          action={`/round/makeRoll/${data.round._id}/${characterTurn._id}?_method=PUT`}
+                          action={`/round/makeRoll/${round._id}/${characterTurn._id}?_method=PUT`}
                           method="POST"
                         > 
                             <button type="submit" className="mx-auto btn btn-primary" value="Upload">Submit</button>

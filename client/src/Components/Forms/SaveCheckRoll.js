@@ -1,7 +1,7 @@
 import { useFormik, Field, Form } from 'formik'
 import CheckDifficulty from '../FormComponents/CheckDifficulty';
 
-export default function SaveCheckRoll ({playerId, characterId, setRounds, character, formId, encounterId }) {
+export default function SaveCheckRoll ({sendMessage, playerId, characterId, setRounds, character, formId, encounterId }) {
   const roundUrl = `/round/createRound/${encounterId}/${playerId}/${characterId}`
   
   //Formik items
@@ -22,6 +22,7 @@ export default function SaveCheckRoll ({playerId, characterId, setRounds, charac
       })
       .then(res => res.json())
       .then(json => setRounds(json))
+      .then(sendMessage("rounds"))
       .catch((err) => {
         console.log(err)
       })
