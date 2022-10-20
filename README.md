@@ -66,6 +66,7 @@ Cool concepts
   - Allows for "hidden" information
 - [ ] Make rounds able to intentionally only visible for players who were members
   - Allows for "hidden" information
+- [ ] Allow DM to set auto timeout to skip user turns if they haven't responded in some time
 
 General / vague improvements:
 - [ ] General styling update 
