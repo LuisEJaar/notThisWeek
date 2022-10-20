@@ -1,25 +1,27 @@
 import { useFormik, Form } from 'formik'
 
-export default function DmToggleControll({ encounter, dmAction, text, sendMessage, setDmTurn, dmTurn }) {
+export default function DmToggleControll({ setEncounterActive, encounterActive, encounter, dmAction, text, sendMessage, setDmTurn, dmTurn }) {
   const urlToggle = `/encounter/${dmAction}/${encounter}`
   const urlEncounter = `/encounter/${encounter}`
   
   const formik = useFormik({
     initialValues: {
-      dmTurn: dmTurn
+      dmTurn: dmTurn, 
+      encounterActive: encounterActive
     },
-    onSubmit: () => {
-      fetch(urlToggle, {
+    onSubmit: async () => {
+      await fetch(urlToggle, {
         method: 'PUT',
       })
+      
       .catch((err) => {
         console.log(err)
       })
-
-      fetch(urlEncounter)
+      await fetch(urlEncounter)
       .then((res) => res.json())
       .then((data) => { 
         setDmTurn(data.encounter.dmTurn)
+        setEncounterActive(data.encounter.active)
       })
       .then(sendMessage("controls"))
       .catch((err) => {
@@ -29,12 +31,14 @@ export default function DmToggleControll({ encounter, dmAction, text, sendMessag
   })
 
   return (
-    <Form
-      onSubmit={formik.handleSubmit}
-      className="ms-3"
-    >
-      <button className="btn btn-warning"  type="submit">{ text }</button>
-    </Form> 
+    <>
+      <Form
+        onSubmit={formik.handleSubmit}
+        className="ms-3"
+      >
+        <button className="btn btn-warning"  type="submit">{ text }</button>
+      </Form> 
+    </>
   )
 }
 

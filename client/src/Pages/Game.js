@@ -141,7 +141,7 @@ export default function Game() {
               {
                 data.encounters.map((encounter) => {
                   return (
-                    <div key={ encounter._id} className={`encounterContained shadow card mb-3 text-white ${encounter.active ? " bg-success" : "bg - secondary"}`} style={{ width: 18 + 'rem' }} >
+                    <div key={ encounter._id} className={`encounterContained shadow card mb-3 text-white ${encounter.active ? " bg-success" : "bg-secondary"}`} style={{ width: 18 + 'rem' }} >
                       {encounter.active && <span className="badge bg-primary">Active</span>}
                       {!encounter.active && <span className="badge bg-secondary">Archived</span>}
                       <img src={ encounter.image} className="encounterPicture card-img-top" alt="encounter" />

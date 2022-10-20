@@ -98,8 +98,7 @@ module.exports = {
       encounter.active = !encounter.active;
       await encounter.save()
 
-      console.log(`Encounter active set to: ${encounter.active}`);
-      res.redirect(`/encounter/${req.params.id}`);
+      res.json(encounter.active)
     } catch (err) {
       console.log(err);
     }

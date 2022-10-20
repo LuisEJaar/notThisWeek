@@ -12,8 +12,8 @@ export default function SkillRoll ({sendMessage, playerId, characterId, setRound
       rollCategory: "skillModifiers",
       type: "rollRound",
     }, 
-    onSubmit: values => {
-      fetch(roundUrl, {
+    onSubmit: async values => {
+      await fetch(roundUrl, {
         body: JSON.stringify(values),
         method: 'post',
         headers: {

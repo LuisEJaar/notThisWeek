@@ -12,8 +12,8 @@ export default function SaveCheckRoll ({sendMessage, playerId, characterId, setR
       type: "rollRound",
       rollCategory: "checkModifiers"
     }, 
-    onSubmit: values => {
-      fetch(roundUrl, {
+    onSubmit: async values => {
+      await fetch(roundUrl, {
         body: JSON.stringify(values),
         method: 'post',
         headers: {

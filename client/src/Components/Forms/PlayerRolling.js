@@ -1,17 +1,16 @@
-
 import { useFormik, Form } from 'formik'
 
-export default function NextPlayer({ encounterId, setCharacterTurn, characterTurn, sendMessage}) {
-  const url = `/encounter/progressEncounter/${encounterId}`
+export default function PlayerRolling({roundId, characterTurnId, encounterId, rounds, setRounds, sendMessage}) {
+  const actionUrl = `/round/makeRoll/${roundId}/${characterTurnId}`
   const urlEncounter = `/encounter/${encounterId}`
-
+  
   const formik = useFormik({
     initialValues: {
-      characterTurn: characterTurn
+      rounds: rounds, 
     },
     onSubmit: async () => {
-      await fetch(url, {
-        method: 'PUT',
+      await fetch(actionUrl, {
+        method: 'put',
       })
       .catch((err) => {
         console.log(err)
@@ -20,22 +19,20 @@ export default function NextPlayer({ encounterId, setCharacterTurn, characterTur
       await fetch(urlEncounter)
       .then((res) => res.json())
       .then((data) => { 
-        setCharacterTurn(data.characterTurn)
+        setRounds(data.rounds)
       })
-      .then(sendMessage("controls"))
+      .then(sendMessage("rounds"))
       .catch((err) => {
         console.log(err)
       })
     }
   })
 
-
   return (
     <Form
-      className="m-3"
       onSubmit={formik.handleSubmit}
-    >
-      <button className="btn btn-warning" type="submit">Next Character</button>
+    > 
+      <button type="submit" className="mx-auto btn btn-primary" value="Upload">Submit</button>
     </Form>
   )
 }
