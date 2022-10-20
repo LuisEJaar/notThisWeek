@@ -7,9 +7,11 @@ import { Formik} from 'formik'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Formik>
-      <BrowserRouter>   
-          <App />
-      </BrowserRouter>
-  </Formik>
+  <React.StrictMode>
+    <Formik>
+        <BrowserRouter>   
+            <App />
+        </BrowserRouter>
+    </Formik>
+  </React.StrictMode>
 );

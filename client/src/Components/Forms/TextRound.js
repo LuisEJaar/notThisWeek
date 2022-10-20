@@ -10,8 +10,8 @@ export default function TextRound({ setRounds, sendMessage, encounterId, userId,
       description: "", 
       type: "textRound"
     }, 
-    onSubmit: values => {
-      fetch(roundUrl, {
+    onSubmit: async values => {
+      await fetch(roundUrl, {
         body: JSON.stringify(values),
         method: 'post',
         headers: {
@@ -20,7 +20,7 @@ export default function TextRound({ setRounds, sendMessage, encounterId, userId,
       })
       .then(res => res.json())
       .then(json => setRounds(json))
-      .then(sendMessage("rounds"))
+      .then(sendMessage("rounds")) // 
       .catch((err)=> console.log(err))
     }
   })

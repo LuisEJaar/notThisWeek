@@ -96,9 +96,9 @@ module.exports = {
     try {
       let encounter = await Encounter.findOne({ _id: req.params.id })
       encounter.active = !encounter.active;
+      
       await encounter.save()
-
-      res.json(encounter.active)
+      res.json({encounter})
     } catch (err) {
       console.log(err);
     }
@@ -109,7 +109,7 @@ module.exports = {
       encounter.dmTurn = !encounter.dmTurn;
 
       await encounter.save()
-      res.json(encounter.dmTurn)
+      res.json({ encounter })
     } catch (err) {
       console.log(err);
     }
