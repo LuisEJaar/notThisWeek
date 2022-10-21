@@ -50,6 +50,12 @@ One Off necessaries / Improvements:
 - [ ] DM to be able to edit their individual encounter rounds
 - [X] DM to be able to toggle their turn status
 
+Major Overhaul:
+- [ ] Convert to React
+  - [X] Open pages as react project
+  - [ ] Incorporate socket.io
+  - [ ] Convert Forms to Formik
+
 Cool concepts
 - [ ] The ability to hide / unhide encounters / games
   - This will allow for DM's to create games / sessions in advance
@@ -60,6 +66,7 @@ Cool concepts
   - Allows for "hidden" information
 - [ ] Make rounds able to intentionally only visible for players who were members
   - Allows for "hidden" information
+- [ ] Allow DM to set auto timeout to skip user turns if they haven't responded in some time
 
 General / vague improvements:
 - [ ] General styling update 
