@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "homepage": "https://luisejaar.github.io/notThisWeek/",
+  "homepage": "https://luisejaar.github.io/notthisweek/",
   "private": true,
   "proxy": "https://notthisweek.herokuapp.com/",
   "dependencies": {
