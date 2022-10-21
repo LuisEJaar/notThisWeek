@@ -4,6 +4,7 @@ import Header from "../Components/Header"
 import Footer from "../Components/Footer"
 import { HeartFill } from 'react-bootstrap-icons';
 import './Game.css'
+import {Form} from "formik"
 
 export default function Game() {
   const [data, setData] = React.useState(null)
@@ -23,6 +24,7 @@ export default function Game() {
 
   console.log(data)
 
+  //Manage likes on game
   function LikeHandler(e) {
     e.preventDefault()
     const newLikes = {
@@ -34,20 +36,7 @@ export default function Game() {
        post: newLikes
     })
   }
-
-  const likeUrl = `/post/likePost/${id}`
-  
-  const { likes } = data.post.likes || ""
-  
-  React.useEffect(() => {
-    fetch(likeUrl, {method: "PUT"})
-      .then((res) => res.json())
-      .then((data)=> setData(data))
-  }, [likes]);
-
-
-
-  
+ 
   return (
     <>
       <Header page="else" />
@@ -63,14 +52,12 @@ export default function Game() {
             <h3>{ data.post.title }</h3>
               <img className="mx-auto img-fluid shadow rounded currentEncounterGameImage" src={ data.post.image } alt="post"/>
               <div className="d-flex m-2">
-              <form
+              <Form
                   onSubmit={LikeHandler}
-                  action={`/post/likePost/${data.post._id}?_method=PUT`}
-                  method="POST"
                   className="m-2"
                 >
                   <button className="btn btn-primary shadow" type="submit"><HeartFill/></button>
-                </form>
+                </Form>
                 <h3 className="m-2">Likes: { data.post.likes }</h3>
               </div>
             <div>
@@ -116,10 +103,15 @@ export default function Game() {
         </div>
         <div className="container mt-5">
           {/* <!-- Player Tools --> */}
-          {data.party.find((member) => member.id === data.user.id) && data.characters.find((character) => character.user === data.user.id ) &&
+          {(data.party.find((member) => member._id === data.user._id) && data.characters.find((character) => character.user === data.user._id )) &&
             <span>Your character is in the game</span>
           }
-          {(data.party.find((member) => member.id === data.user.id) && !data.characters.find((character) => character.user === data.user.id) && data.user.type !== "dm")  &&
+          
+          {(data.party.find((member) => member._id === data.user._id) === undefined && data.user._id !== data.post.user) &&
+            <span>You are not a part of this game</span>
+          }
+
+          {(data.party.find((member) => member._id === data.user._id) && data.characters.find((character) => character.user === data.user._id) === undefined && data.user.type !== "dm")  &&
             <button type="button" className="shadow ms-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCharacter">
             Add Character
           </button>
@@ -128,7 +120,7 @@ export default function Game() {
         <div className="container mt-5">
           <div className="d-flex justify-content-center mb-3">
             {/* <!-- DM Tools --> */}
-            {data.user.id === data.post.user &&
+            {data.user._id === data.post.user &&
               <>
               <button type="button" className="shadow btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEncounter">
               Add encounter
@@ -149,7 +141,7 @@ export default function Game() {
               {
                 data.encounters.map((encounter) => {
                   return (
-                    <div key={ encounter._id} className={`encounterContained shadow card mb-3 text-white ${encounter.active ? " bg-success" : "bg - secondary"}`} style={{ width: 18 + 'rem' }} >
+                    <div key={ encounter._id} className={`encounterContained shadow card mb-3 text-white ${encounter.active ? " bg-success" : "bg-secondary"}`} style={{ width: 18 + 'rem' }} >
                       {encounter.active && <span className="badge bg-primary">Active</span>}
                       {!encounter.active && <span className="badge bg-secondary">Archived</span>}
                       <img src={ encounter.image} className="encounterPicture card-img-top" alt="encounter" />
@@ -190,7 +182,7 @@ export default function Game() {
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
-                <form action={`/encounter/createEncounter/${data.post._id}`} encType="multipart/form-data" method="POST">
+                <Form action={`/encounter/createEncounter/${data.post._id}`} encType="multipart/form-data" method="POST">
                   {/* <!-- Title --> */}
                   <div className="form-group mb-3">
                     <label htmlFor="encounterTitle">Title</label>
@@ -229,7 +221,7 @@ export default function Game() {
                     <span>Gather ye party!</span>
                   }
                   <button type="submit" className="mx-auto btn btn-primary" value="Upload">Submit</button>
-                </form>
+                </Form>
               </div>
             </div>
           </div>
@@ -244,7 +236,7 @@ export default function Game() {
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
-                <form action={`/player/addGame/${data.post._id}?_method=PUT`} method="POST">
+                <Form action={`/player/addGame/${data.post._id}?_method=PUT`} method="POST">
                   <label htmlFor="playerList" className="form-label">Player List</label>
                   <select className="form-control" name="playerId" id="playerList">
                     <option value="">Warriors! Come out to playeeyay</option>
@@ -254,7 +246,7 @@ export default function Game() {
                     }
                   </select>
                   <button type="submit" className="mt-2 btn btn-primary">Add to party</button>
-                </form>
+                </Form>
               </div>
             </div>
           </div>
@@ -269,7 +261,7 @@ export default function Game() {
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
-                <form action={`/character/addGame/${data.post._id}?_method=PUT`} method="POST">
+                <Form action={`/character/addGame/${data.post._id}?_method=PUT`} method="POST">
                   <label htmlFor="playerList" className="form-label">Character List</label>
                   <select className="form-control" name="characterId" id="characterList">
                     <option value="">Warriors! Come out to playeeyay</option>
@@ -278,7 +270,7 @@ export default function Game() {
                     }) }
                   </select>
                   <button type="submit" className="mt-2 btn btn-primary">Add to party</button>
-                </form>
+                </Form>
               </div>
             </div>
           </div>
@@ -296,12 +288,12 @@ export default function Game() {
                 Game deletion cannot be undone, you're condemning your world to fantasy death!
               </div>
               <div className="modal-footer">
-                <form
+                <Form
                   action={`/post/deletePost/${data.post._id}?_method=DELETE`}
                   method="POST"
                 >
                 <button className="btn btn-danger" type="submit">Do it</button>
-                </form>
+                </Form>
               </div>
             </div>
           </div>
