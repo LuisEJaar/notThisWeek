@@ -3,21 +3,15 @@ import { useFormik, Form } from 'formik'
 
 export default function NextPlayer({ encounterId, setCharacterTurn, characterTurn, sendMessage}) {
   const url = `/encounter/progressEncounter/${encounterId}`
-  const urlEncounter = `/encounter/${encounterId}`
 
   const formik = useFormik({
     initialValues: {
       characterTurn: characterTurn
     },
-    onSubmit: async () => {
-      await fetch(url, {
-        method: 'PUT',
+    onSubmit: () => {
+      fetch(url, {
+        method: 'put',
       })
-      .catch((err) => {
-        console.log(err)
-      })
-
-      await fetch(urlEncounter)
       .then((res) => res.json())
       .then((data) => { 
         setCharacterTurn(data.characterTurn)

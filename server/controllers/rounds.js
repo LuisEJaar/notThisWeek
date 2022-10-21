@@ -90,6 +90,8 @@ module.exports = {
           nat20: d20 == 20,
         },
       )
+      const rounds = await Rounds.find({encounter: round.encounter}).sort({ createdAt: "desc" }).lean();
+      res.json({rounds})
     } catch (err) {
       console.log(err)
     }
@@ -97,8 +99,10 @@ module.exports = {
   deleteRound: async (req, res) => {
     try {
       await Rounds.remove({ _id: req.params.id });
-      console.log("Deleted Round");
-      res.redirect("back");
+      console.log()
+      const rounds = await Rounds.find({encounter: req.params.encounterId}).sort({ createdAt: "desc" }).lean();
+      console.log(rounds)
+      res.json({ rounds })
     } catch (err) {
       res.redirect("back");
     }

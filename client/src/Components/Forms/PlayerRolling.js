@@ -1,26 +1,18 @@
 import { useFormik, Form } from 'formik'
 
-export default function PlayerRolling({roundId, characterTurnId, encounterId, rounds, setRounds, sendMessage}) {
+export default function PlayerRolling({roundId, characterTurnId, rounds, setRounds, sendMessage}) {
   const actionUrl = `/round/makeRoll/${roundId}/${characterTurnId}`
-  const urlEncounter = `/encounter/${encounterId}`
   
   const formik = useFormik({
     initialValues: {
       rounds: rounds, 
     },
-    onSubmit: async () => {
-      await fetch(actionUrl, {
+    onSubmit: () => {
+      fetch(actionUrl, {
         method: 'put',
       })
-      .catch((err) => {
-        console.log(err)
-      })
-
-      await fetch(urlEncounter)
       .then((res) => res.json())
-      .then((data) => { 
-        setRounds(data.rounds)
-      })
+      .then((data) => setRounds(data.rounds))
       .then(sendMessage("rounds"))
       .catch((err) => {
         console.log(err)

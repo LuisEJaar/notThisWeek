@@ -11,6 +11,6 @@ router.put("/likeRound/:id", roundsController.likeRound);
 
 router.put("/editRound/:id", roundsController.editRound);
  
-router.delete("/deleteRound/:id", roundsController.deleteRound);
+router.delete("/deleteRound/:id/:encounterId", roundsController.deleteRound);
 
 module.exports = router;
