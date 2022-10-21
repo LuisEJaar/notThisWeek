@@ -9,7 +9,7 @@ export default function Profile() {
   const [data, setData] = React.useState(null)
 
   const { id } = useParams()
-  const url = `/userProfile/${id}`
+  const url = `/userProfile/${id}?q=proxy`
 
   React.useEffect(() => {
     fetch(url)
@@ -72,7 +72,7 @@ export default function Profile() {
               {data.posts.map((post) => { 
                 return (  
                 <li key={post._id} className="justify-content-between mt-3">
-                  <Link to={`/post/${post._id}`}>
+                  <Link to={`/post/${post._id}?q=proxy`}>
                     <figure className="d-flex flex-column align-items-center">
                       <img alt="game" className="img-fluid rounded profileGame" src={ post.image }/>
                         <figcaption className="text-center">{post.title}</figcaption>
