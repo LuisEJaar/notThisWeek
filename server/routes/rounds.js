@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const upload = require("../middleware/multer");
 const roundsController = require("../controllers/rounds");
-const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 //Encounter Routes
 router.post("/createRound/:encounterId/:playerId/:characterId", roundsController.createRound);
@@ -13,6 +11,6 @@ router.put("/likeRound/:id", roundsController.likeRound);
 
 router.put("/editRound/:id", roundsController.editRound);
  
-router.delete("/deleteRound/:id", roundsController.deleteRound);
+router.delete("/deleteRound/:id/:encounterId", roundsController.deleteRound);
 
 module.exports = router;

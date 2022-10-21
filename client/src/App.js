@@ -11,6 +11,7 @@ import Game from './Pages/Game'
 import Encounter from './Pages/Encounter'
 
 function App() {
+  
   return (
     <div className="App">
       <Routes>

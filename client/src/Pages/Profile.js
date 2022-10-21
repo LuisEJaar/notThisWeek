@@ -3,6 +3,7 @@ import Header from "../Components/Header"
 import Footer from "../Components/Footer"
 import { useParams, Link } from 'react-router-dom'
 import CreateCharacter from '../Components/Forms/CharacterCreation'
+import {Form} from 'formik'
 
 export default function Profile() {
   const [data, setData] = React.useState(null)
@@ -13,7 +14,7 @@ export default function Profile() {
   React.useEffect(() => {
     fetch(url)
       .then((res) => res.json())
-      .then((data)=> setData(data))
+      .then((data) => setData(data))
   }, [url, id]);
   
   console.log(data)
@@ -42,7 +43,7 @@ export default function Profile() {
             {(data.targetUser.type==="dm" && data.visitor._id ===data.targetUser._id) && 
               <div className="mt-3">
                 <h2>Add a game:</h2>
-                <form action="/post/createPost" encType="multipart/form-data" method="POST">
+                <Form action="/post/createPost" encType="multipart/form-data" method="POST">
                   <div className="mb-3">
                       <label htmlFor="title" className="form-label">Title</label>
                       <input type="text" className="form-control" id="title" name="title" required/>
@@ -56,7 +57,7 @@ export default function Profile() {
                     <input type="file" className="form-control" id="imageUpload" name="file" required/>
                   </div>
                   <button type="submit" className="btn btn-primary" value="Upload">Submit</button>
-                </form>
+                </Form>
               </div>
             }
           </div>

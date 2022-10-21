@@ -1,205 +1,342 @@
-import React from 'react'
+// React:
+import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+
+// Components
 import Header from "../Components/Header"
 import Footer from "../Components/Footer"
+// Form Related
+import SkillRoll from "../Components/Forms/SkillRoll"
+import SaveCheckRoll from "../Components/Forms/SaveCheckRoll"
+import DmToggleControll from '../Components/Forms/DmToggleControll'
+import TextRound from '../Components/Forms/TextRound'
+import NextPlayer from '../Components/Forms/NextPlayer'
+import PlayerRolling from '../Components/Forms/PlayerRolling'
+import Delete from '../Components/Forms/Delete'
+
+//Icons
 import { HeartFill } from 'react-bootstrap-icons';
+//Form Items
+import { Form } from 'formik'
+
+//Socket.io
+import io from 'socket.io-client'
+let socket
 
 export default function Encounter() {
-  const [data, setData] = React.useState(null)
+  const [data, setData] = useState(null)
+  const [likes, setLikes] = useState(null)
+  const [rounds, setRounds] = useState(null)
+  const [characterTurn, setCharacterTurn] = useState(null)
+  const [dmTurn, setDmTurn] = useState(null)
+  const [encounterActive, setEncounterActive] = useState(null)
 
+  //Fetching Initial data
   const { id } = useParams()
   const url = `/encounter/${id}`
 
-  React.useEffect(() => {
+  async function pageLoad() {
     fetch(url)
       .then((res) => res.json())
-      .then((data) => setData(data))
+      .then((data) => { 
+        setData(data)
+        setRounds(data.rounds)
+        setLikes(data.encounter.likes)
+        setCharacterTurn(data.characterTurn)
+        setDmTurn(data.encounter.dmTurn)
+        setEncounterActive(data.encounter.active)
+      })
+      .then(socket = io.connect("http://localhost:3001"))
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  useEffect(() => {
+    pageLoad()
   }, [url, id]);
   
   console.log(data)
+
+  //Managing likes on encounter
+  const likeUrl = `/encounter/likeEncounter/${id}`
+  
+  useEffect(() => {
+    if (data && data.encounter.likes !== likes) {
+      fetch(likeUrl, { method: "PUT" })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
+  }, [likes, likeUrl, data]);
+
+  function LikeHandler(e) {
+    e.preventDefault()
+    setLikes((oldLikes) => (Number(oldLikes) + 1))
+  }
+
+  // Socket.io enabled via socket.io-client package
+   //URL for backend
+
+  let room
+
+  const joinRoom = () => {
+    if (data !== null) {
+      room = data.encounter._id
+      socket.emit("join_room", room)
+    }
+  }
+
+  joinRoom()
+  
+  //Socket senders
+  const sendMessage = (message) => {
+    if (message === "rounds") {
+      socket.emit("send_roundRefresh", { message, room} )
+    } else if (message === "controls") {
+      socket.emit("send_controlRefresh", { message, room} )
+    }
+  };
+
+
+  async function fetchContain2() {
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => { 
+        setRounds(data.rounds)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  //Socket listeners
+  useEffect(() => {
+    socket.on("receive_roundRefresh", () => {
+      fetchContain2()
+    })
+  })
+
+  async function fetchContain3() {
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => { 
+        setDmTurn(data.encounter.dmTurn)
+        setCharacterTurn(data.characterTurn)
+        setEncounterActive(data.encounter.active)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  useEffect(() => {
+    socket.on("receive_controlRefresh", () => {
+      fetchContain3()
+    })
+  })
+  
+  // End Socket.io
 
   return (
     <>
       <Header page="else" />
       {data &&
         <>
-          <div className="container">
-            <div className="mt-1">
-              <Link className="btn btn-primary shadow me-3" to={`/userProfile/${data.encounter.dm}`}>DM Profile</Link>
-              <Link className="btn btn-primary shadow" to={`/post/${data.encounter.post}`}>Return to game</Link>
-            </div>
-            <div className="row justify-content-center mt-5">
-              <h2>Encounter Title:</h2>
-              <h2>{data.encounter.title}</h2>
+        <div className="container">
+          <div className="mt-1">
+            <Link className="btn btn-primary shadow me-3" to={`/userProfile/${data.encounter.dm}`}>DM Profile</Link>
+            <Link className="btn btn-primary shadow" to={`/post/${data.encounter.post}`}>Return to game</Link>
+          </div>
+          <div className="row justify-content-center mt-5">
+            <h2>Encounter Title:</h2>
+            <h2>{data.encounter.title}</h2>
             <img className="img-fluid rounded shadow currentEncounterGameImage" alt='encounter' src={data.encounter.image} />
-              <div className="d-flex m-2">
-                <form
-                  className="m-2"
-                  action={`/encounter/likeEncounter/${data.encounter._id}?_method=PUT`}
-                  method="POST"
-                >
-                  <button className="btn btn-primary" type="submit"><HeartFill/></button>
-                </form>
-                <h3 className="m-2">Likes: {data.encounter.likes}</h3>
-              </div>
-              <div className="mt-3">
-                <h3>Description:</h3>
-                <p>{data.encounter.description}</p>
-              </div>
-              <div className="container mt-4">
+            <div className="d-flex m-2">
+              <Form
+                onSubmit={LikeHandler}
+                className="m-2"
+              >
+                <button className="btn btn-primary" type="submit"><HeartFill/></button>
+              </Form>
+              <h3 className="m-2">Likes: {likes}</h3>
+            </div>
+            <div className="mt-3">
+              <h3>Description:</h3>
+              <p>{ data.encounter.description}</p>
+            </div>
+            <div className="container mt-4">
               <h3>Characters:</h3> 
-              {data.party.map((member) => {
+              { data.party.map((member) => {
                 return (  
                   <Link key={ member._id } to={`/character/${member._id}`} target="_blank" className="btn btn-primary shadow me-2">{member.name}</Link>
                   )
                 })}
-                <h3 className="mt-3">Characters Turn:</h3>
-                {
-                  data.encounter.active &&
-                  <>
-                    {data.encounter.dmTurn &&
-                      <Link className="btn btn-primary shadow"> DM </Link>
-                    }
-                    {!data.encounter.dmTurn &&
-                      <Link to={`/character/${data.characterTurn._id}`} target="_blank" className="btn btn-primary shadow">{data.characterTurn.name}</Link>
-                    }
-                  </>
-                }
-                {
-                  !data.encounter.active &&
-                  <span>This encounter has concluded</span>
-                }
-              </div>
+              <h3 className="mt-3">Characters Turn:</h3>
+              { encounterActive &&
+                <>
+                  {dmTurn &&
+                    <Link className="btn btn-primary shadow"> DM </Link>
+                  }
+                  {!dmTurn &&
+                    <Link to={`/character/${characterTurn._id}`} target="_blank" className="btn btn-primary shadow">{characterTurn.name}</Link>
+                  }
+                </>
+              }
+              { !encounterActive &&
+                <span>This encounter has concluded</span>
+              }
             </div>
           </div>
-
-          {/* <!--  Action Section--> */}
+        </div>
+        {/* <!--  Action Section--> */}
           <div className="container mt-5">
             <div className="d-flex flex-column align-items-center">
-              {data.encounter.active &&
+              {encounterActive &&
                 <>
-                  {(data.characterTurn.user === data.user._id) &&
+                  {/* Players turn but DM is active */}
+                  {(characterTurn.user === data.user._id) &&
                     <>
-                      {data.encounter.dmTurn &&
+                      {dmTurn &&
                         <span>You will be next, the DM is thinking.</span>
                       }
-                      {!data.encounter.dmTurn &&
+                      {/* Players turn and DM is inactive */}
+                      {!dmTurn &&
                         <>
                           <span>It is your turn</span>
                           <div className="d-flex flex-row mt-3">
                             <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRound">
                               Add round
                             </button>
-                            <form
-                              className="ms-3"
-                              action={`/encounter/toggleDm/${data.encounter._id}?_method=PUT`}
-                              method="POST"
-                            >
-                              <button className="btn btn-warning" type="submit">Toggle DM Turn</button>
-                            </form>
                           </div>
                         </>
                       }
                     </>
                   }
-                  {(data.characterTurn.user !== data.user._id && data.user._id !== data.encounter.dm) &&
+              
+                  {/* Not players turn and DM is active */}
+                  {(characterTurn.user !== data.user._id && data.user._id !== data.encounter.dm) &&
                     <>
-                      {data.encounter.dmTurn &&
+                      {dmTurn &&
                         <span>Please be patient, the DM is thinking.</span>
                       }
-                      {!data.encounter.dmTurn &&
-                        <span>Please be patient, {data.characterTurn.name} is thinking. </span>
+                      {/* Not players turn and DM is inactive */}
+                      {!dmTurn &&
+                        <span>Please be patient, {characterTurn.name} is thinking. </span>
                       }
                     </>
                   }
 
+                  {/* User is logged in as game DM */}
                   {(data.user._id === data.encounter.dm) &&
-                    <>
-                      <span>Hello God, your will be done:</span>
+                      <>
+                      {/* Toggle if its the DM's turn  */}
+                      <span>Hello DM, your will be done:</span>
                       <div className="d-flex flex-row">
-                        <form
-                          className="m-3"
-                          action={`/encounter/toggleDm/${data.encounter._id}?_method=PUT`}
-                          method="POST"
-                        >
-                          <button className="btn btn-warning shadow" type="submit">Toggle DM</button>
-                        </form>
-                        {data.encounter.dmTurn &&
+                        <DmToggleControll
+                          encounter={data.encounter._id}
+                          dmAction="toggleDm"
+                          text="Toggle DM"
+                          sendMessage={sendMessage}
+                          setDmTurn={setDmTurn}
+                          dmTurn={dmTurn}
+                        />
+                  
+                        {/* DM is active */}
+                        {dmTurn &&
                           <>
                             <button type="button" className="btn btn-primary m-3 shadow" data-bs-toggle="modal" data-bs-target="#addRound">
                               Add text round
                             </button>
                             <button type="button" className="btn btn-primary m-3 shadow" data-bs-toggle="modal" data-bs-target="#addSkillRollRound">
-                              Skill Check
+                              Assign Skill Check
                             </button>
                             <button type="button" className="btn btn-primary m-3 shadow" data-bs-toggle="modal" data-bs-target="#addSaveRollRound">
-                              Saving Throw
+                              Assign Saving Throw
                             </button>
-                            <form
-                              className="m-3"
-                              action={`/encounter/progressEncounter/${data.encounter._id}?_method=PUT`}
-                              method="POST"
-                            >
-                              <button className="btn btn-warning" type="submit">Next Character</button>
-                            </form>
+                            <NextPlayer
+                              encounterId={data.encounter._id}
+                              characterTurn={characterTurn}
+                              setCharacterTurn={setCharacterTurn}
+                              sendMessage={sendMessage}
+                            />
                           </>
                         }
                       </div>
+                      <div>
+                      {/* DM to archive / toggle encounter */}
+                      {data.user._id === data.encounter.dm &&
+                        <DmToggleControll
+                          setDmTurn={setDmTurn}
+                          encounter={data.encounter._id}
+                          dmAction="toggleEncounter" 
+                          text="Toggle Encounter"
+                          sendMessage={sendMessage}
+                          setEncounterActive={setEncounterActive}
+                          encounterActive={encounterActive}
+                          dmTurn={dmTurn}
+                        />
+                      }
+                    </div>
                     </>
                   }
 
                 </>
               }
-              {!data.encounter.active &&
-                <>
+            
+              {/* Inactive / archived encounter dm controlls */}
+              {(!encounterActive && data.user._id === data.encounter.dm)  &&
+              <>
                   <span>This encounter has concluded</span>
-                  {data.user._id === data.encounter.dm &&
-                    <form
-                      className="m-3"
-                      action={`/encounter/toggleEncounter/${data.encounter._id}?_method=PUT`}
-                      method="POST"
-                    >
-                      <button className="btn btn-info shadow" type="submit">Re-Open Encounter</button>
-                    </form>
-                  }
+                  <DmToggleControll
+                     setDmTurn={setDmTurn}
+                     encounter={data.encounter._id}
+                     dmAction="toggleEncounter"
+                     text="Toggle Encounter"
+                     sendMessage={sendMessage}
+                     setEncounterActive={setEncounterActive}
+                     encounterActive={encounterActive}
+                   />
                   <div className="d-flex">
                     {/* <!-- Button Deletion Modal --> */}
-                    <form
-                      className=""
-                      action={`/encounter/toggleEncounter/${data.encounter._id}?_method=PUT`}
-                      method="POST"
-                    >
-                      <button className="btn btn-danger shadow" type="submit">End Encounter</button>
-                    </form>
-                    <button type="button" className="shadow ms-3 btn btn-danger shadow" data-bs-toggle="modal" data-bs-target="#deleteEncounter">
+                    
+                    <button type="button" className="shadow ms-3 mt-5 btn btn-danger shadow" data-bs-toggle="modal" data-bs-target="#deleteEncounter">
                       Delete Encounter
                     </button>
                   </div>
                 </>
               }
             </div>
-            {/* <!-- Display rounds --> */}
+            
+          {/* <!-- Display rounds --> */}
           <div className="container mt-3">
-            {data.rounds.map((round) => {
+            {rounds.map((round) => {
               return (
-                <div className="card mb-3 shadow">
-                  <div className="card-header d-flex">
-                    {round.player === "DM" && <>DM</>}
-                    {round.player !== "DM" && <>{round.playerCharacter} ({round.player})</>}
+                <div key={round._id} className="card mb-3 shadow">
+                  <div className="card-header row">
+                    {round.player === "DM" && <><span className='col-4'>DM</span></>}
+                    {round.player !== "DM" && <><span className='col-4'>{round.playerCharacter} ({round.player})</span></>}
                     {(data.user._id === data.encounter.dm && round.type === "textRound") &&
                       <>
-                        <button type="button" className="shadow ms-auto btn btn-warning shadow" data-bs-toggle="modal" data-bs-target="#editRound">
-                          Edit Round
+                        <button type="button" className="col-md-3 col-lg-1 shadow btn btn-warning shadow" data-bs-toggle="modal" data-bs-target="#editRound">
+                          Edit
                         </button>
-                        {/* <%- include('partials/editRound', {round: round}) -%> */}
                       </>
                     }
                     {data.user._id === data.encounter.dm &&
                       <>
-                        <button type="button" className="shadow ms-auto btn btn-danger shadow" data-bs-toggle="modal" data-bs-target="#deleteRound">
-                          Delete Round
-                        </button>
-                        {/* <%- include('partials/deleteRound', {round: round}) -%> */}
+                        <button type="button" className="ms-auto col-md-3 col-lg-1 shadow btn btn-danger shadow" data-bs-toggle="modal" data-bs-target="#deleteRound">
+                          Delete
+                      </button>
+                      {/* <!-- Delete Round --> */}
+                        <Delete
+                          sendMessage={sendMessage}
+                          setRounds={setRounds}
+                          targetId={round._id}
+                          target="Round"
+                          rounds={rounds}
+                          encounterId={data.encounter._id}
+                        />
                       </>
                     }
                   </div>
@@ -213,12 +350,13 @@ export default function Encounter() {
                       <>
                         <p className="card-text"> {round.playerCharacter} to roll for {round.rollFor} </p>
                         {round.playerToRoll === data.user._id &&
-                        <form
-                          action={`/round/makeRoll/${data.round._id}/${data.characterTurn._id}?_method=PUT`}
-                          method="POST"
-                        > 
-                            <button type="submit" className="mx-auto btn btn-primary" value="Upload">Submit</button>
-                          </form>
+                        <PlayerRolling
+                          roundId={round._id}
+                          characterTurnId={characterTurn._id}
+                          setRounds={setRounds}
+                          sendMessage={sendMessage}
+                          encounterId={data.encounter._id}
+                        />
                         }
                       </>
                     }
@@ -233,214 +371,41 @@ export default function Encounter() {
             </div>
           </div>
 
-          {/* <!-- Modal create Round --> */}
-          <div className="modal fade" id="addRound" tabIndex="-1" aria-labelledby="addRoundLabel" aria-hidden="true">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="newRoundLabel">New Round</h5>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                <form action={`/round/createRound/${data.encounter._id}/${data.user._id}/${data.characterTurn._id}?_method=PUT`} method="POST">
-                    {/* <!-- Description --> */}
-                    <div className="form-group mb-3">
-                      <label htmlFor="encounterDescription">What do you do?</label>
-                      <input type="hidden" id="type" name="type" value="textRound" />
-                      <textarea type="text" className="form-control" id="encounterDescription" placeholder="Encounter Description" name="description"></textarea>
-                    </div>
-                    <button type="submit" className="mx-auto btn btn-primary" value="Upload">Submit</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* <!-- Modal Skill Roll --> */}
-          <div className="modal fade" id="addSkillRollRound" tabIndex="-1" aria-labelledby="addSkillRollRoundLabel" aria-hidden="true">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="newRoundLabel">Skill roll for {data.characterTurn.name}</h5>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                <form action={`/round/createRound/${data.encounter._id}/${data.characterTurn.user}/${data.characterTurn._id}?_method=PUT`} method="POST">
-                    {/* <!-- Description --> */}
-                    <div className="form-group mb-3">
-                      <label htmlFor="encounterDescription">{data.characterTurn.name} rolls for:</label>
-                      <select className="form-select" aria-label="Default select example" name="rollFor" required>
-                        <option value="acrobatics">Acrobatics</option>
-                        <option value="animalHandling">AnimalHandling</option>
-                        <option value="arcana">Arcana</option>
-                        <option value="athletics">Athletics</option>
-                        <option value="deception">Deception</option>
-                        <option value="history">History</option>
-                        <option value="insight">Insight</option>
-                        <option value="intimidation">Intimidation</option>
-                        <option value="investigation">Investigation</option>
-                        <option value="medicine">Medicine</option>
-                        <option value="nature">Nature</option>
-                        <option value="perception">Perception</option>
-                        <option value="performance">Performance</option>
-                        <option value="persuasion">Persuasion</option>
-                        <option value="religion">Religion</option>
-                        <option value="sleightOfHand">Sleight Of Hand</option>
-                        <option value="stealth">Stealth</option>
-                        <option value="survival">Survival</option>
-                      </select>
-                      <label htmlFor="playerTarget">{data.characterTurn.name} to beat:</label>
-                      <input required type="number" className="form-control" id="playerTarget" name="target" min="1" max="30" />
-                      <input type="hidden" id="type" name="type" value="rollRound" />
-                      <input type="hidden" id="type" name="rollCategory" value="skillModifiers" />
-                      <div className="container mt-2">
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Task Difficulty</th>
-                              <th>DC</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>Very Easy</td>
-                              <td>5</td>
-                            </tr>
-                            <tr>
-                              <td>Easy</td>
-                              <td>10</td>
-                            </tr>
-                            <tr>
-                              <td>Medium</td>
-                              <td>15</td>
-                            </tr>
-                            <tr>
-                              <td>Hard</td>
-                              <td>20</td>
-                            </tr>
-                            <tr>
-                              <td>Very Hard</td>
-                              <td>25</td>
-                            </tr>
-                            <tr>
-                              <td>Nearly impossible</td>
-                              <td>30</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                    <button type="submit" className="mx-auto btn btn-primary" value="Upload">Submit</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* <!-- Modal Saving Throw Roll --> */}
-          <div className="modal fade" id="addSaveRollRound" tabIndex="-1" aria-labelledby="addSaveRollRoundLabel" aria-hidden="true">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="newRoundLabel">Saving Throw / Ability check for {data.characterTurn.name}</h5>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                <form action={`/round/createRound/${data.encounter._id}/${data.characterTurn.user}/${data.characterTurn._id}?_method=PUT`} method="POST">
-                    {/* <!-- Description --> */}
-                    <div className="form-group mb-3">
-                      <div className="form-check">
-                        <input className="form-check-input" type="radio" name="rollCategory" value="saveModifiers" id="savingThrow" />
-                        <label className="form-check-label" htmlFor="savingThrow">
-                          Saving Throw
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input className="form-check-input" type="radio" name="rollCategory" value="checkModifiers" id="abilityCheck" defaultChecked />
-                        <label className="form-check-label" htmlFor="abilityCheck">
-                          Check
-                        </label>
-                      </div>
-                      <label htmlFor="encounterDescription">{data.characterTurn.name} rolls for:</label>
-                      <select className="form-select" aria-label="Default select example" name="rollFor" required>
-                        <option value="str">Strength</option>
-                        <option value="dex">Dexterity</option>
-                        <option value="con">Constitution</option>
-                        <option value="int">Intelligence</option>
-                        <option value="wis">Wisdom</option>
-                        <option value="char">Charisma</option>
-                      </select>
-                      <label htmlFor="playerTarget">{data.characterTurn.name} to beat:</label>
-                      <input required type="number" className="form-control" id="playerTarget" name="target" min="1" max="30" />
-                      <input type="hidden" id="type" name="type" value="rollRound" />
-                      <div className="container mt-2">
-                      <table>
-                        <thead>
-                          <tr>
-                            <th>Task Difficulty</th>
-                            <th>DC</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Very Easy</td>
-                            <td>5</td>
-                          </tr>
-                          <tr>
-                            <td>Easy</td>
-                            <td>10</td>
-                          </tr>
-                          <tr>
-                            <td>Medium</td>
-                            <td>15</td>
-                          </tr>
-                          <tr>
-                            <td>Hard</td>
-                            <td>20</td>
-                          </tr>
-                          <tr>
-                            <td>Very Hard</td>
-                            <td>25</td>
-                          </tr>
-                          <tr>
-                            <td>Nearly impossible</td>
-                            <td>30</td>
-                          </tr>
-                        </tbody>
-                        </table>
-                      </div>
-                    </div>
-                    <button type="submit" className="mx-auto btn btn-primary" value="Upload">Submit</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
+        {/* <!-- Modal create Round --> */}
+        <TextRound
+          encounterId={data.encounter._id}
+          characterTurnId={data.characterTurn._id}
+          userId={data.user._id}
+          sendMessage={sendMessage}
+          setRounds={setRounds}
+        />
+        
+        {/* <!-- Modal Skill Roll --> */}
+        <SkillRoll
+          sendMessage={sendMessage}
+          setRounds={setRounds}
+          encounterId={id}
+          formId="addSkillRollRound"
+          character={characterTurn.name}
+          rollType="skill"
+          playerId={ characterTurn.user}
+          characterId={characterTurn._id}
+        />
+        
+        {/* <!-- Modal Saving/Skill check Throw Roll --> */}
+        <SaveCheckRoll
+          sendMessage={sendMessage}
+          setRounds={setRounds}
+          encounterId={ id }
+          formId="addSaveRollRound"
+          character={characterTurn.name}
+          rollType="save/check"
+          playerId={ characterTurn.user}
+          characterId={ characterTurn._id}
+        />
 
           {/* <!-- Delete Encounter --> */}
-          <div className="modal fade" id="deleteEncounter" tabIndex="-1" aria-labelledby="deleteEncounterLabel" aria-hidden="true">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="deleteEncounterLabel">Warning!</h5>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                  Encounter deletion cannot be undone, you're condemning this moment to fantasy death!
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <form
-                    action={`/encounter/deleteEncounter/${data.encounter._id}?_method=DELETE`}
-                    method="POST"
-                    className=""
-                  >
-                    <button className="btn btn-danger" type="submit">Do it</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* <Delete /> */}
         </>
       }
       <Footer />

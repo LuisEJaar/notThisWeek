@@ -67,8 +67,6 @@ module.exports = {
           $inc: { likes: 1 },
         }
       );
-      console.log("Likes +1");
-      res.redirect(`/encounter/${req.params.id}`);
     } catch (err) {
       console.log(err);
     }
@@ -81,8 +79,15 @@ module.exports = {
           $inc: { initiative: 1 },
         }
       );
-      console.log("Initiative +1");
-      res.redirect(`/encounter/${req.params.id}`);
+      const encounter = await Encounter.findById(req.params.id);
+      const potentialParty = await Character.find({ game: encounter.post });
+      const party = await potentialParty.filter((member) => {
+        if (encounter.characters.indexOf(member._id) != -1) {
+          return true;
+        }
+      });
+      const characterTurn = await party[encounter.initiative % party.length];
+      res.json({characterTurn: characterTurn})
     } catch (err) {
       console.log(err);
     }
@@ -91,10 +96,9 @@ module.exports = {
     try {
       let encounter = await Encounter.findOne({ _id: req.params.id })
       encounter.active = !encounter.active;
+      
       await encounter.save()
-
-      console.log(`Encounter active set to: ${encounter.active}`);
-      res.redirect(`/encounter/${req.params.id}`);
+      res.json({encounter})
     } catch (err) {
       console.log(err);
     }
@@ -103,10 +107,9 @@ module.exports = {
     try {
       let encounter = await Encounter.findOne({ _id: req.params.id })
       encounter.dmTurn = !encounter.dmTurn;
-      await encounter.save()
 
-      console.log(`dmTurn set to: ${encounter.active}`);
-      res.redirect(`/encounter/${req.params.id}`);
+      await encounter.save()
+      res.json({ encounter })
     } catch (err) {
       console.log(err);
     }
