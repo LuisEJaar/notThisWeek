@@ -11,7 +11,7 @@ function Login() {
     <main className="vh-100 container d-flex align-items-center justify-content-center">
       <section className="">
         <h1>Sign in</h1>
-        <form action="/login" method="POST">
+        <form action="https://notthisweek.herokuapp.com/login" method="POST">
           <div className="mb-3">
             <label htmlFor="inputEmail" className="form-label"
               >Email address
