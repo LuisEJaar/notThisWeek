@@ -15,8 +15,8 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="%PUBLIC_URL%/" element= {<Home />} />
-        <Route path="/login" element= {<Login />}/>
+        <Route path="/" element= {<Home />} />
+        <Route path="%PUBLIC_URL%/login" element= {<Login />}/>
         <Route path="/signup" element= {<Signup />} />
         <Route path="/userProfile/:id" element= {<Profile />} />
         <Route path="/characterFeed" element= {<CharacterFeed />} />
