@@ -15,7 +15,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="https://notthisweek.vercel.app/" element= {<Home />} />
+        <Route path="https://notthisweek.vercel.app" element= {<Home />} />
         <Route path="/login" element= {<Login />}/>
         <Route path="/signup" element= {<Signup />} />
         <Route path="/userProfile/:id" element= {<Profile />} />
