@@ -9,13 +9,13 @@ export default function Header({page}) {
         <nav className="navbar navbar-dark bg-dark">
           {(page === "home" || page === "signup" || page === "login" || page === "else") &&
           <NavLink className="navbar-brand" to="/">
-            <img src="%PUBLIC_URL%/imgs/d20.png" width="30" height="30" className="d-inline-block align-top me-2" alt="dice"/>
+            <img src="/imgs/d20.png" width="30" height="30" className="d-inline-block align-top me-2" alt="dice"/>
             Not This Week
           </NavLink>
           }
           {page === "other" && 
           <NavLink className="navbar-brand" to="/userProfile/own">
-            <img src="%PUBLIC_URL%/imgs/d20.png" width="30" height="30" className="d-inline-block align-top me-2" alt="dice"/>
+            <img src="/imgs/d20.png" width="30" height="30" className="d-inline-block align-top me-2" alt="dice"/>
             Not This Week
           </NavLink>
           }
