@@ -28,7 +28,8 @@ function App() {
         <Route path="/gameFeed" element= {<GameFeed />} />
         <Route path="/post/:id" element= {<Game />} />
         <Route path="/post/:id" element= {<Game />} />
-        <Route path="/encounter/:id" element= {<Encounter />} />
+        <Route path="/encounter/:id" element={<Encounter />} />
+        <Route path="/logout" element={<Home />} />
       </Routes>
     </div>
   );
