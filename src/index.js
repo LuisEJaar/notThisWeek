@@ -9,8 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Formik>
-      {/* added basename */}
-        <BrowserRouter basename={'/notthisweek'}>   
+        <BrowserRouter>   
             <App />
         </BrowserRouter>
     </Formik>

@@ -36,7 +36,7 @@ export default function Header({page}) {
               <NavLink to="/signup" className="btn btn-outline-info ms-2"> Signup</NavLink>
             </>
           }
-          {page === "else" &&
+          {page === "other" &&
             <>
               <NavLink to="/characterFeed" className="btn btn-outline-primary ms-auto " >See all characters</NavLink>
               <NavLink to="/gameFeed" className="btn btn-outline-primary ms-1 " >See all games</NavLink>

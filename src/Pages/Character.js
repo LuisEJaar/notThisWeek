@@ -19,7 +19,7 @@ export default function Character() {
 
   return ( 
     <>
-      <Header page="else" />
+      <Header page="other" />
       {data && 
         <>
         <div className="m-2">

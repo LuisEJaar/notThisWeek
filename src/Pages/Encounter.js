@@ -140,7 +140,7 @@ export default function Encounter() {
 
   return (
     <>
-      <Header page="else" />
+      <Header page="other" />
       {data &&
         <>
         <div className="container">

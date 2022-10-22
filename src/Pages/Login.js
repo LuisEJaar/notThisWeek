@@ -13,23 +13,23 @@ function Login() {
         <h1>Sign in</h1>
         <form action="/login" method="POST">
           <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label"
+            <label htmlFor="inputEmail" className="form-label"
               >Email address
             </label>
             <input
               type="email"
               className="form-control"
-              id="exampleInputEmail1"
+              id="inputEmail"
               aria-describedby="emailHelp"
               name="email"
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
+            <label htmlFor="inputPassword" className="form-label">Password</label>
             <input
               type="password"
               className="form-control"
-              id="exampleInputPassword1"
+              id="inputPassword"
               name="password"
             />
           </div>

@@ -21,7 +21,7 @@ export default function Profile() {
   
   return (
     <>
-      <Header page="else" />
+      <Header page="other" />
       {data && 
         <>
       <div className="container">

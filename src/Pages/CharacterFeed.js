@@ -20,7 +20,7 @@ export default function CharacterFeed() {
   
   return (
     <>
-      <Header page="else" />
+      <Header page="other" />
       {data &&
       <>
         <div className="container">
