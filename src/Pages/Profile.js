@@ -14,7 +14,10 @@ export default function Profile() {
   React.useEffect(() => {
     fetch(url)
       .then((res) => res.json())
-      .then((data) => setData(data))
+      .then((data) => {
+        console.log(data)
+        setData(data)
+      })
   }, [url, id]);
   
   console.log(data)
