@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Formik>
-      <BrowserRouter basename={process.env.public_url}>   
+      <BrowserRouter basename={process.env.PUBLIC_URL}>   
             <App />
         </BrowserRouter>
     </Formik>
