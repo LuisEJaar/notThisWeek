@@ -10,9 +10,9 @@ root.render(
   <React.StrictMode>
     <Formik>
       {/* Runs build version */}
-      {/* <BrowserRouter basename={process.env.PUBLIC_URL}>  */}
+      <BrowserRouter basename={process.env.PUBLIC_URL}> 
       {/* Runs Locally */}
-      <BrowserRouter>   
+      {/* <BrowserRouter>    */}
             <App />
         </BrowserRouter>
     </Formik>
