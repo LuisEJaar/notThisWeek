@@ -18,7 +18,7 @@ function Home() {
                         <p className="lead my-4 animate__animated animate__fadeInUp">Come and join us!</p>
                         <a href="/signup" className="animate__animated animate__fadeInUp btn btn-outline-success btn-lg shadow"> Sign up!</a>
                     </div>
-                    <img src="/notthisweek/imgs/board.jpg" className="animate__animated animate__fadeInRight ms-4 rounded img-fluid w-50 d-none d-sm-block shadow" alt="DND board"/>
+                    <img src="%PUBLIC_URL%/imgs/board.jpg" className="animate__animated animate__fadeInRight ms-4 rounded img-fluid w-50 d-none d-sm-block shadow" alt="DND board"/>
                 </div>
             </div>
         </main>
