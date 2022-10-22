@@ -3,7 +3,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": false,
-  "proxy": "https://notthisweek.herokuapp.com/",
+  "proxy": "https://notthisweek.herokuapp.com",
   
 
   "dependencies": {
