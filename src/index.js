@@ -10,7 +10,7 @@ root.render(
   <React.StrictMode>
     <Formik>
       {/* added basename */}
-        <BrowserRouter basename={process.env.PUBLIC_URL}>   
+        <BrowserRouter basename={'/notthisweek'}>   
             <App />
         </BrowserRouter>
     </Formik>
