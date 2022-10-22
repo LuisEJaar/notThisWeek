@@ -15,8 +15,11 @@ function App() {
   return (
     <div className="App">
       <Routes>
+        {/* Runs Locally */}
+        <Route path="/notthisweek" element={<Home />} />
+        {/* Runs build version */}
         <Route path="/" element={<Home />} />
-        {/* Trying funny login path */}
+
         <Route path="/login" element= {<Login />}/>
         <Route path="/signup" element= {<Signup />} />
         <Route path="/userProfile/:id" element= {<Profile />} />
