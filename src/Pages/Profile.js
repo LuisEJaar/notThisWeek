@@ -9,7 +9,7 @@ export default function Profile() {
   const [data, setData] = React.useState(null)
 
   const { id } = useParams()
-  const url = `/userProfile/${id}?q=proxy`
+  const url = `https://notthisweek.herokuapp.com/userProfile/${id}`
 
   React.useEffect(() => {
     fetch(url)
