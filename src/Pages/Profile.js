@@ -12,7 +12,9 @@ export default function Profile() {
   const url = `https://notthisweek.herokuapp.com/userProfile/${id}`
 
   React.useEffect(() => {
-    fetch(url)
+    fetch(url, {
+      method: "get"
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log(data)
