@@ -1,22 +1,48 @@
 import React from "react";
 import Header from "../Components/Header"
-// import { Form } from 'formik'
+import { Form, Field } from 'formik'
 
 function Login() {
+  const url = "https://notthisweek.herokuapp.com/login"
   
+  //Formik items
+  const formik = useFormik({
+    initialValues: {
+      email: "", 
+      password: "", 
+    }, 
+    onSubmit: async values => {
+      await fetch(url, {
+        withCredentials: true,
+        body: JSON.stringify(values),
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
+  })
   
+  //need to send with credentials
   return (
   <>
     <Header page="login"/>
     <main className="vh-100 container d-flex align-items-center justify-content-center">
       <section className="">
         <h1>Sign in</h1>
-        <form action="https://notthisweek.herokuapp.com/login" method="POST">
+          <Form
+            onSubmit={formik.handleSubmit}
+          >
           <div className="mb-3">
             <label htmlFor="inputEmail" className="form-label"
               >Email address
             </label>
-            <input
+            <Field
+              onChange={formik.handleChange}
+              value={formik.values.email}
               type="email"
               className="form-control"
               id="inputEmail"
@@ -26,15 +52,17 @@ function Login() {
           </div>
           <div className="mb-3">
             <label htmlFor="inputPassword" className="form-label">Password</label>
-            <input
+            <Field
               type="password"
               className="form-control"
               id="inputPassword"
               name="password"
+              onChange={formik.handleChange}
+              value={formik.values.password}
             />
           </div>
           <button type="submit" className="btn btn-primary">Sign in</button>
-        </form>
+        </Form>
       </section>
     </main>
   </>
