@@ -1,17 +1,16 @@
 import React from "react";
 import Header from "../Components/Header"
 import { Form, Field, useFormik } from 'formik'
-import {Navigate, useNavigate} from 'react-router-dom'
+import {redirect} from 'react-router-dom'
 
 function Login() {
   const url = "https://notthisweek.herokuapp.com/login"
-  
+
   //Formik items
   const formik = useFormik({
     initialValues: {
       email: "", 
       password: "", 
-      url: "",
     }, 
     onSubmit: async values => {
       await fetch(url, {
@@ -20,7 +19,7 @@ function Login() {
         method: 'post',
       })
       .then((res) => res.json())
-      .then((data) => history.push(data.url))
+      .then((data) => redirect(data.url))
       .catch((err) => {
         console.log(err)
       })
