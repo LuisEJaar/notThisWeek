@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../Components/Header"
-import { Form } from 'formik'
+import { Form, useFormik, Field } from 'formik'
 
 function Login() {
   const targetUrl = "https://notthisweek.herokuapp.com/login"
@@ -38,7 +38,7 @@ function Login() {
             <label htmlFor="inputEmail" className="form-label"
               >Email address
             </label>
-            <input
+            <Field
               type="email"
               className="form-control"
               id="inputEmail"
@@ -51,7 +51,7 @@ function Login() {
           </div>
           <div className="mb-3">
             <label htmlFor="inputPassword" className="form-label">Password</label>
-            <input
+            <Field
               type="password"
               className="form-control"
               id="inputPassword"
