@@ -6,7 +6,7 @@ const postsController = require("../controllers/posts");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 //Main Routes - simplified for now
-router.get("/", homeController.getIndex);
+// router.get("/", homeController.getIndex);
 router.get("/userProfile/:id",ensureAuth, postsController.getUserProfile);
 router.get("/gameFeed", ensureAuth, postsController.getFeed);
 router.get("/characterFeed", ensureAuth, postsController.getCharacterFeed);
