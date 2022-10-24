@@ -9,11 +9,14 @@ export default function Profile() {
   const [data, setData] = React.useState(null)
 
   const { id } = useParams()
-  const url = `https://notthisweek.herokuapp.com/userProfile/${id}`
+  const url = `/userProfile/${id}`
 
   React.useEffect(() => {
     fetch(url, {
-      method: "get"
+      method: "get",
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
       .then((res) => res.json())
       .then((data) => {
