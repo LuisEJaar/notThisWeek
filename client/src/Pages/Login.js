@@ -1,17 +1,39 @@
 import React from "react";
 import Header from "../Components/Header"
-// import { Form } from 'formik'
+import { Form } from 'formik'
 
 function Login() {
+  const targetUrl = "https://notthisweek.herokuapp.com/login"
   
-  
+  //Formik items
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: () => {
+      fetch(targetUrl, {
+        method: 'post',
+        withCredentials: true
+      })
+        // .then((res) => res.json())
+        // .then((data) => setRounds(data.rounds))
+        // .then(sendMessage("rounds"))
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  })
+
   return (
   <>
     <Header page="login"/>
     <main className="vh-100 container d-flex align-items-center justify-content-center">
       <section className="">
         <h1>Sign in</h1>
-        <form action="https://notthisweek.herokuapp.com/login" method="POST">
+          <Form
+          onSubmit={formik.handleSubmit}
+          >
           <div className="mb-3">
             <label htmlFor="inputEmail" className="form-label"
               >Email address
@@ -22,6 +44,9 @@ function Login() {
               id="inputEmail"
               aria-describedby="emailHelp"
               name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
           </div>
           <div className="mb-3">
@@ -31,10 +56,13 @@ function Login() {
               className="form-control"
               id="inputPassword"
               name="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
           </div>
           <button type="submit" className="btn btn-primary">Sign in</button>
-        </form>
+        </Form>
       </section>
     </main>
   </>
