@@ -13,17 +13,17 @@ function Login() {
     },
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2))
-      // fetch(targetUrl, {
-      //   method: 'post',
-      //   withCredentials: true,
-      //   body: values,
-      // })
-      //   // .then((res) => res.json())
-      //   // .then((data) => setRounds(data.rounds))
-      //   // .then(sendMessage("rounds"))
-      //   .catch((err) => {
-      //     console.log(err)
-      //   })
+      fetch(targetUrl, {
+        method: 'post',
+        withCredentials: true,
+        body: JSON.stringify(values, null, 2),
+      })
+        // .then((res) => res.json())
+        // .then((data) => setRounds(data.rounds))
+        // .then(sendMessage("rounds"))
+        .catch((err) => {
+          console.log(err)
+        })
     }
   })
 
