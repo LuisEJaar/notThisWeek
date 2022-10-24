@@ -13,7 +13,7 @@ exports.getLogin = (req, res) => {
 
 exports.postLogin = (req, res, next) => {
   console.log("here")
-  console.log(req.body)
+  console.log(req)
   console.log(req.body.email)
   console.log(req.body.password)
   console.log(req.user)
