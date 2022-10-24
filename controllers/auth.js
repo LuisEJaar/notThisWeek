@@ -17,19 +17,19 @@ exports.postLogin = (req, res, next) => {
   console.log(req.body.password)
   console.log(req.user)
   
-  const validationErrors = [];
-  if (!validator.isEmail(req.body.email))
-    validationErrors.push({ msg: "Please enter a valid email address." });
-  if (validator.isEmpty(req.body.password))
-    validationErrors.push({ msg: "Password cannot be blank." });
+  // const validationErrors = [];
+  // if (!validator.isEmail(req.body.email))
+  //   validationErrors.push({ msg: "Please enter a valid email address." });
+  // if (validator.isEmpty(req.body.password))
+  //   validationErrors.push({ msg: "Password cannot be blank." });
 
-  if (validationErrors.length) {
-    req.flash("errors", validationErrors);
-    return res.redirect("/login");
-  }
-  req.body.email = validator.normalizeEmail(req.body.email, {
-    gmail_remove_dots: false,
-  });
+  // if (validationErrors.length) {
+  //   req.flash("errors", validationErrors);
+  //   return res.redirect("/login");
+  // }
+  // req.body.email = validator.normalizeEmail(req.body.email, {
+  //   gmail_remove_dots: false,
+  // });
 
   passport.authenticate("local", (err, user, info) => {
     console.log(user)
