@@ -13,6 +13,7 @@ function Login() {
     },
     onSubmit: (values) => {
       fetch(targetUrl, {
+        headers: { "Content-Type": "application/json" },
         method: 'post',
         withCredentials: true,
         body: JSON.stringify(values, null, 2),

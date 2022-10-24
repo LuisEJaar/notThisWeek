@@ -36,6 +36,7 @@ app.use(express.static("public"));
 //Body Parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(require("body-parser").json())
 
 //Logging
 app.use(logger("dev"));
