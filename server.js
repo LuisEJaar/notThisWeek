@@ -61,7 +61,7 @@ app.use(passport.session());
 app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
-app.use("/", mainRoutes);
+// app.use("/", mainRoutes);
 app.use("/post", postRoutes);
 app.use("/player", playerRoutes);
 app.use("/encounter", encounterRoutes);
@@ -75,10 +75,8 @@ if (process.env.NODE_ENV === 'production') {
   //serve the html
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-  })
-  
+  }) 
 }
-
 
 //Socket.io 
 const http = require('http')
