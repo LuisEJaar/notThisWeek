@@ -46,7 +46,7 @@ export default function Encounter() {
         setDmTurn(data.encounter.dmTurn)
         setEncounterActive(data.encounter.active)
       })
-      .then(socket = io.connect("http://localhost:3001"))
+      .then(socket = io.connect('https://notthisweek.herokuapp.com/'))
       .catch((err) => {
         console.log(err)
       })
