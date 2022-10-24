@@ -10,12 +10,12 @@ function Login() {
     initialValues: {
       email: "",
       password: "",
-      body: values,
     },
-    onSubmit: () => {
+    onSubmit: (values) => {
       fetch(targetUrl, {
         method: 'post',
-        withCredentials: true
+        withCredentials: true,
+        body: values,
       })
         // .then((res) => res.json())
         // .then((data) => setRounds(data.rounds))
