@@ -61,7 +61,7 @@ app.use(passport.session());
 app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
-// app.use("/", mainRoutes);
+app.use("/", mainRoutes);
 app.use("/post", postRoutes);
 app.use("/player", playerRoutes);
 app.use("/encounter", encounterRoutes);
