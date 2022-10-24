@@ -12,17 +12,18 @@ function Login() {
       password: "",
     },
     onSubmit: (values) => {
-      fetch(targetUrl, {
-        method: 'post',
-        withCredentials: true,
-        body: values,
-      })
-        // .then((res) => res.json())
-        // .then((data) => setRounds(data.rounds))
-        // .then(sendMessage("rounds"))
-        .catch((err) => {
-          console.log(err)
-        })
+      alert(JSON.stringify(values, null, 2))
+      // fetch(targetUrl, {
+      //   method: 'post',
+      //   withCredentials: true,
+      //   body: values,
+      // })
+      //   // .then((res) => res.json())
+      //   // .then((data) => setRounds(data.rounds))
+      //   // .then(sendMessage("rounds"))
+      //   .catch((err) => {
+      //     console.log(err)
+      //   })
     }
   })
 
