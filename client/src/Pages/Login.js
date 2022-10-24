@@ -12,7 +12,6 @@ function Login() {
       password: "",
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
       fetch(targetUrl, {
         method: 'post',
         withCredentials: true,
