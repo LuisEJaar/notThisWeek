@@ -13,6 +13,10 @@ exports.getLogin = (req, res) => {
 
 exports.postLogin = (req, res, next) => {
   console.log("here")
+  console.log(req.body.email)
+  console.log(req.body.password)
+  console.log(req.user)
+  
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))
     validationErrors.push({ msg: "Please enter a valid email address." });
@@ -33,8 +37,8 @@ exports.postLogin = (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      req.flash("errors", info);
       console.log("not authenticated")
+      req.flash("errors", info);
       return res.redirect("/login");
       
     }
