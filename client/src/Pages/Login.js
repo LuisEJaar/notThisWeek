@@ -10,6 +10,7 @@ function Login() {
     initialValues: {
       email: "",
       password: "",
+      body: values,
     },
     onSubmit: () => {
       fetch(targetUrl, {
