@@ -8,8 +8,6 @@ module.exports = {
   getUserProfile: async (req, res) => {
     try {
       let targetUser
-      console.log(req.params.id)
-      console.log(req.user.id)
       if (req.params.id != "own") {
         targetUser = await Players.findById({ _id: req.params.id });
       } else {

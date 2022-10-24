@@ -10,6 +10,7 @@ const postsController = require("../controllers/posts");
 // router.get("/userProfile/:id",ensureAuth, postsController.getUserProfile);
 // router.get("/gameFeed", ensureAuth, postsController.getFeed);
 // router.get("/characterFeed", ensureAuth, postsController.getCharacterFeed);
+
 router.get("/userProfile/:id", postsController.getUserProfile);
 router.get("/gameFeed", postsController.getFeed);
 router.get("/characterFeed", postsController.getCharacterFeed);

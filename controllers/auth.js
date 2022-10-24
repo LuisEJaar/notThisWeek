@@ -12,7 +12,7 @@ exports.getLogin = (req, res) => {
 };
 
 exports.postLogin = (req, res, next) => {
-  
+  console.log("here")
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))
     validationErrors.push({ msg: "Please enter a valid email address." });
@@ -34,11 +34,13 @@ exports.postLogin = (req, res, next) => {
     if (!user) {
       req.flash("errors", info);
       return res.redirect("/login");
+      console.log("not authenticated")
     }
     req.logIn(user, (err) => {
       if (err) {
         return next(err);
       }
+      console.log("authenticated")
       req.flash("success", { msg: "Success! You are logged in." });
       res.redirect(req.session.returnTo || `/userProfile/${req.user.id}`);
     });
