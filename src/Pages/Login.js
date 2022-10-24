@@ -1,11 +1,12 @@
 import React from "react";
 import Header from "../Components/Header"
 import { Form, Field, useFormik } from 'formik'
-import {useNavigate} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 
 function Login() {
   const url = "https://notthisweek.herokuapp.com/login"
-  const navigate = useNavigate();
+  const [redir, setRedir] = React.useState("")
+  const [authenticated, setAuthenticated] = React.useState(false)
 
   //Formik items
   const formik = useFormik({
@@ -22,7 +23,8 @@ function Login() {
       .then((res) => res.json())
       .then((data) => {
         if (data.authenticated) {
-          navigate(data.url)
+          setAuthenticated(true)
+          setRedir(data.url)
         }  
       })
       .catch((err) => {
@@ -33,6 +35,7 @@ function Login() {
   
   return (
     <>
+    { authenticated &&  <Navigate to={redir} replace={true} />}
     <Header page="login"/>
     <main className="vh-100 container d-flex align-items-center justify-content-center">
       <section className="">
