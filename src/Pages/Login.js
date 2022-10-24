@@ -11,25 +11,24 @@ function Login() {
     initialValues: {
       email: "", 
       password: "", 
+      url: "",
     }, 
     onSubmit: async values => {
       await fetch(url, {
         withCredentials: true,
         body: JSON.stringify(values),
         method: 'post',
-        // headers: {
-        //   'Content-Type': 'application/json'
-        // }
       })
+      .then((res) => res.json())
+      .then((data) => history.push(data.url))
       .catch((err) => {
         console.log(err)
       })
     }
   })
   
-  //need to send with credentials
   return (
-  <>
+    <>
     <Header page="login"/>
     <main className="vh-100 container d-flex align-items-center justify-content-center">
       <section className="">
