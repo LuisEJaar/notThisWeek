@@ -35,10 +35,12 @@ function Login() {
   
   return (
     <>
-      <p>{ redir }</p>
-      <p>{ authenticated }</p>
+      
     { authenticated &&  <Navigate to={redir} replace={true} />}
-    <Header page="login"/>
+      <Header page="login" />
+      <p>{ redir }</p>
+      <p>{authenticated}</p>
+      <p>Test</p>
     <main className="vh-100 container d-flex align-items-center justify-content-center">
       <section className="">
         <h1>Sign in</h1>
