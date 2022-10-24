@@ -17,15 +17,9 @@ function Login() {
         withCredentials: true,
         body: JSON.stringify(values),
         method: 'post',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then((res) => res.json())
-      .then((data) => { 
-        if (data.authenticated) {
-          Navigate(data.url)
-        }  
+        // headers: {
+        //   'Content-Type': 'application/json'
+        // }
       })
       .catch((err) => {
         console.log(err)
