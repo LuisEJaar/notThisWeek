@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../Components/Header"
 import { Form, Field, useFormik } from 'formik'
+import {Navigate, useNavigate} from 'react-router-dom'
 
 function Login() {
   const url = "https://notthisweek.herokuapp.com/login"
@@ -19,6 +20,12 @@ function Login() {
         headers: {
           'Content-Type': 'application/json'
         }
+      })
+      .then((res) => res.json())
+      .then((data) => { 
+        if (data.authenticated) {
+          Navigate(data.url)
+        }  
       })
       .catch((err) => {
         console.log(err)
