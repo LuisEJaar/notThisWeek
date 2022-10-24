@@ -1,10 +1,11 @@
 import React from "react";
 import Header from "../Components/Header"
 import { Form, Field, useFormik } from 'formik'
-import {redirect} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom';
 
 function Login() {
   const url = "https://notthisweek.herokuapp.com/login"
+  const navigate = useNavigate();
 
   //Formik items
   const formik = useFormik({
@@ -19,7 +20,11 @@ function Login() {
         method: 'post',
       })
       .then((res) => res.json())
-      .then((data) => redirect(data.url))
+      .then((data) => {
+        if (data.authenticated) {
+          navigate(data.url)
+        }  
+      })
       .catch((err) => {
         console.log(err)
       })
