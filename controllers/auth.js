@@ -28,13 +28,15 @@ exports.postLogin = (req, res, next) => {
   });
 
   passport.authenticate("local", (err, user, info) => {
+    console.log(user)
     if (err) {
       return next(err);
     }
     if (!user) {
       req.flash("errors", info);
-      return res.redirect("/login");
       console.log("not authenticated")
+      return res.redirect("/login");
+      
     }
     req.logIn(user, (err) => {
       if (err) {
