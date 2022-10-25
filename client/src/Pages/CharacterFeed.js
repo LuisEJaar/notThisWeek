@@ -8,7 +8,7 @@ export default function CharacterFeed() {
   
   const [data, setData] = React.useState(null)
 
-  const url = `/characterFeed`
+  const url = `/api/characterFeed`
 
   React.useEffect(() => {
     fetch(url)

@@ -8,7 +8,7 @@ export default function GameFeed() {
   
   const [data, setData] = React.useState(null)
 
-  const url = `/gameFeed`
+  const url = `/api/gameFeed`
 
   React.useEffect(() => {
     fetch(url)
