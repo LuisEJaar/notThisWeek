@@ -18,8 +18,8 @@ function Login() {
         withCredentials: true,
         body: JSON.stringify(values, null, 2),
       })
-        // .then((res) => res.json())
-        // .then((data) => setRounds(data.rounds))
+        .then((res) => res.json())
+        .then((data) => alert(data))
         // .then(sendMessage("rounds"))
         .catch((err) => {
           console.log(err)
