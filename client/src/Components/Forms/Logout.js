@@ -8,6 +8,12 @@ export default function Logout() {
       fetch(url, {
         method: 'get',
       })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.loggedOut) {
+          navigate('/')
+        }
+      })
       .catch((err) => {
         console.log(err)
       })
@@ -19,7 +25,7 @@ export default function Logout() {
       className="m-3"
       onSubmit={formik.handleSubmit}
     >
-      <button className="btn btn-warning" type="submit">Logout</button>
+      <button className="btn btn-outline-info" type="submit">Logout</button>
     </Form>
   )
 }
