@@ -1,8 +1,10 @@
 import { useFormik, Form } from 'formik'
+import { useNavigate } from "react-router-dom";
 
 export default function Logout() {
+  const navigate = useNavigate();
+  
   const url = `/api/logout`
-
   const formik = useFormik({
     onSubmit: () => {
       fetch(url, {
