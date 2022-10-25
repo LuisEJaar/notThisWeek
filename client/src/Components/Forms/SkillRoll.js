@@ -2,7 +2,7 @@ import { useFormik, Field, Form } from 'formik'
 import CheckDifficulty from '../FormComponents/CheckDifficulty';
 
 export default function SkillRoll ({sendMessage, playerId, characterId, setRounds, character, formId, encounterId }) {
-  const roundUrl = `/round/createRound/${encounterId}/${playerId}/${characterId}`
+  const roundUrl = `/api/round/createRound/${encounterId}/${playerId}/${characterId}`
   
   //Formik items
   const formik = useFormik({

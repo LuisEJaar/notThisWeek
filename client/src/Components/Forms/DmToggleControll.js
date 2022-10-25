@@ -1,7 +1,7 @@
 import { useFormik, Form } from 'formik'
 
 export default function DmToggleControll({ setEncounterActive, encounterActive, encounter, dmAction, text, sendMessage, setDmTurn, dmTurn }) {
-  const urlToggle = `/encounter/${dmAction}/${encounter}`
+  const urlToggle = `/api/encounter/${dmAction}/${encounter}`
   
   const formik = useFormik({
     initialValues: { 
