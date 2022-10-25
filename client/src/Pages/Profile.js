@@ -9,7 +9,7 @@ export default function Profile() {
   const [data, setData] = React.useState(null)
 
   const { id } = useParams()
-  const url = `/userProfile/${id}`
+  const url = `/api/userProfile/${id}`
 
   React.useEffect(() => {
     fetch(url, {
