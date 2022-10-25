@@ -3,14 +3,14 @@ const router = express.Router();
 const roundsController = require("../controllers/rounds");
 
 //Encounter Routes
-router.post("/createRound/:encounterId/:playerId/:characterId", roundsController.createRound);
+router.post("/api/createRound/:encounterId/:playerId/:characterId", roundsController.createRound);
 
-router.put("/makeRoll/:roundId/:characterId", roundsController.makeRoll);
+router.put("/api/makeRoll/:roundId/:characterId", roundsController.makeRoll);
 
-router.put("/likeRound/:id", roundsController.likeRound);
+router.put("/api/likeRound/:id", roundsController.likeRound);
 
-router.put("/editRound/:id", roundsController.editRound);
+router.put("/api/editRound/:id", roundsController.editRound);
  
-router.delete("/deleteRound/:id/:encounterId", roundsController.deleteRound);
+router.delete("/api/deleteRound/:id/:encounterId", roundsController.deleteRound);
 
 module.exports = router; 

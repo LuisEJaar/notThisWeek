@@ -5,18 +5,18 @@ const encountersController = require("../controllers/encounters");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 //Encounter Routes
-router.get("/:id", ensureAuth, encountersController.getEncounter);
+router.get("/api/:id", ensureAuth, encountersController.getEncounter);
 
-router.post("/createEncounter/:id", upload.single("file"), encountersController.createEncounter);
+router.post("/api/createEncounter/:id", upload.single("file"), encountersController.createEncounter);
 
-router.put("/likeEncounter/:id", encountersController.likeEncounter);
+router.put("/api/likeEncounter/:id", encountersController.likeEncounter);
 
-router.put("/progressEncounter/:id", encountersController.progressEncounter);
+router.put("/api/progressEncounter/:id", encountersController.progressEncounter);
 
-router.put("/toggleEncounter/:id", encountersController.toggleEncounter);
+router.put("/api/toggleEncounter/:id", encountersController.toggleEncounter);
 
-router.put("/toggleDm/:id", encountersController.toggleDm);
+router.put("/api/toggleDm/:id", encountersController.toggleDm);
 
-router.delete("/deleteEncounter/:id", encountersController.deleteEncounter);
+router.delete("/api/deleteEncounter/:id", encountersController.deleteEncounter);
 
 module.exports = router;

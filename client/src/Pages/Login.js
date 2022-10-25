@@ -4,7 +4,7 @@ import { Form, useFormik, Field } from 'formik'
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const targetUrl = "https://notthisweek.herokuapp.com/login"
+  const targetUrl = "https://notthisweek.herokuapp.com/api/login"
 
   const navigate = useNavigate();
 

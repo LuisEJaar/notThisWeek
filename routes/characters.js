@@ -5,10 +5,10 @@ const charactersController = require("../controllers/characters");
 
 
 //Character Routes
-router.post("/create", upload.single("file"), charactersController.createCharacter);
+router.post("/api/create", upload.single("file"), charactersController.createCharacter);
 
-router.get("/:id", charactersController.getCharacter);
+router.get("/api/:id", charactersController.getCharacter);
 
-router.put("/addGame/:id", charactersController.addGame);
+router.put("/api/addGame/:id", charactersController.addGame);
 
 module.exports = router;
