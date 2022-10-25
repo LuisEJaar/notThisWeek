@@ -19,7 +19,7 @@ function Login() {
         body: JSON.stringify(values, null, 2),
       })
         .then((res) => res.json())
-        .then((data) => alert(data))
+        .then((data) => alert(data.url))
         // .then(sendMessage("rounds"))
         .catch((err) => {
           console.log(err)
