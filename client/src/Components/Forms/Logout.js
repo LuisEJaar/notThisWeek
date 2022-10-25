@@ -13,7 +13,7 @@ export default function Logout() {
       .then((res) => res.json())
       .then((data) => {
         if (data.loggedOut) {
-          navigate('/')
+          navigate('https://notthisweek.herokuapp.com/')
         }
       })
       .catch((err) => {
