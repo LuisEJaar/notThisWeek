@@ -17,7 +17,7 @@ All accounts can view all games as well as the contact information of the DMs an
 
 ## How It's Made:
 
-**Tech used:** HTML, CSS, JavaScript, Node.js, Express, Passport, MVC, Flash, Cloudinary, Heroku, MongoDB
+**Tech used:** React, Socket.io, Formik, HTML, CSS, JavaScript, Node.js, Express, Passport, MVC, Flash, Cloudinary, Heroku, MongoDB
 
 ## Roadmap
 
@@ -79,7 +79,7 @@ General / vague improvements:
 
 ## Lessons Learned:
 
-- Got some good practice with MVC workflow
+- Got some good practice with MVC workflow. The project was initially made without react but this resulted in a user experience that would require multiple page refreshes. Upon conversion I also started learning more about web sockets using socket.io to push changes to user clients upon the actions of other users. This resulted in a more seamless play style. 
 
 # Install
 
