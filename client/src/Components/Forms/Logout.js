@@ -4,9 +4,6 @@ export default function Logout() {
   const url = `/api/logout`
 
   const formik = useFormik({
-    initialValues: {
-      characterTurn: characterTurn
-    },
     onSubmit: () => {
       fetch(url, {
         method: 'get',
