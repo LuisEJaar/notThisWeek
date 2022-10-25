@@ -1,6 +1,6 @@
 import { useFormik, Form } from 'formik'
 
-export default function NextPlayer() {
+export default function Logout() {
   const url = `/api/logout`
 
   const formik = useFormik({
