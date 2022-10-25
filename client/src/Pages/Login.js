@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../Components/Header"
 import { Form, useFormik, Field } from 'formik'
+import {Redirect} from 'react-router-dom'
 
 function Login() {
   const targetUrl = "https://notthisweek.herokuapp.com/login"
-  
+  const [redirect, setRedirect] = useState("")
+  const [loggedIn, setLoggedIn] = useState(false)
+
   //Formik items
   const formik = useFormik({
     initialValues: {
@@ -19,8 +22,10 @@ function Login() {
         body: JSON.stringify(values, null, 2),
       })
         .then((res) => res.json())
-        .then((data) => alert(data.url))
-        // .then(sendMessage("rounds"))
+        .then((data) => {
+          setRedirect(data.url)
+          setLoggedIn(true)
+        })
         .catch((err) => {
           console.log(err)
         })
@@ -28,7 +33,8 @@ function Login() {
   })
 
   return (
-  <>
+    <>
+    {loggedIn ? <Redirect to={redirect} /> : <PublicHomePage />}
     <Header page="login"/>
     <main className="vh-100 container d-flex align-items-center justify-content-center">
       <section className="">
