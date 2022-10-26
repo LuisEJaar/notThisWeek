@@ -10,7 +10,7 @@ export default function CharacterCreation() {
   
   const formik = useFormik({
     initialValues: {
-      file: null,
+      file: "",
       
       name: "",
       class: "",
