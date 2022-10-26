@@ -20,7 +20,6 @@ export default function Profile() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
         setData(data)
       })
   }, [url, id]);
@@ -42,7 +41,7 @@ export default function Profile() {
             {(data.targetUser.type==="player" && data.visitor._id === data.targetUser._id) &&
               <div className="mt-3">
                 <h2>Add a character:</h2>
-                {/* // Button Deletion Modal */}
+                {/* // Button Creation Modal */}
                 <button type="button" className="shadow ms-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCharacter">
                   Create New Character
                 </button> 

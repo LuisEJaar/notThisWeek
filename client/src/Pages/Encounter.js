@@ -35,24 +35,24 @@ export default function Encounter() {
   const { id } = useParams()
   const url = `/api/encounter/${id}`
 
-  async function pageLoad() {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => { 
-        setData(data)
-        setRounds(data.rounds)
-        setLikes(data.encounter.likes)
-        setCharacterTurn(data.characterTurn)
-        setDmTurn(data.encounter.dmTurn)
-        setEncounterActive(data.encounter.active)
-      })
-      .then(socket = io.connect('https://notthisweek.herokuapp.com/'))
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
   useEffect(() => {
+    async function pageLoad() {
+      fetch(url)
+        .then((res) => res.json())
+        .then((data) => { 
+          setData(data)
+          setRounds(data.rounds)
+          setLikes(data.encounter.likes)
+          setCharacterTurn(data.characterTurn)
+          setDmTurn(data.encounter.dmTurn)
+          setEncounterActive(data.encounter.active)
+        })
+        .then(socket = io.connect('https://notthisweek.herokuapp.com/'))
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+
     pageLoad()
   }, [url, id]);
   
