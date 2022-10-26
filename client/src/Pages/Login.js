@@ -36,8 +36,8 @@ function Login() {
     <>
     <div className="vh-100 d-flex flex-column justify-content-between">
       <Header page="login"/>
-      <main className="mt-auto">
-        <section className="">
+      <main className="mt-auto container">
+        <section>
           <h1>Sign in</h1>
             <Form
             onSubmit={formik.handleSubmit}
