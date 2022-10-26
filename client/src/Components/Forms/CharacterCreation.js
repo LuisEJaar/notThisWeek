@@ -2,7 +2,7 @@ import React from 'react'
 import TextInput from '../FormComponents/TextInput'
 import NumberInput from '../FormComponents/NumberInput'
 import CheckInput from '../FormComponents/CheckInput'
-import {Form, useFormik} from 'formik'
+import {Form, useFormik, Field} from 'formik'
 
 export default function CharacterCreation() {
 
@@ -10,12 +10,53 @@ export default function CharacterCreation() {
   
   const formik = useFormik({
     initialValues: {
-      // rounds: rounds, 
+      file: null,
+      
+      name: "",
+      class: "",
+      age: "",
+      race: "", 
+      gender: "",
+      lvl: "",
+      ac: "", 
+
+      str: "", 
+      dex: "", 
+      con: "", 
+      int: "", 
+      wis: "", 
+      char: "", 
+
+      strSave: "", 
+      dexSave: "", 
+      conSave: "", 
+      intSave: "", 
+      wisSave: "", 
+      charSave: "", 
+
+      acrobatics: "", 
+      animalHandling: "", 
+      arcana: "", 
+      athletics: "", 
+      deception: "", 
+      history: "", 
+      insight: "", 
+      intimidation: "", 
+      investigation: "", 
+      medicine: "", 
+      nature: "", 
+      perception: "", 
+      performance: "", 
+      persuasion: "", 
+      religion: "", 
+      sleightOfHand: "", 
+      stealth: "", 
+      survival: "", 
     },
     onSubmit: () => {
       fetch(actionUrl, {
         method: 'post',
-        encType: "multipart/form-data"
+        encType: "multipart/form-data",
       })
       .then((res) => res.json())
       // .then((data) => setRounds(data.rounds))
@@ -42,7 +83,7 @@ export default function CharacterCreation() {
                 
                 <div className="mt-2">
                     <label htmlFor="imgUpload" className="form-label">Image</label>
-                    <input type="file" className="form-control" id="imageUpload" name="file" required/>
+                    <Field type="file" className="form-control" id="imageUpload" name="file" required/>
                 </div>
                 
                 <legend className='mt-3'>Description:</legend>
