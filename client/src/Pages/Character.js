@@ -10,11 +10,15 @@ export default function Character() {
   const url = `/api/character/${id}`
 
   React.useEffect(() => {
-    fetch(url)
+    fetch(url, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
       .then((res) => res.json())
       .then((data)=> setData(data))
   }, [url, id]);
-  
+   
   console.log(data)
 
   return ( 
