@@ -15,8 +15,8 @@ export default function Character() {
         'Content-Type': 'application/json'
       }
     })
-      .then((res) => res.json())
-      .then((data)=> setData(data))
+    .then((res) => res.json())
+    .then((data)=> setData(data))
   }, [url, id]);
    
   console.log(data)
