@@ -2,7 +2,7 @@ import React from 'react'
 import TextInput from '../FormComponents/TextInput'
 import NumberInput from '../FormComponents/NumberInput'
 import CheckInput from '../FormComponents/CheckInput'
-import {Form, useFormik, Field} from 'formik'
+import {Form, useFormik} from 'formik'
 
 export default function CharacterCreation() {
 
@@ -83,7 +83,7 @@ export default function CharacterCreation() {
                 
                 <div className="mt-2">
                     <label htmlFor="imgUpload" className="form-label">Image</label>
-                    <Field type="file" className="form-control" id="imageUpload" name="file" required/>
+                    <input type="file" className="form-control" id="imageUpload" name="file" required/>
                 </div>
                 
                 <legend className='mt-3'>Description:</legend>
