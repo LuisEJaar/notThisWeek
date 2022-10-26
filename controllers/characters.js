@@ -109,6 +109,7 @@ module.exports = {
   getCharacter: async (req, res) => {
     try {
       const character = await Character.findById(req.params.id);
+      console.log("here")
       res.json(
         {
           user: req.user,

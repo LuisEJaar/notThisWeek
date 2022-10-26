@@ -2,7 +2,7 @@ import {Form, useFormik, Field} from 'formik'
 
 export default function TextRound({ setRounds, sendMessage, encounterId, userId, characterTurnId }) {
   
-  const roundUrl = `/round/createRound/${encounterId}/${userId}/${characterTurnId}`
+  const roundUrl = `/api/round/createRound/${encounterId}/${userId}/${characterTurnId}`
   
   //Formik items
   const formik = useFormik({

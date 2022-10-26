@@ -10,7 +10,7 @@ export default function Game() {
   const [data, setData] = React.useState(null)
 
   const { id } = useParams()
-  const url = `/post/${id}`
+  const url = `/api/post/${id}`
 
   React.useEffect(() => {
     fetch(url, {headers : { 

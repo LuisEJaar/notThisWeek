@@ -1,7 +1,7 @@
 import { useFormik, Form } from 'formik'
 
 export default function PlayerRolling({roundId, characterTurnId, rounds, setRounds, sendMessage}) {
-  const actionUrl = `/round/makeRoll/${roundId}/${characterTurnId}`
+  const actionUrl = `/api/round/makeRoll/${roundId}/${characterTurnId}`
   
   const formik = useFormik({
     initialValues: {

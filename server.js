@@ -62,12 +62,12 @@ app.use(passport.session());
 app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
-app.use("/", mainRoutes);
-app.use("/post", postRoutes);
-app.use("/player", playerRoutes);
-app.use("/encounter", encounterRoutes);
-app.use("/round", roundRoutes);
-app.use("/character", characterRoutes);
+app.use("/api/", mainRoutes);
+app.use("/api/post", postRoutes);
+app.use("/api/player", playerRoutes);
+app.use("/api/encounter", encounterRoutes);
+app.use("/api/round", roundRoutes);
+app.use("/api/character", characterRoutes);
 
 // Heroku to serve build / static assets for production
 if (process.env.NODE_ENV === 'production') {

@@ -1,5 +1,6 @@
 import React from "react";
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import Logout from '../Components/Forms/Logout'
 
 
 export default function Header({page}) {
@@ -40,7 +41,8 @@ export default function Header({page}) {
             <>
               <NavLink to="/characterFeed" className="btn btn-outline-primary ms-auto " >See all characters</NavLink>
               <NavLink to="/gameFeed" className="btn btn-outline-primary ms-1 " >See all games</NavLink>
-              <NavLink to="/logout" className="btn btn-outline-light ms-3">Logout</NavLink>
+              <Logout />
+              {/* <NavLink to="/logout" className="btn btn-outline-light ms-3">Logout</NavLink> */}
             </>
           }
         </nav>

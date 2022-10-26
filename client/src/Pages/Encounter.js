@@ -33,7 +33,7 @@ export default function Encounter() {
 
   //Fetching Initial data
   const { id } = useParams()
-  const url = `/encounter/${id}`
+  const url = `/api/encounter/${id}`
 
   async function pageLoad() {
     fetch(url)

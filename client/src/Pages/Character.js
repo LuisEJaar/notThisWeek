@@ -7,14 +7,18 @@ export default function Character() {
   const [data, setData] = React.useState(null)
 
   const { id } = useParams()
-  const url = `/character/${id}`
+  const url = `/api/character/${id}`
 
   React.useEffect(() => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data)=> setData(data))
+    fetch(url, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((res) => res.json())
+    .then((data)=> setData(data))
   }, [url, id]);
-  
+   
   console.log(data)
 
   return ( 

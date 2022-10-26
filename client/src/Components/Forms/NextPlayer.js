@@ -2,7 +2,7 @@
 import { useFormik, Form } from 'formik'
 
 export default function NextPlayer({ encounterId, setCharacterTurn, characterTurn, sendMessage}) {
-  const url = `/encounter/progressEncounter/${encounterId}`
+  const url = `/api/encounter/progressEncounter/${encounterId}`
 
   const formik = useFormik({
     initialValues: {
