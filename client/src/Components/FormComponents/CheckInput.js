@@ -4,12 +4,11 @@ export default function CheckInput(props) {
   return (
     <div className="">
       <Form.Check
-        value="false"
+        value={props.value}
         name={props.name}
         onChange={(event, checked) => {
           props.setFieldValue(props.value, checked ? true : false);
         }}
-        className="form-check-input"
         type="switch"
         id={props.id}
       />
