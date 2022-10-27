@@ -24,7 +24,7 @@ export default function Profile() {
       .then((data) => {
         setData(data)
         setCharacters(data.characters)
-        setGames(data.games)
+        setGames(data.posts)
       })
   }, [url, id]);
   
