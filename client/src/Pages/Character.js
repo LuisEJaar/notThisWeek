@@ -22,7 +22,7 @@ export default function Character() {
   console.log(data)
 
   return ( 
-    <>
+    <div className="vh-100 d-flex flex-column justify-content-between">
       <Header page="other" />
       {data && 
         <>
@@ -136,7 +136,7 @@ export default function Character() {
         </>
       }
       <Footer />
-    </>
+    </div>
   )
 }
 

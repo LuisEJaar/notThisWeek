@@ -27,7 +27,7 @@ export default function Profile() {
   console.log(data)
   
   return (
-    <>
+    <div className="vh-100 d-flex flex-column justify-content-between">
       <Header page="other" />
       {data && 
         <>
@@ -124,7 +124,7 @@ export default function Profile() {
         </>
       }
       <Footer />
-    </>          
+    </div>          
   )
 }
 
