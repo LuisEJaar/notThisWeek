@@ -11,8 +11,8 @@ export default function CheckInput(props) {
         }}
         type="switch"
         id={props.id}
+        label={ props.text }
       />
-      <label className="form-check-label" htmlFor={props.id}>{ props.text }</label>
     </div>
   )
 }
