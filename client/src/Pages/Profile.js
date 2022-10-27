@@ -64,8 +64,24 @@ export default function Profile() {
             }
             {(data.visitor._id === data.targetUser._id) && 
               <h2>Your Games:</h2>
-            }
-            <ul className="row list-unstyled">
+              }
+              <div className="row g-4">
+                  {games.map((game) => { 
+                    return (
+                    <div key={game._id} className="col-md-6 col-lg-3 d-flex justify-content-center">
+                        <div className="card gameDisplay" style={{ width: 18 + 'rem' }}>
+                        <Link to={`/post/${game._id}`}>
+                            <img alt="character" className="gamePicture card-img-top" src={game.image}/>
+                          </Link>
+                          <div className="card-body">
+                          <p className="card-text">{ game.title }</p>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+            {/* <ul className="row list-unstyled">
               {games.map((game) => { 
                 return (  
                 <li key={game._id} className="justify-content-between mt-3">
@@ -78,7 +94,7 @@ export default function Profile() {
                 </li>
                 )
               })}
-            </ul>
+            </ul> */}
           </div>
           <div className="mt-3">
             {(data.visitor._id !== data.targetUser._id && data.targetUser.type !=='dm') && 
@@ -103,7 +119,7 @@ export default function Profile() {
                         </div>
                       </div>
                     )
-                  }) }
+                  })}
                 </div>
                 </>
               }
