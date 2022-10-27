@@ -95,7 +95,7 @@ export default function CharacterCreation() {
                     
                     <div className="mt-2">
                       <label htmlFor="imgUpload" className="form-label">Image</label>
-                      <input type="file" onChange={ (e)=> setFieldValue(values.file, e.target.files[0]) } className="form-control" id="imageUpload" name="file" required/>
+                      <input type="file" onChange={ (e)=> setFieldValue("file", e.currentTarget.files[0]) } className="form-control" id="imageUpload" name="file" required/>
                     </div>
                     
                     <legend className='mt-3'>Description:</legend>
