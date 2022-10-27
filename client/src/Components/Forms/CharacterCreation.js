@@ -118,34 +118,34 @@ export default function CharacterCreation() {
 
                   <fieldset className="mt-3">
                     <legend>Save Proficiences:</legend>
-                    <CheckInput setFieldValue={setFieldValue}  name="strSave" id="strSave" text="str" />
-                    <CheckInput setFieldValue={setFieldValue} name="dexSave" id="dexSave" text="dex" />
-                    <CheckInput setFieldValue={setFieldValue} name="conSave" id="conSave" text="con" />
-                    <CheckInput setFieldValue={setFieldValue} name="intSave" id="intSave" text="int" />
-                    <CheckInput setFieldValue={setFieldValue} name="wisSave" id="wisSave" text="wis" />
-                    <CheckInput setFieldValue={setFieldValue} name="charSave" id="charSave" text="char" />
+                    <CheckInput setFieldValue={setFieldValue} value={props.strSave} name="strSave" id="strSave" text="str" />
+                    <CheckInput setFieldValue={setFieldValue} value={props.dexSave} name="dexSave" id="dexSave" text="dex" />
+                    <CheckInput setFieldValue={setFieldValue} value={props.conSave} name="conSave" id="conSave" text="con" />
+                    <CheckInput setFieldValue={setFieldValue} value={props.intSave} name="intSave" id="intSave" text="int" />
+                    <CheckInput setFieldValue={setFieldValue} value={props.wisSave} name="wisSave" id="wisSave" text="wis" />
+                    <CheckInput setFieldValue={setFieldValue} value={props.charSave} name="charSave" id="charSave" text="char" />
                   </fieldset>
 
                   <fieldset className="mt-3">
                     <legend>Proficiences:</legend>
-                      <CheckInput setFieldValue={setFieldValue} name="acrobatics" id="acrobatics" text="Acrobatics" />
-                      <CheckInput setFieldValue={setFieldValue} name="animalHandling" id="AnimalHandling" text="AnimalHandling" />
-                      <CheckInput setFieldValue={setFieldValue} name="arcana" id="arcana" text="Arcana" />
-                      <CheckInput setFieldValue={setFieldValue} name="athletics" id="athletics" text="Athletics" />
-                      <CheckInput setFieldValue={setFieldValue} name="deception" id="deception" text="Deception" />
-                      <CheckInput setFieldValue={setFieldValue} name="history" id="history" text="History" />
-                      <CheckInput setFieldValue={setFieldValue} name="insight" id="insight" text="Insight" />
-                      <CheckInput setFieldValue={setFieldValue} name="intimidation" id="intimidation" text="Intimidation" />
-                      <CheckInput setFieldValue={setFieldValue} name="investigation" id="investigation" text="Investigation" />
-                      <CheckInput setFieldValue={setFieldValue} name="medicine" id="medicine" text="Medicine" />
-                      <CheckInput setFieldValue={setFieldValue} name="nature" id="nature" text="Nature" />
-                      <CheckInput setFieldValue={setFieldValue} name="perception" id="perception" text="Perception" />
-                      <CheckInput setFieldValue={setFieldValue} name="performance" id="performance" text="Performance" />
-                      <CheckInput setFieldValue={setFieldValue} name="persuasion" id="persuasion" text="Persuasion" />
-                      <CheckInput setFieldValue={setFieldValue} name="religion" id="religion" text="Religion" />
-                      <CheckInput setFieldValue={setFieldValue} name="sleightOfHand" id="sleightOfHand" text="SleightOfHand" />
-                      <CheckInput setFieldValue={setFieldValue} name="stealth" id="stealth" text="Stealth" />
-                      <CheckInput setFieldValue={setFieldValue} name="survival" id="survival" text="Survival" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.acrobatics} name="acrobatics" id="acrobatics" text="Acrobatics" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.animalHandling} name="animalHandling" id="AnimalHandling" text="AnimalHandling" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.arcana} name="arcana" id="arcana" text="Arcana" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.athletics} name="athletics" id="athletics" text="Athletics" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.deception} name="deception" id="deception" text="Deception" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.history} name="history" id="history" text="History" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.insight} name="insight" id="insight" text="Insight" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.intimidation} name="intimidation" id="intimidation" text="Intimidation" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.investigation} name="investigation" id="investigation" text="Investigation" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.medicine} name="medicine" id="medicine" text="Medicine" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.nature} name="nature" id="nature" text="Nature" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.perception} name="perception" id="perception" text="Perception" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.performance} name="performance" id="performance" text="Performance" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.persuasion} name="persuasion" id="persuasion" text="Persuasion" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.religion} name="religion" id="religion" text="Religion" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.sleightOfHand} name="sleightOfHand" id="sleightOfHand" text="SleightOfHand" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.stealth} name="stealth" id="stealth" text="Stealth" />
+                      <CheckInput setFieldValue={setFieldValue} value={props.survival} name="survival" id="survival" text="Survival" />
                   </fieldset>
 
                   <div className="d-flex flex-column">
