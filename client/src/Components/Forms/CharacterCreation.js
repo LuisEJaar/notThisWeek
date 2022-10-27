@@ -64,7 +64,7 @@ export default function CharacterCreation() {
               }}
               onSubmit={(values) => {
                 let formData = new FormData();
-                formData.append(values)
+                formData.append("file", values.file);
 
                 fetch(actionUrl, {
                   method: 'post',
