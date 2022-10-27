@@ -19,7 +19,7 @@ export default function CharacterCreation() {
             <div className="modal-body">
             <Formik
               initialValues={{
-                file: "",
+                file: null,
                 
                 name: "",
                 class: "",
@@ -62,20 +62,23 @@ export default function CharacterCreation() {
                 stealth: "",
                 survival: "",
               }}
-              onSubmit={ (values) => {
-                  fetch(actionUrl, {
-                    method: 'post',
-                    encType: "multipart/form-data",
-                    withCredentials: true,
-                    body: JSON.stringify(values, null, 2),
+              onSubmit={(values) => {
+                let formData = new FormData();
+                formData.append(values)
+
+                fetch(actionUrl, {
+                  method: 'post',
+                  encType: "multipart/form-data",
+                  withCredentials: true,
+                  body: formData,
+                })
+                  .then((res) => res.json())
+                  // .then((data) => setRounds(data.rounds))
+                  // .then(sendMessage("rounds"))
+                  .catch((err) => {
+                    console.log(err)
                   })
-                    .then((res) => res.json())
-                    // .then((data) => setRounds(data.rounds))
-                    // .then(sendMessage("rounds"))
-                    .catch((err) => {
-                      console.log(err)
-                    })
-                }} 
+              }} 
             >
               {({
                   values,
