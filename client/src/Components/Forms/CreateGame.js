@@ -52,7 +52,7 @@ export default function CreateGame({ setGames }) {
                 <input type="text" className="form-control" id="title" name="title" required/>
             </div> */}
 
-            <Field as="textarea" onChange={handleChange} value={values.text} type="text" className="form-control" id="gameDescription" placeholder="Game Description" name="description"></Field>
+            <Field as="textarea" onChange={handleChange} value={values.text} className="form-control" id="gameDescription" placeholder="Game Description" name="text"></Field>
             
             {/* <div className="mb-3">
               <label htmlFor="caption" className="form-label">Description</label>
