@@ -7,6 +7,7 @@ import {Form} from 'formik'
 
 export default function Profile() {
   const [data, setData] = React.useState(null)
+  const [characters, setCharacters] = React.useState("")
 
   const { id } = useParams()
   const url = `/api/userProfile/${id}`
@@ -21,6 +22,7 @@ export default function Profile() {
       .then((res) => res.json())
       .then((data) => {
         setData(data)
+        setCharacters(data.characters)
       })
   }, [url, id]);
   
@@ -100,7 +102,7 @@ export default function Profile() {
               { data.targetUser.type !=='dm' &&
                 <>
                 <ul className="row list-unstyled">
-                {data.characters.map((character) => {
+                {characters.map((character) => {
                   return (  
                     <li key={character._id} className="justify-content-between mt-3">
                       <Link to={`/character/${character._id}`}>
@@ -120,7 +122,7 @@ export default function Profile() {
       </div>
 
       {/* Create Character */}
-      <CreateCharacter />
+        <CreateCharacter setCharacters={ setCharacters } />
         </>
       }
       <Footer />

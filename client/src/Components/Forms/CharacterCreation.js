@@ -4,7 +4,7 @@ import NumberInput from '../FormComponents/NumberInput'
 import CheckInput from '../FormComponents/CheckInput'
 import {Formik} from 'formik'
 
-export default function CharacterCreation() {
+export default function CharacterCreation({ setCharacters }) {
 
   const actionUrl = `https://notthisweek.herokuapp.com/api/character/create`
 
@@ -114,8 +114,7 @@ export default function CharacterCreation() {
                   body: formData,
                 })
                   .then((res) => res.json())
-                  // .then((data) => setRounds(data.rounds))
-                  // .then(sendMessage("rounds"))
+                  .then((data) => setCharacters(data.characters))
                   .catch((err) => {
                     console.log(err)
                   })
@@ -195,7 +194,7 @@ export default function CharacterCreation() {
                   </fieldset>
 
                   <div className="d-flex flex-column">
-                    <button className="btn btn-success mt-5" type="submit">Adventure awaits</button>
+                    <button className="btn btn-success mt-5" data-bs-dismiss="modal" type="submit">Adventure awaits</button>
                   </div>
                   </form>
               )}
