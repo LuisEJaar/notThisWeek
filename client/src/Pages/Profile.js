@@ -8,6 +8,7 @@ import CreateGame from "../Components/Forms/CreateGame";
 export default function Profile() {
   const [data, setData] = React.useState(null)
   const [characters, setCharacters] = React.useState("")
+  const [games, setGames] = React.useState("")
 
   const { id } = useParams()
   const url = `/api/userProfile/${id}`
@@ -23,6 +24,7 @@ export default function Profile() {
       .then((data) => {
         setData(data)
         setCharacters(data.characters)
+        setGames(data.games)
       })
   }, [url, id]);
   
@@ -52,7 +54,7 @@ export default function Profile() {
             {(data.targetUser.type==="dm" && data.visitor._id ===data.targetUser._id) && 
               <div className="mt-3">
                 <h2>Add a game:</h2>
-                <CreateGame />
+                <CreateGame setGames={setGames}/>
               </div>
             }
           </div>
@@ -64,13 +66,13 @@ export default function Profile() {
               <h2>Your Games:</h2>
             }
             <ul className="row list-unstyled">
-              {data.posts.map((post) => { 
+              {games.map((game) => { 
                 return (  
-                <li key={post._id} className="justify-content-between mt-3">
-                  <Link to={`/post/${post._id}?q=proxy`}>
+                <li key={game._id} className="justify-content-between mt-3">
+                  <Link to={`/post/${game._id}?q=proxy`}>
                     <figure className="d-flex flex-column align-items-center">
-                      <img alt="game" className="img-fluid rounded profileGame" src={ post.image }/>
-                        <figcaption className="text-center">{post.title}</figcaption>
+                      <img alt="game" className="img-fluid rounded profileGame" src={ game.image }/>
+                        <figcaption className="text-center">{game.title}</figcaption>
                     </figure>
                   </Link>
                 </li>
