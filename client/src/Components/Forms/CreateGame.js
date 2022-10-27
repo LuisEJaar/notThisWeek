@@ -54,9 +54,9 @@ export default function CreateGame({ setGames }) {
                   <form
                     onSubmit={handleSubmit}
                   >
-                    <TextInput handleChange={handleChange} value={values.title} id="title" text="Title:" name="title" placeholder="Interesting Title" required/>
-                    <Field as="textarea" onChange={handleChange} value={values.caption} className="form-control" id="gameDescription" placeholder="Game Description" name="caption"></Field>
-                    <div className="mt-2">
+                    <TextInput className="mb-3" handleChange={handleChange} value={values.title} id="title" text="Title:" name="title" placeholder="Interesting Title" required/>
+                    <Field as="textarea" onChange={handleChange} value={values.caption} className="mb-3 form-control" id="gameDescription" placeholder="Game Description" name="caption"></Field>
+                    <div className="mb-3">
                       <label htmlFor="imgUpload" className="form-label">Image</label>
                       <input type="file" onChange={ (e)=> setFieldValue("file", e.currentTarget.files[0]) } className="form-control" id="imageUpload" name="file" required/>
                     </div>
