@@ -2,8 +2,8 @@ import React from "react";
 import Header from "../Components/Header"
 import Footer from "../Components/Footer"
 import { useParams, Link } from 'react-router-dom'
-import CreateCharacter from '../Components/Forms/CharacterCreation'
-import {Form} from 'formik'
+import CreateCharacter from '../Components/Forms/CreateCharacter'
+import CreateGame from "../Components/Forms/CreateGame";
 
 export default function Profile() {
   const [data, setData] = React.useState(null)
@@ -52,21 +52,7 @@ export default function Profile() {
             {(data.targetUser.type==="dm" && data.visitor._id ===data.targetUser._id) && 
               <div className="mt-3">
                 <h2>Add a game:</h2>
-                <Form action="/post/createPost" encType="multipart/form-data" method="POST">
-                  <div className="mb-3">
-                      <label htmlFor="title" className="form-label">Title</label>
-                      <input type="text" className="form-control" id="title" name="title" required/>
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="caption" className="form-label">Description</label>
-                    <textarea className="form-control" id="caption" name="caption" required></textarea>
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="imgUpload" className="form-label">Image</label>
-                    <input type="file" className="form-control" id="imageUpload" name="file" required/>
-                  </div>
-                  <button type="submit" className="btn btn-primary" value="Upload">Submit</button>
-                </Form>
+                <CreateGame />
               </div>
             }
           </div>
