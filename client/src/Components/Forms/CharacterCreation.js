@@ -113,11 +113,11 @@ export default function CharacterCreation({ setCharacters }) {
                   withCredentials: true,
                   body: formData,
                 })
-                  .then((res) => res.json())
-                  .then((data) => setCharacters(data.characters))
-                  .catch((err) => {
-                    console.log(err)
-                  })
+                .then((res) => res.json())
+                .then((data) => setCharacters(data.characters))
+                .catch((err) => {
+                  console.log(err)
+                })
               }} 
             >
               {({

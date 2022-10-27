@@ -100,8 +100,9 @@ module.exports = {
         image: result.secure_url,
         cloudinaryId: result.public_id,
       });
-      console.log("Character has been added!");
-      res.redirect("/userProfile/own");
+
+      const characters = await Character.find({user: req.user.id})
+      res.json({characters: characters});
     } catch (err) {
       console.log(err);
     }
