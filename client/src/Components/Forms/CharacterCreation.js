@@ -66,6 +66,8 @@ export default function CharacterCreation() {
                   fetch(actionUrl, {
                     method: 'post',
                     encType: "multipart/form-data",
+                    withCredentials: true,
+                    body: JSON.stringify(values, null, 2),
                   })
                     .then((res) => res.json())
                     // .then((data) => setRounds(data.rounds))
