@@ -11,13 +11,13 @@ export default function CreateGame({ setGames }) {
         initialValues={{
           file: null,
           title: "",
-          text: "",
+          caption: "",
         }}
         onSubmit={(values) => {
           let formData = new FormData();
           formData.append("file", values.file);
           formData.append("title", values.title);
-          formData.append("text", values.text);
+          formData.append("text", values.caption);
 
           fetch(actionUrl, {
             method: 'post',
@@ -52,7 +52,7 @@ export default function CreateGame({ setGames }) {
                 <input type="text" className="form-control" id="title" name="title" required/>
             </div> */}
 
-            <Field as="textarea" onChange={handleChange} value={values.text} className="form-control" id="gameDescription" placeholder="Game Description" name="text"></Field>
+            <Field as="textarea" onChange={handleChange} value={values.caption} className="form-control" id="gameDescription" placeholder="Game Description" name="caption"></Field>
             
             {/* <div className="mb-3">
               <label htmlFor="caption" className="form-label">Description</label>
