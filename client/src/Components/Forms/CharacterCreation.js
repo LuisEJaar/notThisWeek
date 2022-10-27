@@ -6,7 +6,7 @@ import {Formik} from 'formik'
 
 export default function CharacterCreation() {
 
-  const actionUrl = `/api/character/create`
+  const actionUrl = `https://notthisweek.herokuapp.com/api/character/create`
 
   return (
   <div className="modal fade" id="createCharacter" tabIndex="-1" aria-labelledby="createCharacterLabel" aria-hidden="true">
