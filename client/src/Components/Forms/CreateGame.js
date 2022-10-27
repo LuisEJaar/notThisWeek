@@ -17,7 +17,7 @@ export default function CreateGame({ setGames }) {
           let formData = new FormData();
           formData.append("file", values.file);
           formData.append("title", values.title);
-          formData.append("text", values.caption);
+          formData.append("caption", values.caption);
 
           fetch(actionUrl, {
             method: 'post',
