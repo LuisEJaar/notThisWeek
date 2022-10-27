@@ -87,7 +87,7 @@ export default function CharacterCreation() {
                   props
                 }) => (
                 <form
-                  onSubmit={props.handleSubmit}
+                  onSubmit={handleSubmit}
                 >
                   <fieldset>
                     
