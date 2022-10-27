@@ -31,7 +31,7 @@ export default function CreateGame({ setGames }) {
             console.log(err)
           })
         }} 
-      >
+      > 
         {({
             values,
             errors,
