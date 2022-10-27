@@ -66,6 +66,47 @@ export default function CharacterCreation() {
                 let formData = new FormData();
                 formData.append("file", values.file);
 
+                formData.append("name", values.name);
+                formData.append("class", values.class);
+                formData.append("age", values.age);
+                formData.append("race", values.race);
+                formData.append("gender", values.gender);
+                formData.append("lvl", values.lvl);
+                formData.append("ac", values.ac);
+          
+                formData.append("str", values.str);
+                formData.append("dex", values.dex);
+                formData.append("con", values.con);
+                formData.append("int", values.int);
+                formData.append("wis", values.wis);
+                formData.append("char", values.char);
+
+                formData.append("strSave", values.strSave);
+                formData.append("dexSave", values.dexSave);
+                formData.append("conSave", values.conSave);
+                formData.append("intSave", values.intSave);
+                formData.append("wisSave", values.wisSave);
+                formData.append("charSave", values.charSave);
+
+                formData.append("acrobatics", values.acrobatics);
+                formData.append("animalHandling", values.animalHandling);
+                formData.append("arcana", values.arcana);
+                formData.append("athletics", values.athletics);
+                formData.append("deception", values.deception);
+                formData.append("history", values.history);
+                formData.append("insight", values.insight);
+                formData.append("intimidation", values.intimidation);
+                formData.append("medicine", values.medicine);
+                formData.append("nature", values.nature);
+                formData.append("perception", values.perception);
+                formData.append("investigation", values.investigation);
+                formData.append("performance", values.performance);
+                formData.append("persuasion", values.persuasion);
+                formData.append("religion", values.religion);
+                formData.append("sleightOfHand", values.sleightOfHand);
+                formData.append("stealth", values.stealth);
+                formData.append("survival", values.survival);
+
                 fetch(actionUrl, {
                   method: 'post',
                   encType: "multipart/form-data",
