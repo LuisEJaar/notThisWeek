@@ -1,5 +1,5 @@
 import TextInput from "../FormComponents/TextInput";
-import { Formik } from "formik";
+import { Formik, Field } from "formik";
 
 export default function CreateGame({ setGames }) {
 
