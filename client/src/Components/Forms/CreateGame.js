@@ -26,7 +26,7 @@ export default function CreateGame({ setGames }) {
             body: formData,
           })
           .then((res) => res.json())
-          .then((data) => setGames(data.games))
+          .then((data) => setGames(data.posts))
           .catch((err) => {
             console.log(err)
           })
