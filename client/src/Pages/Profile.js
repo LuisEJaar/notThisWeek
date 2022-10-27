@@ -101,20 +101,22 @@ export default function Profile() {
               }
               { data.targetUser.type !=='dm' &&
                 <>
-                <ul className="row list-unstyled">
-                {characters.map((character) => {
-                  return (  
-                    <li key={character._id} className="justify-content-between mt-3">
-                      <Link to={`/character/${character._id}`}>
-                        <figure className="d-flex flex-column align-items-center">
-                          <img alt="character" className="img-fluid rounded profileGame" src={ character.image }/>
-                              <figcaption className="text-center"> {character.name} </figcaption>
-                        </figure>
-                      </Link>
-                    </li>
+                <div className="row g-4">
+                  {characters.map((character) => { 
+                    return (
+                    <div key={character._id} className="col-md-6 col-lg-3 d-flex justify-content-center">
+                        <div className="card gameDisplay" style={{ width: 18 + 'rem' }}>
+                        <Link to={`/character/${character._id}`}>
+                            <img alt="character" className="gamePicture card-img-top" src={character.image}/>
+                          </Link>
+                          <div className="card-body">
+                          <p className="card-text">{ character.name }</p>
+                          </div>
+                        </div>
+                      </div>
                     )
-                  })}
-                </ul>
+                  }) }
+                </div>
                 </>
               }
           </div>   
