@@ -2,7 +2,7 @@ import Form from 'react-bootstrap/Form';
 
 export default function CheckInput(props) {
   return (
-    <div className="form-check form-switch">
+    <div className="">
       <Form.Check
         value="false"
         name={props.name}
