@@ -97,23 +97,23 @@ export default function CharacterCreation() {
                     </div>
                     
                     <legend className='mt-3'>Description:</legend>
-                    <TextInput  id="charName" text="Name:" name="name" placeholder="Name" required/>
-                    <TextInput  id="charClass" text="Class:" name="class" placeholder="Class" required/>
-                    <NumberInput  id="charAge" text="Age:" name="age" placeholder="Age" />
-                    <TextInput  id="charRace" text="Race:" name="race" placeholder="Race" required />
-                    <TextInput  id="charGnd" text="Gender:" name="gender" placeholder="Gender" required />
-                    <NumberInput  id="charLvl" text="Level:" name="lvl" placeholder="Level" required/>
-                    <NumberInput  id="ac" text="Armor Class(ac):" name="ac" placeholder="Armor Class" required/>
+                    <TextInput handleChange={handleChange} value={values.name} id="charName" text="Name:" name="name" placeholder="Name" required/>
+                    <TextInput handleChange={handleChange} value={values.class} id="charClass" text="Class:" name="class" placeholder="Class" required/>
+                    <NumberInput handleChange={handleChange} id="charAge" text="Age:" name="age" placeholder="Age" />
+                    <TextInput handleChange={handleChange} value={values.race}  id="charRace" text="Race:" name="race" placeholder="Race" required />
+                    <TextInput handleChange={handleChange} value={values.gender} id="charGnd" text="Gender:" name="gender" placeholder="Gender" required />
+                    <NumberInput handleChange={handleChange} id="charLvl" text="Level:" name="lvl" placeholder="Level" required/>
+                    <NumberInput handleChange={handleChange} id="ac" text="Armor Class(ac):" name="ac" placeholder="Armor Class" required/>
                   </fieldset>
                     
                   <fieldset className="mt-3">
                   <legend>Ability Scores</legend>
-                    <NumberInput  id="str" text="Strength:" name="str" placeholder="str" min="0" max="30" required/>
-                    <NumberInput  id="dex" text="Dexterity:" name="dex" placeholder="dex" min="0" max="30" required/>
-                    <NumberInput  id="con" text="Constitution:" name="con" placeholder="con" min="0" max="30" required />
-                    <NumberInput  id="int" text="Intelligence:" name="int" placeholder="int" min="0" max="30" required/>
-                    <NumberInput  id="wis" text="Wisdom:" name="wis" placeholder="wis" min="0" max="30" required/>
-                    <NumberInput  id="char" text="Charisma:" name="char" placeholder="char" min="0" max="30" required/>
+                    <NumberInput handleChange={handleChange} id="str" text="Strength:" name="str" placeholder="str" min="0" max="30" required/>
+                    <NumberInput handleChange={handleChange} id="dex" text="Dexterity:" name="dex" placeholder="dex" min="0" max="30" required/>
+                    <NumberInput handleChange={handleChange} id="con" text="Constitution:" name="con" placeholder="con" min="0" max="30" required />
+                    <NumberInput handleChange={handleChange} id="int" text="Intelligence:" name="int" placeholder="int" min="0" max="30" required/>
+                    <NumberInput handleChange={handleChange} id="wis" text="Wisdom:" name="wis" placeholder="wis" min="0" max="30" required/>
+                    <NumberInput handleChange={handleChange} id="char" text="Charisma:" name="char" placeholder="char" min="0" max="30" required/>
                   </fieldset>
 
                   <fieldset className="mt-3">

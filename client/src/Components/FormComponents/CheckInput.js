@@ -3,7 +3,7 @@ export default function CheckInput(props) {
     <div className="form-check form-switch">
       <div
         value={props.values.target}
-        checked={ props.formik.values.target === true}
+        checked={ props.values.target === true}
         name={props.name}
         onChange={(event, checked) => {
           props.setFieldValue(props.name, checked ? true : false);
