@@ -2,7 +2,7 @@
 import { useFormik, Form } from 'formik'
 
 export default function Delete({sendMessage, targetId, target, rounds, setRounds, encounterId}) {
-  const roundUrl = `/round/delete${target}/${targetId}/${encounterId}`
+  const roundUrl = `https://notthisweek.herokuapp.com/api/round/delete${target}/${targetId}/${encounterId}`
   
   //Formik items
   const formik = useFormik({
