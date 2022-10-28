@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 
 function CreateEncounter({ data, characters, post, encounters, setEncounters }) {
 
-  const actionUrl = `/encounter/createEncounter/${post._id}`
+  const actionUrl = `https://notthisweek.herokuapp.com/api/encounter/createEncounter/${post._id}`
 
   return (
     <div className="modal fade" id="addEncounter" tabIndex="-1" aria-labelledby="addEncounterLabel" aria-hidden="true">
