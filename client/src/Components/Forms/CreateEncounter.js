@@ -108,13 +108,11 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                     })}
                 {characters.length > 0 &&
                   <>
-                    {data.characters.forEach((character) => {
+                    {data.characters.map((character) => {
                       return (
-                        <>
-                        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                          <Form.Check type="checkbox" value={character._id} id={ character._id} label={character.name} />
+                        <Form.Group key={ character._id} className="mb-3" controlId="formBasicCheckbox">
+                          <Form.Check type="checkbox" value={character._id}  label={character.name} />
                         </Form.Group>
-                        </>  
                       )
                     })}
                     
