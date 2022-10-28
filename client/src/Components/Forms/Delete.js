@@ -14,7 +14,13 @@ export default function Delete({sendMessage, targetId, target, rounds, setRounds
         method: 'delete',
       })
       .then((res) => res.json())
-      .then((data) => setRounds(data.rounds))
+        .then((data) => {
+          if (data.err) {
+            console.log(data.err)
+          } else {
+            setRounds(data.rounds)
+          }
+        })
       .then(sendMessage("rounds"))
       .catch((err) => {
         console.log(err)

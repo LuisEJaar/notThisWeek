@@ -1,7 +1,6 @@
 import React from 'react'
 import { Formik, Field} from 'formik'
 import TextInput from '../FormComponents/TextInput'
-import { Link } from 'react-router-dom'
 import Form from 'react-bootstrap/Form';
 
 function CreateEncounter({ data, characters, post, encounters, setEncounters }) {
@@ -62,19 +61,19 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                 <TextInput className="mb-3" handleChange={handleChange} value={values.title} id="encounterTitle" text="Title:" name="title" placeholder="Enounter Title" required/>
                 
                 {/* <!-- Location --> */}
-                  <TextInput
-                    className="mb-3"
-                    handleChange={handleChange}
-                    value={values.location}
-                    id="encounterLocation"
-                    text="Encounter Location:"
-                    name="location"
-                    placeholder="Enounter Location"
-                    required
-                  />
+                <TextInput
+                  className="mb-3"
+                  handleChange={handleChange}
+                  value={values.location}
+                  id="encounterLocation"
+                  text="Encounter Location:"
+                  name="location"
+                  placeholder="Enounter Location"
+                  required
+                />
                 
                 {/* <!-- Description --> */}
-                <label className='mb-1' htmlFor="encounterDescription" aria-label='Description'>Description:</label>
+                <label className='mb-1 mt-2' htmlFor="encounterDescription" aria-label='Description'>Description:</label>
                 <Field
                     as="textarea"
                     onChange={handleChange}
@@ -95,36 +94,17 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                 <label className="mb-3">Party Members:</label>                 
                 {data.characters.length > 0 &&
                   <>
-                    {/* {data.characters.forEach((character) => {
-                      return (
-                        <Form.Group key={ character._id} className="mb-3" controlId="formBasicCheckbox">
-                          <Form.Check type="checkbox" value={character._id}  label={character.name} />
-                        </Form.Group>
-                      )
-                    })} */}
                     {
                     data.characters.map(character => {
                       return (
                         <>
-                        {/* <Link key={character._id} className="btn btn-primary shadow me-2" target="_blank" to={`/character/${character._id}`}>{ character.name}</Link> */}
-                        <Form.Group key={ character._id} className="mb-3" controlId="formBasicCheckbox">
-                          <Form.Check type="checkbox" value={character._id}  label={character.name} />
-                        </Form.Group>
+                          <Form.Group key={ character._id} className="mb-3" controlId="formBasicCheckbox">
+                            <Form.Check type="checkbox" value={character._id}  label={character.name} />
+                          </Form.Group>
                         </>
                       )
                     })
-                  }
-                  </>
-                  }
-                  {characters.length > 0 &&
-                  <>
-                    {characters.forEach((character) => {
-                      return (
-                        <>
-                          <p>{ character.name }</p>
-                        </>  
-                      )
-                    })}
+                    }
                   </>
                 }
                 {characters.length === 0 &&
