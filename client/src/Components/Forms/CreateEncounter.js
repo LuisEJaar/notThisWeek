@@ -90,7 +90,8 @@ function CreateEncounter({ characters, post, encounters, setEncounters }) {
                   <input type="file" onChange={ (e)=> setFieldValue("file", e.currentTarget.files[0]) } className="form-control" id="imageUpload" name="file" required/>
                 </div>
                 {/* <!-- Players --> */}
-                <label className="mb-3">Party Members:</label>
+                  <label className="mb-3">Party Members:</label>
+                  <p> { characters.length}</p>
                 {characters.length > 0 &&
                   <>
                     {characters.forEach((character) => {
