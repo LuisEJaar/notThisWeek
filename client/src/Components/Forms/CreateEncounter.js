@@ -58,39 +58,33 @@ function CreateEncounter({ characters, post, encounters, setEncounters }) {
                 > 
                 {/* <!-- Title --> */}
                 <TextInput className="mb-3" handleChange={handleChange} value={values.title} id="encounterTitle" text="Title:" name="title" placeholder="Enounter Title" required/>
-                {/* <div className="form-group mb-3">
-                  <label htmlFor="encounterTitle">Title</label>
-                  <input type="text" className="form-control" id="encounterTitle" placeholder="Enounter Title" name="title"/>
-                </div> */}
-                  {/* <!-- Location --> */}
-                <TextInput className="mb-3" handleChange={handleChange} value={values.location} id="encounterLocation" text="Encounter Location:" name="location" placeholder="Enounter Location" required/>
                 
-                {/* <div className="form-group mb-3">
-                  <label htmlFor="encounterLocation">Encounter Location</label>
-                  <input type="text" className="form-control" id="encounterLocation" placeholder="Encounter Location" name="location"/>
-                </div> */}
-                  {/* <!-- Description --> */}
-                  <Field
-                      as="textarea"
-                      onChange={handleChange}
-                      value={values.caption}
-                      className="mb-3 form-control"
-                      id="encounterDescription"
-                      placeholder="Encounter Description"
-                      name="description"
-                      label="Description:"
-                  >
-                  </Field>
-                {/* <div className="form-group mb-3">
-                  <label htmlFor="encounterDescription">Encounter Description</label>
-                  <textarea type="text" className="form-control" id="encounterDescription" placeholder="Encounter Description" name="description"></textarea>
-                </div> */}
+                {/* <!-- Location --> */}
+                  <TextInput
+                    className="mb-3"
+                    handleChange={handleChange}
+                    value={values.location}
+                    id="encounterLocation"
+                    text="Encounter Location:"
+                    name="location"
+                    placeholder="Enounter Location"
+                    required
+                  />
+                
+                {/* <!-- Description --> */}
+                <label className='mb-1' htmlFor="encounterDescription" aria-label='Description'>Description:</label>
+                <Field
+                    as="textarea"
+                    onChange={handleChange}
+                    value={values.caption}
+                    className="mb-3 form-control"
+                    id="encounterDescription"
+                    placeholder="Encounter Description"
+                    name="description"
+                    label="Description:"
+                >
+                </Field>
                 {/* <!-- Image --> */}
-                {/* <div className="form-group mb-3">
-                  <label htmlFor="imgUpload" className="form-label">Image</label>
-                  <input type="file" className="form-control" id="imageUpload" name="file"/>
-                  </div> */}
-
                 <div className="mb-3">
                   <label htmlFor="imgUpload" className="form-label">Image</label>
                   <input type="file" onChange={ (e)=> setFieldValue("file", e.currentTarget.files[0]) } className="form-control" id="imageUpload" name="file" required/>
@@ -105,6 +99,17 @@ function CreateEncounter({ characters, post, encounters, setEncounters }) {
                         <Form.Group className="mb-3" controlId="formBasicCheckbox">
                           <Form.Check type="checkbox" value={character._id} id={ character._id} label={character.name} />
                         </Form.Group>
+                        </>  
+                      )
+                    })}
+                  </>
+                  }
+                  {characters.length > 0 &&
+                  <>
+                    {characters.forEach((character) => {
+                      return (
+                        <>
+                          <p>{ character.name }</p>
                         </>  
                       )
                     })}
