@@ -1,6 +1,7 @@
 import React from 'react'
 import { Formik, Field, Form } from 'formik'
 import TextInput from '../FormComponents/TextInput'
+import {Link} from 'react-router-dom'
 
 function CreateEncounter({ data, characters, post, encounters, setEncounters }) {
 
@@ -90,24 +91,23 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                   <input type="file" onChange={ (e)=> setFieldValue("file", e.currentTarget.files[0]) } className="form-control" id="imageUpload" name="file" required/>
                 </div>
                 {/* <!-- Players --> */}
-                <label className="mb-3">Party Members:</label>
-                  <p> {characters.length}</p>
-                  {data.characters.forEach((character) => {
-                      return (
-                        <p>{ character.name}</p>
-                      )
-                    })}
-                  
+                <label className="mb-3">Party Members:</label>                 
                 {data.characters.length > 0 &&
                   <>
-                    {data.characters.forEach((character) => {
+                    {/* {data.characters.forEach((character) => {
                       return (
                         <Form.Group key={ character._id} className="mb-3" controlId="formBasicCheckbox">
                           <Form.Check type="checkbox" value={character._id}  label={character.name} />
                         </Form.Group>
                       )
-                    })}
-                    
+                    })} */}
+                    {
+                    data.characters.map(character => {
+                      return (
+                        <Link key={character._id} className="btn btn-primary shadow me-2" target="_blank" to={`/character/${character._id}`}>{ character.name}</Link>
+                      )
+                    })
+                  }
                   </>
                   }
                   {characters.length > 0 &&
