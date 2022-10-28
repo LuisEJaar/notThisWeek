@@ -1,7 +1,8 @@
 import React from 'react'
-import { Formik, Field, Form } from 'formik'
+import { Formik, Field} from 'formik'
 import TextInput from '../FormComponents/TextInput'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import Form from 'react-bootstrap/Form';
 
 function CreateEncounter({ data, characters, post, encounters, setEncounters }) {
 
