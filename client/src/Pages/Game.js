@@ -186,6 +186,7 @@ export default function Game() {
           encounters={encounters}
           post={data.post}
           characters={data.characters}
+          data={data}
         />
 
         {/* <!-- Modal Player --> */}

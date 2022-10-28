@@ -2,7 +2,7 @@ import React from 'react'
 import { Formik, Field, Form } from 'formik'
 import TextInput from '../FormComponents/TextInput'
 
-function CreateEncounter({ characters, post, encounters, setEncounters }) {
+function CreateEncounter({ data, characters, post, encounters, setEncounters }) {
 
   const actionUrl = `/encounter/createEncounter/${post._id}`
 
@@ -108,7 +108,7 @@ function CreateEncounter({ characters, post, encounters, setEncounters }) {
                     })}
                 {characters.length > 0 &&
                   <>
-                    {/* {characters.forEach((character) => {
+                    {data.characters.forEach((character) => {
                       return (
                         <>
                         <Form.Group className="mb-3" controlId="formBasicCheckbox">
@@ -116,7 +116,7 @@ function CreateEncounter({ characters, post, encounters, setEncounters }) {
                         </Form.Group>
                         </>  
                       )
-                    })} */}
+                    })}
                     
                   </>
                   }
