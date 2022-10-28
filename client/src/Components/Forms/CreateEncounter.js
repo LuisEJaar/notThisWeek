@@ -1,5 +1,6 @@
 import React from 'react'
-import { Formik, Field } from 'formik'
+import { Formik, Field, Form } from 'formik'
+import TextInput from '../FormComponents/TextInput'
 
 function CreateEncounter({ characters, post, encounters, setEncounters }) {
 
