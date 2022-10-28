@@ -92,7 +92,11 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                 {/* <!-- Players --> */}
                 <label className="mb-3">Party Members:</label>
                   <p> {characters.length}</p>
-                  
+                  {data.characters.forEach((character) => {
+                      return (
+                        <p>{ character.name}</p>
+                      )
+                    })}
                   
                 {data.characters.length > 0 &&
                   <>
