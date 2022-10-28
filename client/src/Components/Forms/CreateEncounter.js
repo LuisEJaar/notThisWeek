@@ -104,7 +104,12 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                     {
                     data.characters.map(character => {
                       return (
-                        <Link key={character._id} className="btn btn-primary shadow me-2" target="_blank" to={`/character/${character._id}`}>{ character.name}</Link>
+                        <>
+                        {/* <Link key={character._id} className="btn btn-primary shadow me-2" target="_blank" to={`/character/${character._id}`}>{ character.name}</Link> */}
+                        <Form.Group key={ character._id} className="mb-3" controlId="formBasicCheckbox">
+                          <Form.Check type="checkbox" value={character._id}  label={character.name} />
+                        </Form.Group>
+                        </>
                       )
                     })
                   }
