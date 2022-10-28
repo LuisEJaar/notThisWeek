@@ -91,7 +91,21 @@ function CreateEncounter({ characters, post, encounters, setEncounters }) {
                 </div>
                 {/* <!-- Players --> */}
                 <label className="mb-3">Party Members:</label>
-                  <p> { characters.length}</p>
+                  <p> {characters.length}</p>
+                  {characters.forEach((character) => {
+                      return (
+                        <>
+                          <p>{ character._id}</p>
+                        </>  
+                      )
+                  })}
+                  {characters.forEach((character) => {
+                      return (
+                        <>
+                          <p>{ character.name}</p>
+                        </>  
+                      )
+                    })}
                 {characters.length > 0 &&
                   <>
                     {/* {characters.forEach((character) => {
@@ -103,13 +117,7 @@ function CreateEncounter({ characters, post, encounters, setEncounters }) {
                         </>  
                       )
                     })} */}
-                    {characters.forEach((character) => {
-                      return (
-                        <>
-                          <p>{ character._id}</p>
-                        </>  
-                      )
-                    })}
+                    
                   </>
                   }
                   {characters.length > 0 &&
