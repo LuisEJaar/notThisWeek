@@ -100,17 +100,20 @@ function CreateEncounter({ characters, post, encounters, setEncounters }) {
                 {characters.length > 0 &&
                   <>
                     {characters.forEach((character) => {
-                      <>
-                      <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" value={character._id} id={ character._id} label={character.name} />
-                      </Form.Group>
-                      </>
+                      return (
+                        <>
+                        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                          <Form.Check type="checkbox" value={character._id} id={ character._id} label={character.name} />
+                        </Form.Group>
+                        </>  
+                      )
                     })}
                   </>
                 }
                 {characters.length === 0 &&
                   <span>No player characters available</span>
-                }
+                  }
+                <button type="submit" data-bs-dismiss="modal" className="btn btn-primary" value="Upload">Create Encounter</button>
                 </form>
               )}
             </Formik>
