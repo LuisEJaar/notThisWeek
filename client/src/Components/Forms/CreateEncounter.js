@@ -97,17 +97,17 @@ function CreateEncounter({ characters, post, encounters, setEncounters }) {
                 </div>
                 {/* <!-- Players --> */}
                 <label className="mb-3">Party Members:</label>
-                {/* {characters.length > 0 &&
+                {characters.length > 0 &&
                   <>
-                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                      {characters.forEach((character) => {
-                          <>
-                          <Form.Check type="checkbox" value={character._id} id={ character._id} label={character.name} />
-                          </>
-                      })}
-                    </Form.Group>
+                    {characters.forEach((character) => {
+                      <>
+                      <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                        <Form.Check type="checkbox" value={character._id} id={ character._id} label={character.name} />
+                      </Form.Group>
+                      </>
+                    })}
                   </>
-                } */}
+                }
                 {characters.length === 0 &&
                   <span>No player characters available</span>
                 }
