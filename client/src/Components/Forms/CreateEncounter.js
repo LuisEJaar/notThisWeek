@@ -94,7 +94,7 @@ function CreateEncounter({ characters, post, encounters, setEncounters }) {
                   <p> { characters.length}</p>
                 {characters.length > 0 &&
                   <>
-                    {characters.forEach((character) => {
+                    {characters.map((character) => {
                       return (
                         <>
                         <Form.Group className="mb-3" controlId="formBasicCheckbox">
