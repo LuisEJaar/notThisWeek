@@ -1,7 +1,6 @@
 import React from 'react'
 import { Formik, Field} from 'formik'
 import TextInput from '../FormComponents/TextInput'
-import Form from 'react-bootstrap/Form';
 
 function CreateEncounter({ data, characters, post, encounters, setEncounters }) {
 
@@ -31,7 +30,7 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                   formData.append("location", values.location);
                   formData.append("description", values.description);
                   formData.append("characters", values.characters);
-                  console.log(formData)
+
                   fetch(actionUrl, {
                     method: 'post',
                     encType: "multipart/form-data",
@@ -96,20 +95,20 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                 <label className="mb-3">Party Members:</label>                 
                 {data.characters.length > 0 &&
                   <>
+                    
                     {
                       data.characters.map(character => {
                         return (
-                        <Field key={character._id} type="checkbox" value={ character._id } name="characters"  />
-                        
-                          // <Form.Group key={ character._id } className="mb-3" controlId="formBasicCheckbox">
-                        //   <Form.Check
-                        //     label={character.name}
-                        //     name="characters"
-                        //     value={character._id}
-                        //     onChange={formik.handleChange}
-                        //   />
-                        // </Form.Group>
-                      )
+                          <div class="form-check">
+                            <Field
+                              key={character._id}
+                              type="checkbox"
+                              value={character._id}
+                              name="characters"
+                              label={ character.name }
+                            />
+                          </div>
+                        )
                       })
                     }
                   </>
