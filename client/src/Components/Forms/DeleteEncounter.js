@@ -1,6 +1,6 @@
 
 import { useFormik, Form } from 'formik'
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 export default function DeleteEncounter({target, encounterId}) {
   const targetUrl = `https://notthisweek.herokuapp.com/api/encounter/deleteEncounter/${encounterId}`
@@ -18,7 +18,8 @@ export default function DeleteEncounter({target, encounterId}) {
           if (data.err) {
             console.log(data.err)
           } else {
-            navigate(data.redirect)
+            // navigate(data.redirect)
+            redirect(data.redirect)
           }
         })
       .catch((err) => {
