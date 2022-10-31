@@ -39,6 +39,7 @@ module.exports = {
         return array;
       }
 
+      console.log(req.body.characters)
       const characters = await shuffle(req.body.characters);
 
       await Encounter.create({
