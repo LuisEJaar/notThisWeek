@@ -120,14 +120,16 @@ module.exports = {
     try {
       // Find encounter by id
       let encounter = await Encounter.findById({ _id: req.params.id });
+      let game = encounter.post
       // Delete image from cloudinary
       await cloudinary.uploader.destroy(encounter.cloudinaryId);
       // Delete post from db
       await Encounter.remove({ _id: req.params.id });
+
       console.log("Deleted Encounter");
-      res.redirect("/profile");
+      res.json({redirect: `https://notthisweek.herokuapp.com/post/${game}`});
     } catch (err) {
-      res.redirect("/profile");
+      res.json({err:err});
     }
   },
 };

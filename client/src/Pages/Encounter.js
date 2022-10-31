@@ -12,6 +12,7 @@ import DmToggleControll from '../Components/Forms/DmToggleControll'
 import TextRound from '../Components/Forms/TextRound'
 import NextPlayer from '../Components/Forms/NextPlayer'
 import PlayerRolling from '../Components/Forms/PlayerRolling'
+import DeleteEncounter from '../Components/Forms/DeleteEncounter'
 import Delete from '../Components/Forms/Delete'
 
 //Icons
@@ -405,7 +406,10 @@ export default function Encounter() {
         />
 
           {/* <!-- Delete Encounter --> */}
-          {/* <Delete /> */}
+        <DeleteEncounter
+          target={'Encounter'}
+          encounterId={id}
+        />
         </>
       }
       <Footer />

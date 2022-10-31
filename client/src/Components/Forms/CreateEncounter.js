@@ -106,7 +106,7 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                               name="characters"
                               id={ character._id }
                             />
-                            <label for={ character._id }>{`${character.name}`}</label>
+                            <label className='ps-2' for={ character._id }>{`${character.name}`}</label>
                           </div>
                         )
                       })
