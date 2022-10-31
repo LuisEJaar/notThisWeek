@@ -101,7 +101,7 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                       return (
                         <>
                           <Form.Group key={ character._id} className="mb-3" controlId="formBasicCheckbox">
-                            <Form.Check type="checkbox" value={character._id}  label={character.name} />
+                            <Form.Check type="checkbox" value={character._id}  label={character.name} name="characters" />
                           </Form.Group>
                         </>
                       )
