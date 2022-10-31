@@ -31,7 +31,7 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                   formData.append("location", values.location);
                   formData.append("description", values.description);
                   formData.append("characters", values.characters);
-
+                  console.log(formData)
                   fetch(actionUrl, {
                     method: 'post',
                     encType: "multipart/form-data",
