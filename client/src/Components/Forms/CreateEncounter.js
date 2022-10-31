@@ -99,14 +99,16 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                     {
                       data.characters.map(character => {
                         return (
-                        <Form.Group key={ character._id } className="mb-3" controlId="formBasicCheckbox">
-                          <Form.Check
-                            label={character.name}
-                            name="characters"
-                            value={character._id}
-                            onChange={formik.handleChange}
-                          />
-                        </Form.Group>
+                        <Field key={character._id} type="checkbox" value={ character._id } name="characters"  />
+                        
+                          // <Form.Group key={ character._id } className="mb-3" controlId="formBasicCheckbox">
+                        //   <Form.Check
+                        //     label={character.name}
+                        //     name="characters"
+                        //     value={character._id}
+                        //     onChange={formik.handleChange}
+                        //   />
+                        // </Form.Group>
                       )
                       })
                     }
