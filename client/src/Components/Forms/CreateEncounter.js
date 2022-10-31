@@ -28,7 +28,9 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                   let formData = new FormData();
                   formData.append("file", values.file);
                   formData.append("title", values.title);
-                  formData.append("caption", values.caption);
+                  formData.append("location", values.location);
+                  formData.append("description", values.description);
+                  formData.append("characters", values.characters);
 
                   fetch(actionUrl, {
                     method: 'post',
