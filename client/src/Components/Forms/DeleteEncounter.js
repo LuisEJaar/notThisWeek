@@ -1,11 +1,13 @@
 
+import React from 'react'
 import { useFormik, Form } from 'formik'
-import { redirect, useNavigate } from "react-router-dom";
+import { Navigate} from "react-router-dom";
 
 export default function DeleteEncounter({target, encounterId}) {
+  const [redirectURL, setRedirectURL] = React.useState("")
   const targetUrl = `https://notthisweek.herokuapp.com/api/encounter/deleteEncounter/${encounterId}`
-  
-  const navigate = useNavigate();
+
+  let shouldRedirect = false
 
   //Formik items
   const formik = useFormik({
@@ -18,8 +20,8 @@ export default function DeleteEncounter({target, encounterId}) {
           if (data.err) {
             console.log(data.err)
           } else {
-            // navigate(data.redirect)
-            redirect(data.redirect)
+            shouldRedirect = true
+            setRedirectURL(data.redirect)
           }
         })
       .catch((err) => {
@@ -30,6 +32,7 @@ export default function DeleteEncounter({target, encounterId}) {
 
   return (
     <div className="modal fade" id={`delete${target}`} tabIndex="-1" aria-labelledby={`delete${target}Label`} aria-hidden="true">
+    {shouldRedirect && <Navigate replace to={ redirectURL } />}
     <div className="modal-dialog">
       <div className="modal-content">
         <div className="modal-header">
