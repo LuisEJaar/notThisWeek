@@ -22,13 +22,13 @@ function Login() {
         withCredentials: true,
         body: JSON.stringify(values, null, 2),
       })
-        .then((res) => res.json())
-        .then((data) => {
-          navigate(data.url)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      .then((res) => res.json())
+      .then((data) => {
+        navigate(data.url)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   })
 

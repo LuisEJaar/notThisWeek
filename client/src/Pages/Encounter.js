@@ -14,6 +14,7 @@ import NextPlayer from '../Components/Forms/NextPlayer'
 import PlayerRolling from '../Components/Forms/PlayerRolling'
 import DeleteEncounter from '../Components/Forms/DeleteEncounter'
 import Delete from '../Components/Forms/Delete'
+import { Navigate} from "react-router-dom";
 
 //Icons
 import { HeartFill } from 'react-bootstrap-icons';
@@ -31,6 +32,9 @@ export default function Encounter() {
   const [characterTurn, setCharacterTurn] = useState(null)
   const [dmTurn, setDmTurn] = useState(null)
   const [encounterActive, setEncounterActive] = useState(null)
+
+  const [redirectURL, setRedirectURL] = React.useState("")
+  const [shouldRedirect, setShouldRedirect] = React.useState(false)
 
   //Fetching Initial data
   const { id } = useParams()
@@ -139,8 +143,11 @@ export default function Encounter() {
   
   // End Socket.io
 
+
+
   return (
     <div className="vh-100 d-flex flex-column justify-content-between">
+      {shouldRedirect && <Navigate replace to={ redirectURL } />}
       <Header page="other" />
       {data &&
         <>
@@ -409,6 +416,8 @@ export default function Encounter() {
         <DeleteEncounter
           target={'Encounter'}
           encounterId={id}
+          setRedirectURL={setRedirectURL}
+          setShouldRedirect={setShouldRedirect}
         />
         </>
       }
