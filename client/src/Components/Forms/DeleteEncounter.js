@@ -5,9 +5,8 @@ import { Navigate} from "react-router-dom";
 
 export default function DeleteEncounter({target, encounterId}) {
   const [redirectURL, setRedirectURL] = React.useState("")
+  const [shouldRedirect, setShouldRedirect] = React.useState(false)
   const targetUrl = `https://notthisweek.herokuapp.com/api/encounter/deleteEncounter/${encounterId}`
-
-  let shouldRedirect = false
 
   //Formik items
   const formik = useFormik({
@@ -20,7 +19,7 @@ export default function DeleteEncounter({target, encounterId}) {
           if (data.err) {
             console.log(data.err)
           } else {
-            shouldRedirect = true
+            setShouldRedirect(true)
             setRedirectURL(data.redirect)
           }
         })
