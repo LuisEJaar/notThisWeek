@@ -104,6 +104,7 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                             label={character.name}
                             name="characters"
                             value={character._id}
+                            onChange={formik.handleChange}
                           />
                         </Form.Group>
                       )
