@@ -56,10 +56,7 @@ module.exports = {
       console.log("Encounter has been added!");
       
       let encounters = await Encounter.find({ post: req.params.id })
-      
       res.json({encounters: encounters})
-
-
     } catch (err) {
       console.log(err);
     }

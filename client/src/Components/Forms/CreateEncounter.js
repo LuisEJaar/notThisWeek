@@ -95,7 +95,6 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                 <label className="mb-3">Party Members:</label>                 
                 {data.characters.length > 0 &&
                   <>
-                    
                     {
                       data.characters.map(character => {
                         return (
@@ -105,7 +104,7 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                               type="checkbox"
                               value={character._id}
                               name="characters"
-                              label={ character.name }
+                              label={`${character.name}`}
                             />
                           </div>
                         )
