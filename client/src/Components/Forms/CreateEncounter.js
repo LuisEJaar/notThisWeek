@@ -104,8 +104,9 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                               type="checkbox"
                               value={character._id}
                               name="characters"
-                              label={`${character.name}`}
+                              id={ character._id }
                             />
+                            <label for={ character._id }>{`${character.name}`}</label>
                           </div>
                         )
                       })
