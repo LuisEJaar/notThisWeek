@@ -117,6 +117,7 @@ module.exports = {
     }
   },
   deleteEncounter: async (req, res) => {
+    console.log("here")
     try {
       // Find encounter by id
       let encounter = await Encounter.findById({ _id: req.params.id });
