@@ -16,13 +16,9 @@ export default function DeleteEncounter({target, encounterId, setRedirectURL, se
       })
       .then((res) => res.json())
       .then((data) => {
-        if (data.err) {
-          console.log(data.err)
-        } else { 
-          console.log(`Delete workflow:`, data)
-          console.log(`Redirect:`, data?.redirect)
-          navigate(data?.redirect, {replace: true})
-        }
+        console.log(`Delete workflow:`, data)
+        console.log(`Redirect:`, data?.redirect)
+        navigate(data?.redirect)
       })
       .catch((err) => {
         console.log(err)
