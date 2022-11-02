@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "../Components/Header"
 import { Form, useFormik, Field } from 'formik'
 import { useNavigate } from "react-router-dom";
@@ -22,13 +22,13 @@ function Login() {
         withCredentials: true,
         body: JSON.stringify(values, null, 2),
       })
-        .then((res) => res.json())
-        .then((data) => {
-          navigate(data.url)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      .then((res) => res.json())
+      .then((data) => {
+        navigate(data.url)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   })
 

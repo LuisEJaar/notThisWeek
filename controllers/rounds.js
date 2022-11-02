@@ -97,14 +97,14 @@ module.exports = {
     }
   },
   deleteRound: async (req, res) => {
+    console.log("delete round route")
     try {
       await Rounds.remove({ _id: req.params.id });
-      console.log()
       const rounds = await Rounds.find({encounter: req.params.encounterId}).sort({ createdAt: "desc" }).lean();
       console.log(rounds)
       res.json({ rounds })
     } catch (err) {
-      res.redirect("back");
+      res.json({err: err});
     }
   },
 };

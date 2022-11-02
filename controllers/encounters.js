@@ -54,7 +54,9 @@ module.exports = {
         initiative: 0,
       });
       console.log("Encounter has been added!");
-      res.redirect('back');
+      
+      let encounters = await Encounter.find({ post: req.params.id })
+      res.json({encounters: encounters})
     } catch (err) {
       console.log(err);
     }
@@ -115,17 +117,21 @@ module.exports = {
     }
   },
   deleteEncounter: async (req, res) => {
+    console.log("here")
     try {
       // Find encounter by id
       let encounter = await Encounter.findById({ _id: req.params.id });
+      let game = encounter.post
       // Delete image from cloudinary
       await cloudinary.uploader.destroy(encounter.cloudinaryId);
       // Delete post from db
       await Encounter.remove({ _id: req.params.id });
+
       console.log("Deleted Encounter");
-      res.redirect("/profile");
+      res.json({redirect: `/post/${game}`});
+      // res.redirect(`/post/${game}`)
     } catch (err) {
-      res.redirect("/profile");
+      res.json({err:err});
     }
   },
 };

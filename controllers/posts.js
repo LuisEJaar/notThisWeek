@@ -84,7 +84,9 @@ module.exports = {
         user: req.user.id,
       });
       console.log("Post has been added!");
-      res.redirect("/userProfile/own");
+
+      const posts = await Post.find({user: req.user.id})
+      res.json({posts: posts});
     } catch (err) {
       console.log(err);
     }

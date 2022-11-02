@@ -1,25 +1,33 @@
 import React from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { HeartFill } from 'react-bootstrap-icons';
+import { Form } from "formik"
+
 import Header from "../Components/Header"
 import Footer from "../Components/Footer"
-import { HeartFill } from 'react-bootstrap-icons';
+import CreateEncounter from '../Components/Forms/CreateEncounter';
+
 import './Game.css'
-import {Form} from "formik"
 
 export default function Game() {
   const [data, setData] = React.useState(null)
+  const [encounters, setEncounters] = React.useState("")
 
   const { id } = useParams()
   const url = `/api/post/${id}`
 
   React.useEffect(() => {
+    console.log("Game UseEffect Started")
     fetch(url, {headers : { 
       'Content-Type': 'application/json',
       'Accept': 'application/json'
      }})
       .then((res) => res.json())
-      .then((data) => setData(data))
-      .catch((err)=> console.log(err))
+      .then((data) => { 
+        setData(data)
+        setEncounters(data.encounters)
+      })
+      .catch((err) => console.log(err))
   }, [url, id]);
 
   console.log(data)
@@ -38,7 +46,7 @@ export default function Game() {
   }
  
   return (
-    <>
+    <div className="vh-100 d-flex flex-column justify-content-between">
       <Header page="other" />
       {data && 
         <>
@@ -136,10 +144,10 @@ export default function Game() {
           </div>
           <h2>Game Encounters:</h2>
           <div className="encounterContainer">
-            {data.encounters.length > 0 &&
+            {encounters.length > 0 &&
               <>
               {
-                data.encounters.map((encounter) => {
+                encounters.map((encounter) => {
                   return (
                     <div key={ encounter._id} className={`encounterContained shadow card mb-3 text-white ${encounter.active ? " bg-success" : "bg-secondary"}`} style={{ width: 18 + 'rem' }} >
                       {encounter.active && <span className="badge bg-primary">Active</span>}
@@ -166,7 +174,7 @@ export default function Game() {
               }
               </>
             }
-            {data.encounters.length === 0 && 
+            {encounters.length === 0 && 
               <span>Adventure awaits!</span>  
             }
    
@@ -174,58 +182,13 @@ export default function Game() {
         </div>
 
         {/* <!-- Modal Encounter --> */}
-        <div className="modal fade" id="addEncounter" tabIndex="-1" aria-labelledby="addEncounterLabel" aria-hidden="true">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="newEncounterLabel">New Encounter</h5>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div className="modal-body">
-                <Form action={`/encounter/createEncounter/${data.post._id}`} encType="multipart/form-data" method="POST">
-                  {/* <!-- Title --> */}
-                  <div className="form-group mb-3">
-                    <label htmlFor="encounterTitle">Title</label>
-                    <input type="text" className="form-control" id="encounterTitle" placeholder="Enounter Title" name="title"/>
-                  </div>
-                  {/* <!-- Location --> */}
-                  <div className="form-group mb-3">
-                    <label htmlFor="encounterLocation">Encounter Location</label>
-                    <input type="text" className="form-control" id="encounterLocation" placeholder="Encounter Location" name="location"/>
-                  </div>
-                  {/* <!-- Description --> */}
-                  <div className="form-group mb-3">
-                    <label htmlFor="encounterDescription">Encounter Description</label>
-                    <textarea type="text" className="form-control" id="encounterDescription" placeholder="Encounter Description" name="description"></textarea>
-                  </div>
-                  {/* <!-- Image --> */}
-                  <div className="form-group mb-3">
-                    <label htmlFor="imgUpload" className="form-label">Image</label>
-                    <input type="file" className="form-control" id="imageUpload" name="file"/>
-                  </div>
-                  {/* <!-- Players --> */}
-                  <label className="mb-3">Party Members:</label>
-                  {data.characters.length > 0 &&
-                    <>
-                    { data.characters.forEach((character) => {
-                        <div className="form-check mb-3">
-                          <input className="form-check-input" type="checkbox" value={character._id} id={ character._id} name="characters" />
-                          <label className="form-check-label" htmlFor={ character._id }>
-                            {character.name}
-                          </label>
-                        </div>
-                      })}
-                    </>
-                  }
-                  {data.characters.length === 0 &&
-                    <span>Gather ye party!</span>
-                  }
-                  <button type="submit" className="mx-auto btn btn-primary" value="Upload">Submit</button>
-                </Form>
-              </div>
-            </div>
-          </div>
-        </div>
+        <CreateEncounter
+          setEncounters={setEncounters}
+          encounters={encounters}
+          post={data.post}
+          characters={data.characters}
+          data={data}
+        />
 
         {/* <!-- Modal Player --> */}
         <div className="modal fade" id="addPlayer" tabIndex="-1" aria-labelledby="addPlayerLabel" aria-hidden="true">
@@ -302,7 +265,7 @@ export default function Game() {
         </>  
       }
       <Footer />
-    </>
+    </div>
   )
 }
 

@@ -1,4 +1,5 @@
 // React:
+import React from 'react'
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
@@ -12,7 +13,9 @@ import DmToggleControll from '../Components/Forms/DmToggleControll'
 import TextRound from '../Components/Forms/TextRound'
 import NextPlayer from '../Components/Forms/NextPlayer'
 import PlayerRolling from '../Components/Forms/PlayerRolling'
+import DeleteEncounter from '../Components/Forms/DeleteEncounter'
 import Delete from '../Components/Forms/Delete'
+import { Navigate} from "react-router-dom";
 
 //Icons
 import { HeartFill } from 'react-bootstrap-icons';
@@ -31,28 +34,31 @@ export default function Encounter() {
   const [dmTurn, setDmTurn] = useState(null)
   const [encounterActive, setEncounterActive] = useState(null)
 
+  const [redirectURL, setRedirectURL] = React.useState("")
+  const [shouldRedirect, setShouldRedirect] = React.useState(false)
+
   //Fetching Initial data
   const { id } = useParams()
   const url = `/api/encounter/${id}`
 
-  async function pageLoad() {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => { 
-        setData(data)
-        setRounds(data.rounds)
-        setLikes(data.encounter.likes)
-        setCharacterTurn(data.characterTurn)
-        setDmTurn(data.encounter.dmTurn)
-        setEncounterActive(data.encounter.active)
-      })
-      .then(socket = io.connect('https://notthisweek.herokuapp.com/'))
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
   useEffect(() => {
+    async function pageLoad() {
+      fetch(url)
+        .then((res) => res.json())
+        .then((data) => { 
+          setData(data)
+          setRounds(data.rounds)
+          setLikes(data.encounter.likes)
+          setCharacterTurn(data.characterTurn)
+          setDmTurn(data.encounter.dmTurn)
+          setEncounterActive(data.encounter.active)
+        })
+        .then(socket = io.connect('https://notthisweek.herokuapp.com/'))
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+
     pageLoad()
   }, [url, id]);
   
@@ -138,8 +144,11 @@ export default function Encounter() {
   
   // End Socket.io
 
+
+
   return (
-    <>
+    <div className="vh-100 d-flex flex-column justify-content-between">
+      {shouldRedirect && <Navigate replace to={ redirectURL } />}
       <Header page="other" />
       {data &&
         <>
@@ -405,10 +414,15 @@ export default function Encounter() {
         />
 
           {/* <!-- Delete Encounter --> */}
-          {/* <Delete /> */}
+        <DeleteEncounter
+          target={'Encounter'}
+          encounterId={id}
+          setRedirectURL={setRedirectURL}
+          setShouldRedirect={setShouldRedirect}
+        />
         </>
       }
       <Footer />
-    </>
+    </div>
   )
 }
