@@ -19,6 +19,7 @@ export default function DeleteEncounter({target, encounterId, setRedirectURL, se
         if (data.err) {
           console.log(data.err)
         } else { 
+          console.log(`Delete workflow: ${data}`)
           navigate(data?.redirect, {replace: true})
         }
       })
