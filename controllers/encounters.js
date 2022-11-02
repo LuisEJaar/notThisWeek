@@ -128,7 +128,8 @@ module.exports = {
       await Encounter.remove({ _id: req.params.id });
 
       console.log("Deleted Encounter");
-      res.json({redirect: `/post/${game}`});
+      // res.json({redirect: `/post/${game}`});
+      res.redirect(`/post/${game}`)
     } catch (err) {
       res.json({err:err});
     }
