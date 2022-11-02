@@ -10,19 +10,28 @@ export default function DeleteEncounter({target, encounterId, setRedirectURL, se
 
   //Formik items
   const formik = useFormik({
-    onSubmit: () => {
-      fetch(targetUrl, {
-        method: 'delete',
-      })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(`Delete workflow:`, data)
-        console.log(`Redirect:`, data?.redirect)
-        navigate(data?.redirect)
-      })
-      .catch((err) => {
+    onSubmit: async () => {
+      try {
+        const response = await fetch(targetUrl, {
+          method: 'delete',
+        })
+        // .then((res) => res.json())
+        // .then((data) => {
+        //   console.log(`Delete workflow:`, data)
+        //   console.log(`Redirect:`, data?.redirect)
+        //   navigate(data?.redirect)
+        // })
+        // .catch((err) => {
+        //   console.log(err)
+        // })
+        const data = await response.json()
+        if (data) {
+          navigate(data?.redirect)
+        }
+      }
+      catch (err) {
         console.log(err)
-      })
+      }
     }
   })
 
