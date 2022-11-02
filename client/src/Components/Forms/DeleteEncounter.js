@@ -26,8 +26,13 @@ export default function DeleteEncounter({target, encounterId, setRedirectURL, se
     }
   })
 
+  function clickHandler() {
+    navigate(`/post/633469de517a1b29647effe7`)
+  }
+
   return (
     <div className="modal fade" id={`delete${target}`} tabIndex="-1" aria-labelledby={`delete${target}Label`} aria-hidden="true">
+      <button onClick={ clickHandler }>Navigate to game</button>
     <div className="modal-dialog">
       <div className="modal-content">
         <div className="modal-header">
