@@ -17,6 +17,7 @@ export default function Game() {
   const url = `/api/post/${id}`
 
   React.useEffect(() => {
+    console.log("Game UseEffect Started")
     fetch(url, {headers : { 
       'Content-Type': 'application/json',
       'Accept': 'application/json'
