@@ -26,7 +26,7 @@ export default function DeleteEncounter({target, encounterId, setRedirectURL, se
         // })
         const data = await response.json()
         if (data) {
-          navigate(`/post/633469de517a1b29647effe7`)
+          clickHandler()
         }
       }
       catch (err) {
