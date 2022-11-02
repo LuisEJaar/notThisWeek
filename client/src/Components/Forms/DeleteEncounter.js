@@ -17,7 +17,9 @@ export default function DeleteEncounter({target, encounterId}) {
     })
 
     const data = await response.json()
-    navigate(data.redirect)
+    if (data) {
+      navigate(data?.redirect)
+    }
   }
 
   //Formik items
