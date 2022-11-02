@@ -15,13 +15,13 @@ export default function DeleteEncounter({target, encounterId, setRedirectURL, se
         method: 'delete',
       })
       .then((res) => res.json())
-        .then((data) => {
-          if (data.err) {
-            console.log(data.err)
-          } else {
-            navigate(data.redirect, {replace: true})
-          }
-        })
+      .then((data) => {
+        if (data.err) {
+          console.log(data.err)
+        } else { 
+          navigate(data?.redirect, {replace: true})
+        }
+      })
       .catch((err) => {
         console.log(err)
       })
