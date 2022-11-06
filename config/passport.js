@@ -23,6 +23,7 @@ module.exports = function (passport) {
             return done(err);
           }
           if (isMatch) {
+            console.log("isMatch")
             return done(null, user);
           }
           return done(null, false, { msg: "Invalid email or password." });

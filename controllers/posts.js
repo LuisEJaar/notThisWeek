@@ -7,6 +7,7 @@ const Encounter = require("../models/Encounter");
 module.exports = {
   getUserProfile: async (req, res) => {
     try {
+      console.log("post here1")
       let targetUser
       if (req.params.id != "own") {
         targetUser = await Players.findById({ _id: req.params.id });
@@ -24,6 +25,7 @@ module.exports = {
           const post = await Post.findById({ _id: targetUser.games[0] })
           posts.push(post)
         }
+        console.log("post here")
         const characters = await Character.find({user: targetUser.id})
         res.json({ visitor: req.user, targetUser: targetUser, posts: posts, characters: characters});
       }

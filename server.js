@@ -1,5 +1,13 @@
+const https = require('https')
+const fs = require('fs');
 const express = require("express");
 const app = express();
+
+const options = {
+  key: fs.readFileSync('./client/certs/localhost-key.pem'), 
+  cert: fs.readFileSync('./client/certs/localhost.pem') 
+}
+
 const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
@@ -11,7 +19,14 @@ const connectDB = require("./config/database");
 const path = require('path')
 
 const cors = require('cors')
-app.use(cors())
+app.use(
+  cors({
+    origin: "https://localhost:3000",
+    credentials: true,
+  })
+);
+
+app.enable('trust proxy', 1)
 
 //Routes
 const mainRoutes = require("./routes/main");
@@ -44,6 +59,8 @@ app.use(logger("dev"));
 //Use forms for put / delete
 app.use(methodOverride("_method"));
 
+const inProd = process.env.NODE_ENV === "production";
+
 // Setup Sessions - stored in MongoDB
 app.use(
   session({
@@ -51,6 +68,10 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    cookie: {
+      sameSite: `none`, // cross site // set lax while working with http:localhost, but none when in prod
+      secure: `${inProd ? "true" : "auto"}`, // only https // auto when in development, true when in prod
+    },
   })
 );
 
@@ -80,11 +101,10 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 //Socket.io 
-const http = require('http')
 const { Server } = require('socket.io')
 
 
-const server = http.createServer(app)
+const server = https.createServer(options, app)
 const io = new Server(server, {
   cors: {
     //URL for the front end
@@ -113,5 +133,5 @@ io.on("connection", (socket) => {
 const port = process.env.PORT || 3001;
 server.listen(port, () => {
   console.log(`Server running on ${port}`);
-  console.log(`http://localhost:${port}/`);
+  console.log(`https://localhost:${port}/`);
 });

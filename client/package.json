@@ -18,10 +18,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "dev": "webpack --env.API_URL=http://localhost:3001 --config webpack.config.dev.js",
+    "build": "webpack --env.API_URL=https://notthisweek.herokuapp.com/ --config webpack.config.build.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "set HTTPS=true&&set SSL_CRT_FILE=./certs/localhost.pem&&set SSL_KEY_FILE=./certs/localhost-key.pem&&react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -44,6 +45,9 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^4.0.0"
+    "dotenv": "^16.0.3",
+    "gh-pages": "^4.0.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   }
 }

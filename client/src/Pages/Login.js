@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../Components/Footer";
 
 function Login() {
-  const targetUrl = "https://notthisweek.herokuapp.com/api/login"
+  const targetUrl = `https://localhost:3001/api/login`
 
   const navigate = useNavigate();
 

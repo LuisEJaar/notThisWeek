@@ -11,14 +11,15 @@ export default function Profile() {
   const [games, setGames] = React.useState("")
 
   const { id } = useParams()
-  const url = `/api/userProfile/${id}`
+  const url = `https://localhost:3001/api/userProfile/${id}`
 
   React.useEffect(() => {
     fetch(url, {
       method: "get",
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      withCredentials: true,
     })
       .then((res) => res.json())
       .then((data) => {
