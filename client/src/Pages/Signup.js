@@ -59,6 +59,7 @@ export default function Signup() {
                   formData.append("userName", values.userName);
                   formData.append("email", values.email);
                   formData.append("password", values.password);
+                  formData.append("confirmPassword", values.confirmPassword);
                   formData.append("type", values.type);
 
                   fetch(actionUrl, {
