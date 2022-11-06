@@ -117,6 +117,7 @@ exports.postSignup = (req, res, next) => {
           if (err) {
             return next(err);
           }
+          console.log("got here")
           res.redirect(`/userProfile/${req.user.id}`);
         });
       });
