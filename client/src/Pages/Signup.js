@@ -65,8 +65,8 @@ export default function Signup() {
                     headers: { "Content-Type": "application/json" },
                     method: 'post',
                     withCredentials: true,
-                    body: formData,
-                    // body: JSON.stringify(values, null, 2),
+                    // body: formData,
+                    body: JSON.stringify(values, null, 2),
                   })
                   .then((res) => res.json())
                   .then((data) => {
