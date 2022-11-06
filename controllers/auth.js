@@ -82,6 +82,7 @@ exports.postSignup = (req, res, next) => {
     validationErrors.push({ msg: "Passwords do not match" });
 
   if (validationErrors.length) {
+    console.log("here2")
     req.flash("errors", validationErrors);
     return res.redirect("../signup");
   }
