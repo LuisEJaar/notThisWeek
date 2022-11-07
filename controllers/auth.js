@@ -70,6 +70,7 @@ exports.getSignup = (req, res) => {
 };
 
 exports.postSignup = (req, res, next) => {
+  console.log("here")
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))
     validationErrors.push({ msg: "Please enter a valid email address." });
@@ -81,6 +82,7 @@ exports.postSignup = (req, res, next) => {
     validationErrors.push({ msg: "Passwords do not match" });
 
   if (validationErrors.length) {
+    console.log("here2")
     req.flash("errors", validationErrors);
     return res.redirect("../signup");
   }
@@ -115,7 +117,8 @@ exports.postSignup = (req, res, next) => {
           if (err) {
             return next(err);
           }
-          res.redirect(`/userProfile/${req.user.id}`);
+          console.log("got here")
+          res.json({ url: `/userProfile/${req.user.id}` });
         });
       });
     }

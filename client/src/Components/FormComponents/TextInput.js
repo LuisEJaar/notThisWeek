@@ -1,5 +1,5 @@
 import React from 'react'
-import { Field} from 'formik'
+import { Field } from 'formik'
 
 export default function TextInput(props) {
   return (
