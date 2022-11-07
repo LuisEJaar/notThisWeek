@@ -46,8 +46,7 @@ export default function Signup() {
               <h1>Signup</h1>
               <Formik
                 initialValues={{
-                  name: '',
-                  lastName: '',
+                  userName: '',
                   email: '',
                   type: '',
                   password: '',
@@ -66,7 +65,6 @@ export default function Signup() {
                     headers: { "Content-Type": "application/json" },
                     method: 'post',
                     withCredentials: true,
-                    // body: formData,
                     body: JSON.stringify(values, null, 2),
                   })
                   .then((res) => res.json())

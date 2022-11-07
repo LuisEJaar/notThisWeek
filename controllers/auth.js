@@ -118,7 +118,7 @@ exports.postSignup = (req, res, next) => {
             return next(err);
           }
           console.log("got here")
-          res.json(`/userProfile/${req.user.id}`);
+          res.json({ url: `/userProfile/${req.user.id}` });
         });
       });
     }
