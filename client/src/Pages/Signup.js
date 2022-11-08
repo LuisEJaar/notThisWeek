@@ -63,7 +63,7 @@ export default function Signup() {
                   formData.append("type", values.type);
 
                   fetch(actionUrl, {
-                    // headers: { "Content-Type": "application/json" },
+                    headers: { "Content-Type": "application/json" },
                     method: 'post',
                     withCredentials: true,
                     body: JSON.stringify(values, null, 2),

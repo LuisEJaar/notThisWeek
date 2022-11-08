@@ -12,10 +12,16 @@ exports.getLogin = (req, res) => {
 };
 
 exports.postLogin = (req, res, next) => { 
+  const validationErrors = [];
   if (!validator.isEmail(req.body.email))
-    res.json({ errors: {msg: "Please enter a valid email address."} });
+    validationErrors.push({ msg: "Please enter a valid email address." })
   if (validator.isEmpty(req.body.password))
-    res.json({ errors: {msg: "Password cannot be blank." } });
+    validationErrors.push({ msg: "Password cannot be blank." })
+    
+  if (validationErrors.length > 0) {
+    res.json({ errors: validationErrors })
+  }
+  
   
   req.body.email = validator.normalizeEmail(req.body.email, {
     gmail_remove_dots: false,
