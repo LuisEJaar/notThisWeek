@@ -70,10 +70,10 @@ export default function Signup() {
                   })
                   .then((res) => res.json())
                   .then((data) => {
-                    if (!data.err) {
+                    if (!data.errors) {
                       navigate(data.url)
                     } else {
-                      setErrorsServer(data.err)
+                      setErrorsServer(data.errors)
                     }
                   })
                   .catch((err) => {
