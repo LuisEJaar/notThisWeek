@@ -67,15 +67,21 @@ exports.getSignup = (req, res) => {
 };
 
 exports.postSignup = (req, res) => {
+  const validationErrors = [];
   if (!validator.isEmail(req.body.email))
-    res.json({ errors: { msg: "Please enter a valid email address." }});
+    validationErrors.push({ msg: "Please enter a valid email address." });
   if (!validator.isLength(req.body.password, { min: 8 }))
-    res.json({ errors: { msg: "Password must be at least 8 characters long" }});
+    validationErrors.push({  msg: "Password must be at least 8 characters long" });
   if (req.body.password !== req.body.confirmPassword)
-    res.json({ errors: {msg: "Passwords do not match" }});
+    validationErrors.push({ msg: "Passwords do not match" });
+  
   req.body.email = validator.normalizeEmail(req.body.email, {
     gmail_remove_dots: false,
   });
+
+  if (validationErrors.length > 0) {
+    return res.json({ errors: validationErrors })
+  }
 
   const user = new UserNTW({
     userName: req.body.userName,
@@ -88,20 +94,20 @@ exports.postSignup = (req, res) => {
     { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
     (err, existingUser) => {
       if (err) {
-        res.json({errors: err});
+        return res.json({errors: err});
       }
       if (existingUser) {
-        res.json({ errors: { msg: "Account with that email address or username already exists."}});
+        return res.json({ errors: { msg: "Account with that email address or username already exists."}});
       }
       user.save((err) => {
         if (err) {
-          res.json({errors: err});
+          return res.json({errors: err});
         }
         req.logIn(user, (err) => {
           if (err) {
-            res.json({errors: err});
+            return res.json({errors: err});
           }
-          res.json({ url: `/userProfile/${req.user.id}` });
+          return res.json({ url: `/userProfile/${req.user.id}` });
         });
       });
     }

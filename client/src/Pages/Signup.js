@@ -111,7 +111,7 @@ export default function Signup() {
                       </label>
                     </div>
                     <div className="form-check mb-3">
-                      <Field className="form-check-input" type="radio" name="type" value="player" id="userTypePlayer" checked/>
+                      <Field className="form-check-input" type="radio" name="type" value="player" id="userTypePlayer"/>
                       <label className="form-check-label" htmlFor="userTypePlayer">
                         Player
                       </label>
