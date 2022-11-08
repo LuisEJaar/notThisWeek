@@ -19,7 +19,7 @@ exports.postLogin = (req, res, next) => {
     validationErrors.push({ msg: "Password cannot be blank." })
     
   if (validationErrors.length > 0) {
-    res.json({ errors: validationErrors })
+    return res.json({ errors: validationErrors })
   }
   
   
@@ -29,14 +29,14 @@ exports.postLogin = (req, res, next) => {
 
   passport.authenticate("local", (err, user, info) => {
     if (err) {
-      res.json({errors: err});
+      return res.json({errors: err});
     }
     if (!user) {
-      res.json({errors: info});
+      return res.json({errors: info});
     }
     req.logIn(user, (err) => {
       if (err) {
-        res.json({errors: err});
+        return res.json({errors: err});
       }
       // res.redirect(req.session.returnTo || `/userProfile/${req.user.id}`);
       res.json({authenticated: true, url: `/userProfile/${req.user.id}`})
