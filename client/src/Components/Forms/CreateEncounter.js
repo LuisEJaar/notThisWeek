@@ -104,11 +104,12 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                             <Field
                               key={character._id}
                               type="checkbox"
+                              className="form-check-input"
                               value={character._id}
                               name="characters"
                               id={ character._id }
                             />
-                            <label className='ps-2' for={ character._id }>{`${character.name}`}</label>
+                            <label className="form-check-label" for={ character._id }>{`${character.name}`}</label>
                           </>
                         )
                       })
