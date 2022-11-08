@@ -1,6 +1,6 @@
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
-import React from 'react';
+import { React, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from "react-router-dom";
@@ -32,6 +32,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 export default function Signup() {
+  const [errorsServer, setErrorsServer] = useState(null)
   const navigate = useNavigate();
 
   const actionUrl = 'https://notthisweek.herokuapp.com/api/signup'
@@ -69,7 +70,11 @@ export default function Signup() {
                   })
                   .then((res) => res.json())
                   .then((data) => {
-                    navigate(data.url)
+                    if (!data.err) {
+                      navigate(data.url)
+                    } else {
+                      setErrorsServer(data.err)
+                    }
                   })
                   .catch((err) => {
                     console.log(err)
@@ -115,6 +120,17 @@ export default function Signup() {
                   </Form>
                 )}
               </Formik>
+              {errorsServer &&
+                errorsServer.map((error) => {
+                  return (
+                    <>
+                      <div className="mt-3 alert alert-danger">{error}</div>
+                    </>
+                  )
+                })
+
+
+              }
               </section>
           </div>
         </main>
