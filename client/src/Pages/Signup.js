@@ -121,7 +121,7 @@ export default function Signup() {
                 )}
               </Formik>
               {errorsServer &&
-                <div className="mt-3 alert alert-danger">{errorsServer.errors}</div>
+                <div className="mt-3 alert alert-danger">{errorsServer}</div>
               }
               </section>
           </div>
