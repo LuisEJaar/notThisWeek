@@ -51,7 +51,6 @@ exports.logout = (req, res) => {
 };
 
 //New User
-
 exports.getSignup = (req, res) => {
   if (req.user) {
     return res.redirect(`/userProfile/${req.user.id}`);
@@ -61,9 +60,7 @@ exports.getSignup = (req, res) => {
   });
 };
 
-exports.postSignup = (req, res, next) => {
-  console.log("here")
-  const validationErrors = [];
+exports.postSignup = (req, res) => {
   if (!validator.isEmail(req.body.email))
     res.json({ errors: { msg: "Please enter a valid email address." }});
   if (!validator.isLength(req.body.password, { min: 8 }))
