@@ -13,9 +13,9 @@ exports.getLogin = (req, res) => {
 
 exports.postLogin = (req, res, next) => { 
   if (!validator.isEmail(req.body.email))
-    res.json({errors: "Please enter a valid email address."});
+    res.json({ errors: {msg: "Please enter a valid email address."} });
   if (validator.isEmpty(req.body.password))
-    res.json({ errors: "Password cannot be blank." });
+    res.json({ errors: {msg: "Password cannot be blank." } });
   
   req.body.email = validator.normalizeEmail(req.body.email, {
     gmail_remove_dots: false,
@@ -65,11 +65,11 @@ exports.postSignup = (req, res, next) => {
   console.log("here")
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))
-    res.json({errors: "Please enter a valid email address."});
+    res.json({ errors: { msg: "Please enter a valid email address." }});
   if (!validator.isLength(req.body.password, { min: 8 }))
-    res.json({errors: "Password must be at least 8 characters long"});
+    res.json({ errors: { msg: "Password must be at least 8 characters long" }});
   if (req.body.password !== req.body.confirmPassword)
-    res.json({errors: "Passwords do not match"});
+    res.json({ errors: {msg: "Passwords do not match" }});
   req.body.email = validator.normalizeEmail(req.body.email, {
     gmail_remove_dots: false,
   });
@@ -88,7 +88,7 @@ exports.postSignup = (req, res, next) => {
         res.json({errors: err});
       }
       if (existingUser) {
-        res.json({errors: "Account with that email address or username already exists."});
+        res.json({ errors: { msg: "Account with that email address or username already exists."}});
       }
       user.save((err) => {
         if (err) {

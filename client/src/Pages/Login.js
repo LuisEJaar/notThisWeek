@@ -77,7 +77,7 @@ function Login() {
             <button type="submit" className="btn btn-primary">Sign in</button>
           </Form>
             {errorsServer &&
-                <div className="mt-3 alert alert-danger">{errorsServer}</div>
+                <div className="mt-3 alert alert-danger">{errorsServer.msg}</div>
               }
         </section>
         </main>
