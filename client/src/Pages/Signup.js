@@ -121,14 +121,7 @@ export default function Signup() {
                 )}
               </Formik>
               {errorsServer &&
-                errorsServer.map((error) => {
-                  return (
-                    <>
-                      <div className="mt-3 alert alert-danger">{error}</div>
-                    </>
-                  )
-                })
-              }
+              <div className="mt-3 alert alert-danger">{errorServer}</div>}
               </section>
           </div>
         </main>
