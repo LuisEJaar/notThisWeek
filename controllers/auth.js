@@ -82,9 +82,7 @@ exports.postSignup = (req, res, next) => {
     validationErrors.push({ msg: "Passwords do not match" });
 
   if (validationErrors.length) {
-    console.log("here2")
-    req.flash("errors", validationErrors);
-    return res.redirect("../signup");
+    res.json({errors: validationErrors});
   }
   req.body.email = validator.normalizeEmail(req.body.email, {
     gmail_remove_dots: false,
@@ -101,23 +99,19 @@ exports.postSignup = (req, res, next) => {
     { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
     (err, existingUser) => {
       if (err) {
-        return next(err);
+        res.json({errors: err});
       }
       if (existingUser) {
-        req.flash("errors", {
-          msg: "Account with that email address or username already exists.",
-        });
-        return res.redirect("../signup");
+        res.json({errors: "Account with that email address or username already exists."});
       }
       user.save((err) => {
         if (err) {
-          return next(err);
+          res.json({errors: err});
         }
         req.logIn(user, (err) => {
           if (err) {
-            return next(err);
+            res.json({errors: err});
           }
-          console.log("got here")
           res.json({ url: `/userProfile/${req.user.id}` });
         });
       });
