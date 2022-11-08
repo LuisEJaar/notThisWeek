@@ -35,7 +35,7 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                     method: 'post',
                     encType: "multipart/form-data",
                     withCredentials: true,
-                    body: formData,
+                    body: JSON.stringify(formData, null, 2),
                   })
                   .then((res) => res.json())
                   .then((data) => setEncounters(data.encounters))
