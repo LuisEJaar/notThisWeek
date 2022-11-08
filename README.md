@@ -51,10 +51,10 @@ One Off necessaries / Improvements:
 - [X] DM to be able to toggle their turn status
 
 Major Overhaul:
-- [ ] Convert to React
+- [X] Convert to React
   - [X] Open pages as react project
-  - [ ] Incorporate socket.io
-  - [ ] Convert Forms to Formik
+  - [X] Incorporate socket.io
+  - [X] Convert Forms to Formik
 
 Cool concepts
 - [ ] The ability to hide / unhide encounters / games
