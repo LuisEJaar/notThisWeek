@@ -14,9 +14,9 @@ exports.getLogin = (req, res) => {
 exports.postLogin = (req, res, next) => { 
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))
-    validationErrors.push({ msg: "Please enter a valid email address." });
+    validationErrors.push("Please enter a valid email address.");
   if (validator.isEmpty(req.body.password))
-    validationErrors.push({ msg: "Password cannot be blank." });
+    validationErrors.push("Password cannot be blank.");
 
   if (validationErrors.length) {
     res.json({errors: validationErrors});
@@ -34,7 +34,7 @@ exports.postLogin = (req, res, next) => {
     }
     req.logIn(user, (err) => {
       if (err) {
-        return next(err);
+        res.json({errors: err});
       }
       // res.redirect(req.session.returnTo || `/userProfile/${req.user.id}`);
       res.json({authenticated: true, url: `/userProfile/${req.user.id}`})
