@@ -22,6 +22,7 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                   location: "",
                   description: "",
                   characters: [],
+                  description: "",
                 }}
                 onSubmit={(values) => {
                   let formData = new FormData();
@@ -74,7 +75,7 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                 <Field
                     as="textarea"
                     onChange={handleChange}
-                    value={values.caption}
+                    value={values.description}
                     className="mb-3 form-control"
                     id="encounterDescription"
                     placeholder="Encounter Description"
@@ -85,7 +86,7 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                 {/* <!-- Image --> */}
                 <div className="mb-3">
                   <label htmlFor="imgUpload" className="form-label">Image</label>
-                  <Field type="file" onChange={ (e)=> setFieldValue("file", e.currentTarget.files[0]) } className="form-control" id="imageUpload" name="file" required/>
+                  <file type="file" onChange={ (e)=> setFieldValue("file", e.currentTarget.files[0]) } className="form-control" id="imageUpload" name="file" required/>
                 </div>
                 {/* <!-- Players --> */}
                 <label className="mb-3">Party Members:</label>                 
