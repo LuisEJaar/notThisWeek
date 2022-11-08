@@ -46,14 +46,10 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
               > 
               {({
                   values,
-                  errors,
-                  touched,
                   handleChange,
-                  handleBlur,
                   handleSubmit,
                   setFieldValue,
-                  isSubmitting,
-                  props
+                  handleReset,
                 }) => (
                 <form
                   onSubmit={handleSubmit}
@@ -123,6 +119,7 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                 {characters.length === 0 &&
                   <span>No player characters available</span>
                   }
+                <button data-bs-dismiss="modal" onClick={handleReset} className="btn btn-primary">Reset Form</button>
                 <button type="submit" data-bs-dismiss="modal" className="btn btn-primary" value="Upload">Create Encounter</button>
                 </form>
               )}
