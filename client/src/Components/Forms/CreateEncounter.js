@@ -35,7 +35,7 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                     method: 'post',
                     encType: "multipart/form-data",
                     withCredentials: true,
-                    body: JSON.stringify(formData, null, 2),
+                    body: formData,
                   })
                   .then((res) => res.json())
                   .then((data) => setEncounters(data.encounters))
@@ -96,20 +96,22 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                 {data.characters.length > 0 &&
                   <>
                     {
-                      <div role="group" class="form-check">
+                      <div role="group">
                         {  
                         data.characters.map(character => {
                         return (
                           <>
-                            <Field
-                              key={character._id}
-                              type="checkbox"
-                              className="form-check-input"
-                              value={character._id}
-                              name="characters"
-                              id={ character._id }
-                            />
-                            <label className="form-check-label" for={ character._id }>{`${character.name}`}</label>
+                            <div className='form-check'>
+                              <Field
+                                key={character._id}
+                                type="checkbox"
+                                className="form-check-input"
+                                value={character._id}
+                                name="characters"
+                                id={ character._id }
+                              />
+                              <label className="form-check-label" for={ character._id }>{`${character.name}`}</label>
+                            </div>
                           </>
                         )
                       })
