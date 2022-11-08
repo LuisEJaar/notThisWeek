@@ -1,12 +1,13 @@
-import React from "react";
+import { React, useState } from "react";
 import Header from "../Components/Header"
 import { Form, useFormik, Field } from 'formik'
 import { useNavigate } from "react-router-dom";
 import Footer from "../Components/Footer";
 
 function Login() {
+  const [errorsServer, setErrorsServer] = useState(null)
+  
   const targetUrl = "https://notthisweek.herokuapp.com/api/login"
-
   const navigate = useNavigate();
 
   //Formik items
@@ -24,7 +25,11 @@ function Login() {
       })
       .then((res) => res.json())
       .then((data) => {
-        navigate(data.url)
+        if (!data.errors) {
+          navigate(data.url)
+        } else {
+          setErrorsServer(data.errors)
+        }
       })
       .catch((err) => {
         console.log(err)
@@ -39,9 +44,9 @@ function Login() {
       <main className="mt-auto container w-25">
         <section>
           <h1>Sign in</h1>
-            <Form
+          <Form
             onSubmit={formik.handleSubmit}
-            >
+          >
             <div className="mb-3">
               <label htmlFor="inputEmail" className="form-label"
                 >Email address
@@ -55,6 +60,7 @@ function Login() {
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                required
               />
             </div>
             <div className="mb-3">
@@ -67,10 +73,14 @@ function Login() {
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                required
               />
             </div>
             <button type="submit" className="btn btn-primary">Sign in</button>
           </Form>
+            {errorsServer &&
+                <div className="mt-3 alert alert-danger">{errorsServer.msg}</div>
+              }
         </section>
         </main>
         <Footer /> 

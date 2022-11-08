@@ -1,6 +1,6 @@
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
-import React from 'react';
+import { React, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from "react-router-dom";
@@ -32,6 +32,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 export default function Signup() {
+  const [errorsServer, setErrorsServer] = useState(null)
   const navigate = useNavigate();
 
   const actionUrl = 'https://notthisweek.herokuapp.com/api/signup'
@@ -69,7 +70,11 @@ export default function Signup() {
                   })
                   .then((res) => res.json())
                   .then((data) => {
-                    navigate(data.url)
+                    if (!data.errors) {
+                      navigate(data.url)
+                    } else {
+                      setErrorsServer(data.errors)
+                    }
                   })
                   .catch((err) => {
                     console.log(err)
@@ -106,7 +111,7 @@ export default function Signup() {
                       </label>
                     </div>
                     <div className="form-check mb-3">
-                      <Field className="form-check-input" type="radio" name="type" value="player" id="userTypePlayer" checked/>
+                      <Field className="form-check-input" type="radio" name="type" value="player" id="userTypePlayer"/>
                       <label className="form-check-label" htmlFor="userTypePlayer">
                         Player
                       </label>
@@ -115,6 +120,13 @@ export default function Signup() {
                   </Form>
                 )}
               </Formik>
+              {errorsServer &&
+                errorsServer.map((error) => {
+                  return(
+                    <div className="mt-3 alert alert-danger">{error.msg}</div>
+                  )
+                })
+              }
               </section>
           </div>
         </main>

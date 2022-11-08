@@ -14,32 +14,30 @@ exports.getLogin = (req, res) => {
 exports.postLogin = (req, res, next) => { 
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))
-    validationErrors.push({ msg: "Please enter a valid email address." });
+    validationErrors.push({ msg: "Please enter a valid email address." })
   if (validator.isEmpty(req.body.password))
-    validationErrors.push({ msg: "Password cannot be blank." });
-
-  if (validationErrors.length) {
-    req.flash("errors", validationErrors);
-    return res.redirect("/login");
+    validationErrors.push({ msg: "Password cannot be blank." })
+    
+  if (validationErrors.length > 0) {
+    return res.json({ errors: validationErrors })
   }
+  
+  
   req.body.email = validator.normalizeEmail(req.body.email, {
     gmail_remove_dots: false,
   });
 
   passport.authenticate("local", (err, user, info) => {
-    console.log(user)
     if (err) {
-      return next(err);
+      return res.json({errors: err});
     }
     if (!user) {
-      req.flash("errors", info);
-      return res.redirect("/login");
+      return res.json({errors: info});
     }
     req.logIn(user, (err) => {
       if (err) {
-        return next(err);
+        return res.json({errors: err});
       }
-      req.flash("success", { msg: "Success! You are logged in." });
       // res.redirect(req.session.returnTo || `/userProfile/${req.user.id}`);
       res.json({authenticated: true, url: `/userProfile/${req.user.id}`})
     });
@@ -59,7 +57,6 @@ exports.logout = (req, res) => {
 };
 
 //New User
-
 exports.getSignup = (req, res) => {
   if (req.user) {
     return res.redirect(`/userProfile/${req.user.id}`);
@@ -69,26 +66,22 @@ exports.getSignup = (req, res) => {
   });
 };
 
-exports.postSignup = (req, res, next) => {
-  console.log("here")
+exports.postSignup = (req, res) => {
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))
     validationErrors.push({ msg: "Please enter a valid email address." });
   if (!validator.isLength(req.body.password, { min: 8 }))
-    validationErrors.push({
-      msg: "Password must be at least 8 characters long",
-    });
+    validationErrors.push({  msg: "Password must be at least 8 characters long" });
   if (req.body.password !== req.body.confirmPassword)
     validationErrors.push({ msg: "Passwords do not match" });
-
-  if (validationErrors.length) {
-    console.log("here2")
-    req.flash("errors", validationErrors);
-    return res.redirect("../signup");
-  }
+  
   req.body.email = validator.normalizeEmail(req.body.email, {
     gmail_remove_dots: false,
   });
+
+  if (validationErrors.length > 0) {
+    return res.json({ errors: validationErrors })
+  }
 
   const user = new UserNTW({
     userName: req.body.userName,
@@ -101,24 +94,20 @@ exports.postSignup = (req, res, next) => {
     { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
     (err, existingUser) => {
       if (err) {
-        return next(err);
+        return res.json({errors: err});
       }
       if (existingUser) {
-        req.flash("errors", {
-          msg: "Account with that email address or username already exists.",
-        });
-        return res.redirect("../signup");
+        return res.json({ errors: { msg: "Account with that email address or username already exists."}});
       }
       user.save((err) => {
         if (err) {
-          return next(err);
+          return res.json({errors: err});
         }
         req.logIn(user, (err) => {
           if (err) {
-            return next(err);
+            return res.json({errors: err});
           }
-          console.log("got here")
-          res.json({ url: `/userProfile/${req.user.id}` });
+          return res.json({ url: `/userProfile/${req.user.id}` });
         });
       });
     }
