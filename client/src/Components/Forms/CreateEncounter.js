@@ -96,9 +96,11 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                 {data.characters.length > 0 &&
                   <>
                     {
-                      data.characters.map(character => {
+                      <div role="group" class="form-check">
+                        {  
+                        data.characters.map(character => {
                         return (
-                          <div class="form-check">
+                          <>
                             <Field
                               key={character._id}
                               type="checkbox"
@@ -107,9 +109,11 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                               id={ character._id }
                             />
                             <label className='ps-2' for={ character._id }>{`${character.name}`}</label>
-                          </div>
+                          </>
                         )
                       })
+                        }
+                      </div>
                     }
                   </>
                 }
