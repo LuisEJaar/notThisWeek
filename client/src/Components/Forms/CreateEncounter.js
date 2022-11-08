@@ -119,8 +119,10 @@ function CreateEncounter({ data, characters, post, encounters, setEncounters }) 
                 {characters.length === 0 &&
                   <span>No player characters available</span>
                   }
-                <button data-bs-dismiss="modal" onClick={handleReset} className="btn btn-primary">Reset Form</button>
-                <button type="submit" data-bs-dismiss="modal" className="btn btn-primary" value="Upload">Create Encounter</button>
+                  <div className='d-flex'>
+                    <button type="submit" data-bs-dismiss="modal" className="btn btn-primary" value="Upload">Create Encounter</button>
+                    <button onClick={handleReset} className="ms-auto btn btn-warning">Reset Form</button>
+                  </div>
                 </form>
               )}
             </Formik>
