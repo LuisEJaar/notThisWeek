@@ -14,7 +14,6 @@ exports.getLogin = (req, res) => {
 exports.postLogin = (req, res, next) => { 
   if (!validator.isEmail(req.body.email))
     res.json({errors: "Please enter a valid email address."});
-    validationErrors.push();
   if (validator.isEmpty(req.body.password))
     res.json({ errors: "Password cannot be blank." });
   
@@ -66,17 +65,11 @@ exports.postSignup = (req, res, next) => {
   console.log("here")
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))
-    validationErrors.push({ msg: "Please enter a valid email address." });
+    res.json({errors: "Please enter a valid email address."});
   if (!validator.isLength(req.body.password, { min: 8 }))
-    validationErrors.push({
-      msg: "Password must be at least 8 characters long",
-    });
+    res.json({errors: "Password must be at least 8 characters long"});
   if (req.body.password !== req.body.confirmPassword)
-    validationErrors.push({ msg: "Passwords do not match" });
-
-  if (validationErrors.length) {
-    res.json({errors: validationErrors});
-  }
+    res.json({errors: "Passwords do not match"});
   req.body.email = validator.normalizeEmail(req.body.email, {
     gmail_remove_dots: false,
   });
