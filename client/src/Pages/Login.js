@@ -60,6 +60,7 @@ function Login() {
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                required
               />
             </div>
             <div className="mb-3">
@@ -72,6 +73,7 @@ function Login() {
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                required
               />
             </div>
             <button type="submit" className="btn btn-primary">Sign in</button>
